@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.pet.management.view.controller.MainController"
+            prefWidth="1200" prefHeight="800">
+    
+    <!-- 顶部标题栏 -->
+    <top>
+        <VBox styleClass="header" spacing="10">
+            <Label styleClass="title" text="宠物管理系统">
+                <font>
+                    <Font size="24" name="Microsoft YaHei" />
+                </font>
+            </Label>
+            <HBox styleClass="toolbar" alignment="CENTER_RIGHT" spacing="15">
+                <Label fx:id="currentDate" styleClass="date-label" />
+                <Label fx:id="currentTime" styleClass="time-label" />
+                <Button styleClass="btn-icon" onAction="#handleSettings">
+                    <graphic>
+                        <ImageView fitHeight="24" fitWidth="24">
+                            <image>
+                                <Image url="/images/settings.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <Button styleClass="btn-icon" onAction="#handleAbout">
+                    <graphic>
+                        <ImageView fitHeight="24" fitWidth="24">
+                            <image>
+                                <Image url="/images/about.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+            </HBox>
+        </VBox>
+    </top>
+    
+    <!-- 左侧导航栏 -->
+    <left>
+        <VBox styleClass="sidebar" spacing="10" prefWidth="200">
+            <Button styleClass="nav-button active" onAction="#handleCustomerManagement">
+                <graphic>
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <ImageView fitHeight="20" fitWidth="20">
+                            <image>
+                                <Image url="/images/customers.png" />
+                            </image>
+                        </ImageView>
+                        <Label text="顾客管理" />
+                    </HBox>
+                </graphic>
+            </Button>
+            
+            <Button styleClass="nav-button" onAction="#handleFinanceManagement">
+                <graphic>
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <ImageView fitHeight="20" fitWidth="20">
+                            <image>
+                                <Image url="/images/finance.png" />
+                            </image>
+                        </ImageView>
+                        <Label text="财务管理" />
+                    </HBox>
+                </graphic>
+            </Button>
+            
+            <Button styleClass="nav-button" onAction="#handleReports">
+                <graphic>
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <ImageView fitHeight="20" fitWidth="20">
+                            <image>
+                                <Image url="/images/reports.png" />
+                            </image>
+                        </ImageView>
+                        <Label text="报表中心" />
+                    </HBox>
+                </graphic>
+            </Button>
+            
+            <Button styleClass="nav-button" onAction="#handleSettings">
+                <graphic>
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <ImageView fitHeight="20" fitWidth="20">
+                            <image>
+                                <Image url="/images/settings-menu.png" />
+                            </image>
+                        </ImageView>
+                        <Label text="系统设置" />
+                    </HBox>
+                </graphic>
+            </Button>
+            
+            <Separator styleClass="nav-separator" />
+            
+            <VBox spacing="5" styleClass="info-section">
+                <Label styleClass="info-label" text="系统信息" />
+                <Label styleClass="info-value" text="版本: 1.0.0" />
+                <Label styleClass="info-value" text="数据库: SQLite" />
+            </VBox>
+        </VBox>
+    </left>
+    
+    <!-- 主内容区域 -->
+    <center>
+        <VBox styleClass="content" fillWidth="true" spacing="10">
+            <StackPane fx:id="contentPane" styleClass="content-pane" />
+        </VBox>
+    </center>
+    
+    <!-- 底部状态栏 -->
+    <bottom>
+        <HBox styleClass="footer" spacing="10" alignment="CENTER_LEFT">
+            <Label styleClass="status-label" fx:id="statusLabel" text="欢迎使用宠物管理系统" />
+            <HBox styleClass="footer-right" alignment="CENTER_RIGHT">
+                <Label styleClass="version-label" text="版本 1.0.0" />
+            </HBox>
+        </HBox>
+    </bottom>
+</BorderPane>
