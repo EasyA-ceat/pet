@@ -18,6 +18,11 @@ public class MainApplication extends Application {
 
     @Override
     public void init() {
+        // 启用硬件加速
+        System.setProperty("prism.order", "d3d,sw");
+        System.setProperty("prism.forceGPU", "true");
+        System.setProperty("prism.vsync", "true");
+        
         this.context = new SpringApplicationBuilder(PetManagementSystem.class)
                 .run(getParameters().getRaw().toArray(new String[0]));
     }
@@ -46,10 +51,18 @@ public class MainApplication extends Application {
         fxmlLoader.setControllerFactory(context::getBean);
         
         Pane root = fxmlLoader.load();
-        Scene scene = new Scene(root, 1200, 800);
+        Scene scene = new Scene(root, 1280, 720);
+        
+        // 加载Material Design样式
+        scene.getStylesheets().add(getClass().getResource("/css/material-design.css").toExternalForm());
         scene.getStylesheets().add(getClass().getResource("/css/main.css").toExternalForm());
         
+        // 启用抗锯齿
+        scene.setFill(javafx.scene.paint.Color.valueOf("#FAFAFA"));
+        
         primaryStage.setScene(scene);
+        primaryStage.setMinWidth(800);
+        primaryStage.setMinHeight(600);
         primaryStage.show();
         
         // 设置关闭操作

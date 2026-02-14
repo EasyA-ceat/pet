@@ -6,152 +6,170 @@
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            prefHeight="600.0" prefWidth="800.0">
-    <VBox alignment="TOP_CENTER" spacing="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
-        <Label text="财务管理" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #333333;">
-            <VBox.margin>
-                <Insets top="10.0" bottom="10.0"/>
-            </VBox.margin>
-        </Label>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.pet.management.view.controller.FinanceController"
+      spacing="16">
+    <padding>
+        <Insets top="0" right="0" bottom="0" left="0" />
+    </padding>
+    
+    <!-- 页面标题栏 -->
+    <HBox alignment="CENTER_LEFT" spacing="16">
+        <Label text="财务管理" styleClass="md-label-h3" />
+        <Region HBox.hgrow="ALWAYS" />
+    </HBox>
+    
+    <!-- 统计卡片 - 顶部优先展示 -->
+    <HBox spacing="16">
+        <HBox.hgrow>
+            <Priority value="ALWAYS" />
+        </HBox.hgrow>
         
-        <Separator/>
-        
-        <VBox alignment="TOP_LEFT" spacing="10.0" prefWidth="600.0">
-            <Label text="交易记录" style="-fx-font-size: 18px; -fx-font-weight: bold;">
-                <VBox.margin>
-                    <Insets bottom="10.0"/>
-                </VBox.margin>
+        <!-- 总交易额 -->
+        <VBox styleClass="md-card elevation-1" spacing="8" HBox.hgrow="ALWAYS">
+            <padding>
+                <Insets top="16" right="20" bottom="16" left="20" />
+            </padding>
+            <Label text="总交易额" styleClass="md-label-caption" />
+            <Label fx:id="totalAmountLabel" text="¥0.00" styleClass="md-label-h2">
+                <style>
+                    -fx-text-fill: #2196F3;
+                </style>
             </Label>
-            
-            <!-- 搜索区域 -->
-            <HBox alignment="CENTER_LEFT" spacing="10.0">
-                <TextField fx:id="searchField" promptText="搜索顾客姓名、宠物姓名或服务类型..." prefWidth="300.0"/>
-                <Button fx:id="searchBtn" text="搜索" prefWidth="80.0"/>
-            </HBox>
-            
-            <TableView fx:id="transactionTable" prefHeight="400">
-                <columns>
-                    <TableColumn fx:id="idColumn" text="ID" prefWidth="50">
-                        <cellValueFactory>
-                            <PropertyValueFactory property="id" />
-                        </cellValueFactory>
-                    </TableColumn>
-                    <TableColumn fx:id="customerNameColumn" text="顾客姓名" prefWidth="120">
-                        <cellValueFactory>
-                            <PropertyValueFactory property="customerName" />
-                        </cellValueFactory>
-                    </TableColumn>
-                    <TableColumn fx:id="petNameColumn" text="宠物姓名" prefWidth="120">
-                        <cellValueFactory>
-                            <PropertyValueFactory property="petName" />
-                        </cellValueFactory>
-                    </TableColumn>
-                    <TableColumn fx:id="clerkNameColumn" text="员工姓名" prefWidth="120">
-                        <cellValueFactory>
-                            <PropertyValueFactory property="clerkName" />
-                        </cellValueFactory>
-                    </TableColumn>
-                    <TableColumn fx:id="transactionDateColumn" text="交易日期" prefWidth="150">
-                        <cellValueFactory>
-                            <PropertyValueFactory property="transactionDate" />
-                        </cellValueFactory>
-                    </TableColumn>
-                    <TableColumn fx:id="serviceTypeColumn" text="服务类型" prefWidth="120">
-                        <cellValueFactory>
-                            <PropertyValueFactory property="serviceType" />
-                        </cellValueFactory>
-                    </TableColumn>
-                    <TableColumn fx:id="amountColumn" text="金额" prefWidth="100">
-                        <cellValueFactory>
-                            <PropertyValueFactory property="amount" />
-                        </cellValueFactory>
-                    </TableColumn>
-                    <TableColumn fx:id="commissionColumn" text="提成" prefWidth="100">
-                        <cellValueFactory>
-                            <PropertyValueFactory property="commission" />
-                        </cellValueFactory>
-                    </TableColumn>
-                    <TableColumn fx:id="notesColumn" text="备注" prefWidth="150">
-                        <cellValueFactory>
-                            <PropertyValueFactory property="notes" />
-                        </cellValueFactory>
-                    </TableColumn>
-                    <TableColumn text="操作" prefWidth="120">
-                        <cellValueFactory>
-                            <PropertyValueFactory property="id" />
-                        </cellValueFactory>
-                    </TableColumn>
-                </columns>
-            </TableView>
         </VBox>
         
-        <Separator/>
-        
-        <VBox alignment="TOP_LEFT" spacing="10.0" prefWidth="600.0">
-            <Label text="财务统计" style="-fx-font-size: 18px; -fx-font-weight: bold;">
-                <VBox.margin>
-                    <Insets bottom="10.0"/>
-                </VBox.margin>
+        <!-- 总提成 -->
+        <VBox styleClass="md-card elevation-1" spacing="8" HBox.hgrow="ALWAYS">
+            <padding>
+                <Insets top="16" right="20" bottom="16" left="20" />
+            </padding>
+            <Label text="总提成" styleClass="md-label-caption" />
+            <Label fx:id="totalCommissionLabel" text="¥0.00" styleClass="md-label-h2">
+                <style>
+                    -fx-text-fill: #4CAF50;
+                </style>
             </Label>
-            
-            <GridPane hgap="10.0" vgap="10.0">
-                <Label text="总交易额:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-                <Label fx:id="totalAmountLabel" text="0.00" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-                
-                <Label text="总提成:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-                <Label fx:id="totalCommissionLabel" text="0.00" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-                
-                <Label text="交易笔数:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-                <Label fx:id="transactionCountLabel" text="0" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-                
-                <Label text="平均交易额:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-                <Label fx:id="averageAmountLabel" text="0.00" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-            </GridPane>
         </VBox>
         
-        <Separator/>
-        
-        <HBox alignment="CENTER" spacing="20.0" prefHeight="50.0">
-            <Button text="添加交易" fx:id="addBtn" prefWidth="100.0">
-                <HBox.margin>
-                    <Insets top="10.0" bottom="10.0"/>
-                </HBox.margin>
-            </Button>
-            
-            <Button text="搜索交易" fx:id="searchBtn" prefWidth="100.0">
-                <HBox.margin>
-                    <Insets top="10.0" bottom="10.0"/>
-                </HBox.margin>
-            </Button>
-            
-            <Button text="删除交易" fx:id="deleteBtn" prefWidth="100.0">
-                <HBox.margin>
-                    <Insets top="10.0" bottom="10.0"/>
-                </HBox.margin>
-            </Button>
-            
-            <Button text="刷新" fx:id="refreshBtn" prefWidth="100.0">
-                <HBox.margin>
-                    <Insets top="10.0" bottom="10.0"/>
-                </HBox.margin>
-            </Button>
-            
-            <Button text="计算提成" fx:id="calculateCommissionBtn" prefWidth="100.0">
-                <HBox.margin>
-                    <Insets top="10.0" bottom="10.0"/>
-                </HBox.margin>
-            </Button>
-        </HBox>
-        
-        <!-- 状态栏 -->
-        <HBox alignment="CENTER_RIGHT" spacing="10.0" prefHeight="30.0">
-            <Label fx:id="statusLabel" text="就绪" style="-fx-text-fill: #666666;">
-                <HBox.margin>
-                    <Insets right="20.0"/>
-                </HBox.margin>
+        <!-- 交易笔数 -->
+        <VBox styleClass="md-card elevation-1" spacing="8" HBox.hgrow="ALWAYS">
+            <padding>
+                <Insets top="16" right="20" bottom="16" left="20" />
+            </padding>
+            <Label text="交易笔数" styleClass="md-label-caption" />
+            <Label fx:id="transactionCountLabel" text="0" styleClass="md-label-h2">
+                <style>
+                    -fx-text-fill: #FF9800;
+                </style>
             </Label>
+        </VBox>
+        
+        <!-- 平均交易额 -->
+        <VBox styleClass="md-card elevation-1" spacing="8" HBox.hgrow="ALWAYS">
+            <padding>
+                <Insets top="16" right="20" bottom="16" left="20" />
+            </padding>
+            <Label text="平均交易额" styleClass="md-label-caption" />
+            <Label fx:id="averageAmountLabel" text="¥0.00" styleClass="md-label-h2">
+                <style>
+                    -fx-text-fill: #9C27B0;
+                </style>
+            </Label>
+        </VBox>
+    </HBox>
+    
+    <!-- 操作工具栏 - 高频操作靠前 -->
+    <HBox styleClass="md-card elevation-1" spacing="12" alignment="CENTER_LEFT">
+        <padding>
+            <Insets top="16" right="16" bottom="16" left="16" />
+        </padding>
+        
+        <!-- 搜索框 -->
+        <HBox spacing="8" alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+            <TextField fx:id="searchField" promptText="搜索顾客/宠物/服务类型..." 
+                       styleClass="md-text-field-outlined" prefWidth="320">
+                <HBox.margin>
+                    <Insets right="8" />
+                </HBox.margin>
+            </TextField>
+            
+            <Button fx:id="searchBtn" text="搜索" styleClass="md-button" />
         </HBox>
+        
+        <Region HBox.hgrow="ALWAYS" />
+        
+        <!-- 操作按钮 - 按频率排序 -->
+        <Button text="➕ 添加交易" fx:id="addBtn" styleClass="md-button md-button-success" />
+        <Button text="📊 计算提成" fx:id="calculateCommissionBtn" styleClass="md-button md-button-info" />
+        <Button text="🔄 刷新" fx:id="refreshBtn" styleClass="md-button md-button-outlined" />
+    </HBox>
+    
+    <!-- 交易记录表格 -->
+    <VBox styleClass="md-card elevation-1" spacing="0" VBox.vgrow="ALWAYS">
+        <TableView fx:id="transactionTable" styleClass="md-table-view" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="idColumn" text="ID" prefWidth="60">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="id" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="customerNameColumn" text="顾客姓名" prefWidth="110">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="customerName" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="petNameColumn" text="宠物姓名" prefWidth="100">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="petName" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="clerkNameColumn" text="员工姓名" prefWidth="100">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="clerkName" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="transactionDateColumn" text="交易日期" prefWidth="140">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="transactionDate" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="serviceTypeColumn" text="服务类型" prefWidth="110">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="serviceType" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="amountColumn" text="金额" prefWidth="100">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="amount" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="commissionColumn" text="提成" prefWidth="90">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="commission" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="notesColumn" text="备注" prefWidth="140">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="notes" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="操作" prefWidth="140">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="id" />
+                    </cellValueFactory>
+                </TableColumn>
+            </columns>
+        </TableView>
     </VBox>
-</AnchorPane>
+    
+    <!-- 底部状态栏 -->
+    <HBox alignment="CENTER_LEFT" spacing="16">
+        <Label fx:id="statusLabel" text="就绪" styleClass="md-label-body2">
+            <graphic>
+                <Region styleClass="status-dot status-success" />
+            </graphic>
+        </Label>
+        <Region HBox.hgrow="ALWAYS" />
+    </HBox>
+</VBox>

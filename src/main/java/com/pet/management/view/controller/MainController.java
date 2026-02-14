@@ -14,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
@@ -34,6 +35,21 @@ public class MainController {
 
     @FXML
     private Label statusLabel;
+    
+    @FXML
+    private Button navCustomer;
+    
+    @FXML
+    private Button navFinance;
+    
+    @FXML
+    private Button navClerk;
+    
+    @FXML
+    private Button navReport;
+    
+    @FXML
+    private Button navSettings;
 
     @Autowired
     private CustomerController customerController;
@@ -214,8 +230,31 @@ public class MainController {
 
     // 更新导航按钮状态
     private void updateActiveNavButton(String activePage) {
-        // 这里可以添加导航按钮的样式更新逻辑
-        // 由于FXML中没有直接引用导航按钮，需要通过其他方式获取
+        // 重置所有导航按钮样式
+        if (navCustomer != null) navCustomer.getStyleClass().remove("active");
+        if (navFinance != null) navFinance.getStyleClass().remove("active");
+        if (navClerk != null) navClerk.getStyleClass().remove("active");
+        if (navReport != null) navReport.getStyleClass().remove("active");
+        if (navSettings != null) navSettings.getStyleClass().remove("active");
+        
+        // 设置当前页面按钮为激活状态
+        switch (activePage) {
+            case "customer":
+                if (navCustomer != null) navCustomer.getStyleClass().add("active");
+                break;
+            case "finance":
+                if (navFinance != null) navFinance.getStyleClass().add("active");
+                break;
+            case "clerk":
+                if (navClerk != null) navClerk.getStyleClass().add("active");
+                break;
+            case "reports":
+                if (navReport != null) navReport.getStyleClass().add("active");
+                break;
+            case "settings":
+                if (navSettings != null) navSettings.getStyleClass().add("active");
+                break;
+        }
     }
 
     // 更新状态信息（保持原有功能）

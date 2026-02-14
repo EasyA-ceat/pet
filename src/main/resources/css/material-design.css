@@ -1,0 +1,809 @@
+/* ================================
+   Material Design 样式系统
+   宠物管理系统专用
+   ================================ */
+
+/* 变量定义 */
+* {
+    -md-primary: #2196F3;
+    -md-primary-dark: #1976D2;
+    -md-primary-light: #BBDEFB;
+    -md-accent: #FF5722;
+    -md-background: #FAFAFA;
+    -md-surface: #FFFFFF;
+    -md-text-primary: #212121;
+    -md-text-secondary: #757575;
+    -md-divider: #BDBDBD;
+    -md-success: #4CAF50;
+    -md-warning: #FFC107;
+    -md-danger: #F44336;
+    -md-info: #00BCD4;
+}
+
+/* 基础样式 */
+.root {
+    -fx-font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif;
+    -fx-font-size: 14px;
+    -fx-background-color: -md-background;
+}
+
+/* ================================
+   Material 阴影系统 (Elevation)
+   ================================ */
+.elevation-0 {
+    -fx-effect: null;
+}
+
+.elevation-1 {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 5, 0, 0, 1);
+}
+
+.elevation-2 {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 8, 0, 0, 2);
+}
+
+.elevation-3 {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.18), 10, 0, 0, 3);
+}
+
+.elevation-4 {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 12, 0, 0, 4);
+}
+
+/* ================================
+   卡片样式
+   ================================ */
+.md-card {
+    -fx-background-color: -md-surface;
+    -fx-background-radius: 4;
+    -fx-padding: 16;
+}
+
+.md-card-header {
+    -fx-padding: 16 16 0 16;
+}
+
+.md-card-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: 500;
+    -fx-text-fill: -md-text-primary;
+}
+
+.md-card-subtitle {
+    -fx-font-size: 14px;
+    -fx-text-fill: -md-text-secondary;
+}
+
+.md-card-content {
+    -fx-padding: 16;
+}
+
+.md-card-actions {
+    -fx-padding: 8 16 16 16;
+    -fx-alignment: center-left;
+}
+
+/* ================================
+   按钮样式 - Material Design
+   ================================ */
+.md-button {
+    -fx-background-color: -md-primary;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: 500;
+    -fx-padding: 8 16;
+    -fx-background-radius: 4;
+    -fx-cursor: hand;
+    -fx-pref-height: 36;
+}
+
+.md-button:hover {
+    -fx-background-color: -md-primary-dark;
+}
+
+.md-button:pressed {
+    -fx-background-color: derive(-md-primary-dark, -10%);
+}
+
+.md-button:disabled {
+    -fx-background-color: -md-divider;
+    -fx-text-fill: -md-text-secondary;
+    -fx-cursor: default;
+}
+
+/* 按钮变体 */
+.md-button-outlined {
+    -fx-background-color: transparent;
+    -fx-border-color: -md-primary;
+    -fx-border-width: 1;
+    -fx-border-radius: 4;
+    -fx-text-fill: -md-primary;
+}
+
+.md-button-outlined:hover {
+    -fx-background-color: rgba(33, 150, 243, 0.08);
+}
+
+.md-button-text {
+    -fx-background-color: transparent;
+    -fx-text-fill: -md-primary;
+}
+
+.md-button-text:hover {
+    -fx-background-color: rgba(33, 150, 243, 0.08);
+}
+
+/* 按钮颜色变体 */
+.md-button-success {
+    -fx-background-color: -md-success;
+}
+
+.md-button-success:hover {
+    -fx-background-color: #388E3C;
+}
+
+.md-button-warning {
+    -fx-background-color: -md-warning;
+    -fx-text-fill: -md-text-primary;
+}
+
+.md-button-warning:hover {
+    -fx-background-color: #FFA000;
+}
+
+.md-button-danger {
+    -fx-background-color: -md-danger;
+}
+
+.md-button-danger:hover {
+    -fx-background-color: #D32F2F;
+}
+
+.md-button-info {
+    -fx-background-color: -md-info;
+}
+
+.md-button-info:hover {
+    -fx-background-color: #0097A7;
+}
+
+/* ================================
+   文本框样式
+   ================================ */
+.md-text-field, .md-password-field {
+    -fx-background-color: transparent;
+    -fx-border-color: -md-divider;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 8 0 8 0;
+    -fx-font-size: 14px;
+    -fx-pref-height: 48;
+}
+
+.md-text-field:focused, .md-password-field:focused {
+    -fx-border-color: -md-primary;
+    -fx-border-width: 0 0 2 0;
+}
+
+.md-text-field:disabled, .md-password-field:disabled {
+    -fx-opacity: 0.5;
+}
+
+/* 填充样式文本框 */
+.md-text-field-filled, .md-password-field-filled {
+    -fx-background-color: rgba(0,0,0,0.04);
+    -fx-background-radius: 4 4 0 0;
+    -fx-border-color: transparent;
+    -fx-padding: 20 12 8 12;
+}
+
+.md-text-field-filled:focused, .md-password-field-filled:focused {
+    -fx-background-color: rgba(0,0,0,0.08);
+    -fx-border-color: -md-primary;
+    -fx-border-width: 0 0 2 0;
+}
+
+/* 外轮廓样式文本框 */
+.md-text-field-outlined, .md-password-field-outlined {
+    -fx-background-color: -md-surface;
+    -fx-background-radius: 4;
+    -fx-border-color: -md-divider;
+    -fx-border-width: 1;
+    -fx-border-radius: 4;
+    -fx-padding: 16 12 16 12;
+}
+
+.md-text-field-outlined:focused, .md-password-field-outlined:focused {
+    -fx-border-color: -md-primary;
+    -fx-border-width: 2;
+}
+
+/* ================================
+   文本区域样式
+   ================================ */
+.md-text-area {
+    -fx-background-color: transparent;
+    -fx-border-color: -md-divider;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 8 0 8 0;
+    -fx-font-size: 14px;
+}
+
+.md-text-area .content {
+    -fx-background-color: transparent;
+}
+
+.md-text-area:focused {
+    -fx-border-color: -md-primary;
+    -fx-border-width: 0 0 2 0;
+}
+
+/* ================================
+   下拉框样式
+   ================================ */
+.md-combo-box {
+    -fx-background-color: transparent;
+    -fx-border-color: -md-divider;
+    -fx-border-width: 0 0 1 0;
+    -fx-pref-height: 48;
+}
+
+.md-combo-box:focused {
+    -fx-border-color: -md-primary;
+    -fx-border-width: 0 0 2 0;
+}
+
+.md-combo-box .arrow-button {
+    -fx-background-color: transparent;
+}
+
+.md-combo-box .list-cell {
+    -fx-background-color: -md-surface;
+    -fx-text-fill: -md-text-primary;
+    -fx-padding: 12 16;
+}
+
+.md-combo-box .list-cell:hover {
+    -fx-background-color: rgba(0,0,0,0.04);
+}
+
+.md-combo-box .list-cell:selected {
+    -fx-background-color: -md-primary-light;
+}
+
+/* ================================
+   表格样式
+   ================================ */
+.md-table-view {
+    -fx-background-color: -md-surface;
+    -fx-background-radius: 4;
+}
+
+.md-table-view .column-header-background {
+    -fx-background-color: -md-background;
+    -fx-background-radius: 4 4 0 0;
+}
+
+.md-table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: -md-divider;
+    -fx-padding: 12 16;
+}
+
+.md-table-view .column-header .label {
+    -fx-font-weight: 500;
+    -fx-text-fill: -md-text-secondary;
+    -fx-font-size: 12px;
+}
+
+.md-table-view .table-cell {
+    -fx-padding: 12 16;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: -md-divider;
+    -fx-text-fill: -md-text-primary;
+}
+
+.md-table-view .table-row-cell {
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+}
+
+.md-table-view .table-row-cell:hover {
+    -fx-background-color: rgba(0,0,0,0.04);
+}
+
+.md-table-view .table-row-cell:selected {
+    -fx-background-color: -md-primary-light;
+}
+
+.md-table-view .table-row-cell:selected .table-cell {
+    -fx-text-fill: -md-primary-dark;
+}
+
+/* ================================
+   标签样式
+   ================================ */
+.md-label {
+    -fx-text-fill: -md-text-primary;
+}
+
+.md-label-secondary {
+    -fx-text-fill: -md-text-secondary;
+}
+
+.md-label-h1 {
+    -fx-font-size: 32px;
+    -fx-font-weight: 400;
+}
+
+.md-label-h2 {
+    -fx-font-size: 24px;
+    -fx-font-weight: 400;
+}
+
+.md-label-h3 {
+    -fx-font-size: 20px;
+    -fx-font-weight: 500;
+}
+
+.md-label-h4 {
+    -fx-font-size: 16px;
+    -fx-font-weight: 500;
+}
+
+.md-label-body1 {
+    -fx-font-size: 14px;
+    -fx-font-weight: 400;
+}
+
+.md-label-body2 {
+    -fx-font-size: 12px;
+    -fx-font-weight: 400;
+}
+
+.md-label-caption {
+    -fx-font-size: 12px;
+    -fx-font-weight: 400;
+    -fx-text-fill: -md-text-secondary;
+}
+
+/* ================================
+   顶部应用栏
+   ================================ */
+.md-app-bar {
+    -fx-background-color: -md-primary;
+    -fx-pref-height: 64;
+    -fx-padding: 0 16;
+}
+
+.md-app-bar-title {
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+    -fx-font-weight: 500;
+}
+
+.md-app-bar .md-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+}
+
+.md-app-bar .md-button:hover {
+    -fx-background-color: rgba(255,255,255,0.1);
+}
+
+/* ================================
+   导航抽屉/侧边栏
+   ================================ */
+.md-nav-drawer {
+    -fx-background-color: -md-surface;
+    -fx-pref-width: 280;
+}
+
+.md-nav-header {
+    -fx-background-color: -md-primary;
+    -fx-pref-height: 160;
+    -fx-padding: 16;
+}
+
+.md-nav-item {
+    -fx-background-color: transparent;
+    -fx-text-fill: -md-text-primary;
+    -fx-alignment: center-left;
+    -fx-padding: 12 16;
+    -fx-pref-width: 100%;
+    -fx-cursor: hand;
+    -fx-font-size: 14px;
+    -fx-font-weight: 500;
+}
+
+.md-nav-item:hover {
+    -fx-background-color: rgba(0,0,0,0.04);
+}
+
+.md-nav-item.active {
+    -fx-background-color: -md-primary-light;
+    -fx-text-fill: -md-primary-dark;
+}
+
+.md-nav-divider {
+    -fx-background-color: -md-divider;
+    -fx-pref-height: 1;
+}
+
+/* ================================
+   浮动操作按钮 (FAB)
+   ================================ */
+.md-fab {
+    -fx-background-color: -md-accent;
+    -fx-text-fill: white;
+    -fx-pref-width: 56;
+    -fx-pref-height: 56;
+    -fx-background-radius: 28;
+    -fx-cursor: hand;
+}
+
+.md-fab:hover {
+    -fx-background-color: #E64A19;
+}
+
+.md-fab-mini {
+    -fx-pref-width: 40;
+    -fx-pref-height: 40;
+    -fx-background-radius: 20;
+}
+
+.md-fab-extended {
+    -fx-pref-width: -1;
+    -fx-padding: 0 20;
+}
+
+/* ================================
+   底部导航栏
+   ================================ */
+.md-bottom-nav {
+    -fx-background-color: -md-surface;
+    -fx-pref-height: 56;
+    -fx-padding: 0 8;
+}
+
+.md-bottom-nav-item {
+    -fx-background-color: transparent;
+    -fx-text-fill: -md-text-secondary;
+    -fx-cursor: hand;
+}
+
+.md-bottom-nav-item.active {
+    -fx-text-fill: -md-primary;
+}
+
+/* ================================
+   进度条/指示器
+   ================================ */
+.md-progress-bar {
+    -fx-accent: -md-primary;
+    -fx-pref-height: 4;
+}
+
+.md-progress-bar .track {
+    -fx-background-color: -md-divider;
+}
+
+.md-progress-bar .bar {
+    -fx-background-color: -md-primary;
+    -fx-background-insets: 0;
+}
+
+.md-progress-indicator {
+    -fx-progress-color: -md-primary;
+}
+
+/* ================================
+   复选框和单选按钮
+   ================================ */
+.md-check-box .box {
+    -fx-background-color: transparent;
+    -fx-border-color: -md-text-secondary;
+    -fx-border-width: 2;
+    -fx-border-radius: 2;
+    -fx-pref-width: 18;
+    -fx-pref-height: 18;
+}
+
+.md-check-box:selected .box {
+    -fx-background-color: -md-primary;
+    -fx-border-color: -md-primary;
+}
+
+.md-check-box:selected .mark {
+    -fx-background-color: white;
+}
+
+.md-radio-button .radio {
+    -fx-background-color: transparent;
+    -fx-border-color: -md-text-secondary;
+    -fx-border-width: 2;
+    -fx-border-radius: 10;
+    -fx-pref-width: 20;
+    -fx-pref-height: 20;
+}
+
+.md-radio-button:selected .radio {
+    -fx-border-color: -md-primary;
+}
+
+.md-radio-button:selected .dot {
+    -fx-background-color: -md-primary;
+    -fx-pref-width: 10;
+    -fx-pref-height: 10;
+}
+
+/* ================================
+   开关/切换按钮
+   ================================ */
+.md-toggle-button {
+    -fx-background-color: -md-divider;
+    -fx-background-radius: 14;
+    -fx-pref-width: 36;
+    -fx-pref-height: 20;
+    -fx-cursor: hand;
+}
+
+.md-toggle-button:selected {
+    -fx-background-color: -md-primary-light;
+}
+
+/* ================================
+   提示标签/徽章
+   ================================ */
+.md-chip {
+    -fx-background-color: rgba(0,0,0,0.08);
+    -fx-background-radius: 16;
+    -fx-padding: 6 12;
+    -fx-font-size: 13px;
+    -fx-text-fill: -md-text-primary;
+}
+
+.md-chip-primary {
+    -fx-background-color: -md-primary-light;
+    -fx-text-fill: -md-primary-dark;
+}
+
+.md-chip-success {
+    -fx-background-color: rgba(76, 175, 80, 0.2);
+    -fx-text-fill: #2E7D32;
+}
+
+.md-chip-warning {
+    -fx-background-color: rgba(255, 193, 7, 0.2);
+    -fx-text-fill: #F57C00;
+}
+
+.md-chip-danger {
+    -fx-background-color: rgba(244, 67, 54, 0.2);
+    -fx-text-fill: #C62828;
+}
+
+.md-chip-info {
+    -fx-background-color: rgba(0, 188, 212, 0.2);
+    -fx-text-fill: #00838F;
+}
+
+/* ================================
+   对话框/弹窗
+   ================================ */
+.md-dialog {
+    -fx-background-color: -md-surface;
+    -fx-background-radius: 4;
+    -fx-padding: 0;
+}
+
+.md-dialog-header {
+    -fx-padding: 24 24 20 24;
+}
+
+.md-dialog-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: 500;
+    -fx-text-fill: -md-text-primary;
+}
+
+.md-dialog-content {
+    -fx-padding: 0 24 24 24;
+}
+
+.md-dialog-content .md-label {
+    -fx-text-fill: -md-text-secondary;
+    -fx-font-size: 14px;
+}
+
+.md-dialog-actions {
+    -fx-padding: 0 24 16 24;
+    -fx-alignment: center-right;
+    -fx-spacing: 8;
+}
+
+/* ================================
+   Snackbar/Toast 通知
+   ================================ */
+.md-snackbar {
+    -fx-background-color: #323232;
+    -fx-background-radius: 4;
+    -fx-padding: 14 24;
+    -fx-min-width: 344;
+    -fx-max-width: 672;
+}
+
+.md-snackbar-text {
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+}
+
+.md-snackbar-action {
+    -fx-text-fill: #FFEB3B;
+    -fx-font-size: 14px;
+    -fx-font-weight: 500;
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+}
+
+/* ================================
+   分隔线
+   ================================ */
+.md-divider {
+    -fx-background-color: -md-divider;
+    -fx-pref-height: 1;
+}
+
+.md-divider-vertical {
+    -fx-background-color: -md-divider;
+    -fx-pref-width: 1;
+}
+
+/* ================================
+   布局间距工具类
+   ================================ */
+.spacing-4 {
+    -fx-spacing: 4;
+}
+
+.spacing-8 {
+    -fx-spacing: 8;
+}
+
+.spacing-16 {
+    -fx-spacing: 16;
+}
+
+.spacing-24 {
+    -fx-spacing: 24;
+}
+
+.padding-4 {
+    -fx-padding: 4;
+}
+
+.padding-8 {
+    -fx-padding: 8;
+}
+
+.padding-16 {
+    -fx-padding: 16;
+}
+
+.padding-24 {
+    -fx-padding: 24;
+}
+
+/* ================================
+   工具类
+   ================================ */
+.text-center {
+    -fx-text-alignment: center;
+}
+
+.text-right {
+    -fx-text-alignment: right;
+}
+
+.text-bold {
+    -fx-font-weight: bold;
+}
+
+.text-italic {
+    -fx-font-style: italic;
+}
+
+.text-uppercase {
+    -fx-text-transform: uppercase;
+}
+
+.text-lowercase {
+    -fx-text-transform: lowercase;
+}
+
+.cursor-hand {
+    -fx-cursor: hand;
+}
+
+.rounded-full {
+    -fx-background-radius: 9999;
+}
+
+/* ================================
+   状态指示器
+   ================================ */
+.status-dot {
+    -fx-pref-width: 8;
+    -fx-pref-height: 8;
+    -fx-background-radius: 4;
+}
+
+.status-success {
+    -fx-background-color: -md-success;
+}
+
+.status-warning {
+    -fx-background-color: -md-warning;
+}
+
+.status-danger {
+    -fx-background-color: -md-danger;
+}
+
+.status-info {
+    -fx-background-color: -md-info;
+}
+
+/* ================================
+   表单样式
+   ================================ */
+.form-group {
+    -fx-spacing: 8;
+}
+
+.form-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: -md-text-secondary;
+    -fx-font-weight: 500;
+}
+
+.form-helper-text {
+    -fx-font-size: 12px;
+    -fx-text-fill: -md-text-secondary;
+}
+
+.form-error-text {
+    -fx-font-size: 12px;
+    -fx-text-fill: -md-danger;
+}
+
+/* ================================
+   响应式工具类
+   ================================ */
+@media (max-width: 600px) {
+    .hide-mobile {
+        -fx-opacity: 0;
+        -fx-pref-width: 0;
+        -fx-pref-height: 0;
+    }
+    
+    .md-nav-drawer {
+        -fx-pref-width: 0;
+    }
+}
+
+@media (min-width: 601px) and (max-width: 1024px) {
+    .hide-tablet {
+        -fx-opacity: 0;
+        -fx-pref-width: 0;
+        -fx-pref-height: 0;
+    }
+}
+
+@media (min-width: 1025px) {
+    .hide-desktop {
+        -fx-opacity: 0;
+        -fx-pref-width: 0;
+        -fx-pref-height: 0;
+    }
+}

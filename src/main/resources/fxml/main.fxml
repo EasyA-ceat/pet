@@ -9,58 +9,143 @@
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.pet.management.view.controller.MainController"
-            prefWidth="1200" prefHeight="800">
+            prefWidth="1280" prefHeight="720"
+            styleClass="root">
     
-    <!-- 顶部标题栏 -->
+    <!-- 顶部应用栏 - Material Design App Bar -->
     <top>
-        <VBox styleClass="header" spacing="10">
-            <Label styleClass="title" text="宠物管理系统">
+        <HBox styleClass="md-app-bar" alignment="CENTER_LEFT" spacing="16">
+            <Button fx:id="menuBtn" styleClass="md-button-text" text="☰">
                 <font>
-                    <Font size="24" name="Microsoft YaHei" />
+                    <Font size="24" />
                 </font>
+            </Button>
+            
+            <Label styleClass="md-app-bar-title" text="宠物管理系统" />
+            
+            <Region HBox.hgrow="ALWAYS" />
+            
+            <Label fx:id="currentDate" styleClass="md-label" text="2024-01-01">
+                <style>
+                    -fx-text-fill: white;
+                    -fx-font-size: 14px;
+                </style>
             </Label>
-            <HBox styleClass="toolbar" alignment="CENTER_RIGHT" spacing="15">
-                <Label fx:id="currentDate" styleClass="date-label" />
-                <Label fx:id="currentTime" styleClass="time-label" />
-                <Button styleClass="btn-icon" onAction="#handleSettings" text="设置" />
-                <Button styleClass="btn-icon" onAction="#handleAbout" text="关于" />
-            </HBox>
-        </VBox>
+            
+            <Label fx:id="currentTime" styleClass="md-label" text="12:00:00">
+                <style>
+                    -fx-text-fill: white;
+                    -fx-font-size: 14px;
+                </style>
+            </Label>
+            
+            <Button styleClass="md-button-text" onAction="#handleSettings" text="⚙">
+                <font>
+                    <Font size="20" />
+                </font>
+            </Button>
+            
+            <Button styleClass="md-button-text" onAction="#handleAbout" text="ℹ">
+                <font>
+                    <Font size="20" />
+                </font>
+            </Button>
+        </HBox>
     </top>
     
-    <!-- 左侧导航栏 -->
+    <!-- 左侧导航抽屉 - Material Design Navigation Drawer -->
     <left>
-        <VBox styleClass="sidebar" spacing="10" prefWidth="220">
-            <Button styleClass="nav-button active" onAction="#handleCustomerManagement" text="顾客管理" />
-            <Button styleClass="nav-button" onAction="#handleFinanceManagement" text="财务管理" />
-            <Button styleClass="nav-button" onAction="#handleReports" text="报表中心" />
-            <Button styleClass="nav-button" onAction="#handleClerkManagement" text="员工管理" />
-            <Button styleClass="nav-button" onAction="#handleSettings" text="系统设置" />
+        <VBox styleClass="md-nav-drawer elevation-2" spacing="0" prefWidth="280">
             
-            <Separator styleClass="nav-separator" />
+            <!-- 导航头部 -->
+            <VBox styleClass="md-nav-header" spacing="8" alignment="CENTER_LEFT">
+                <Label text="🐾" styleClass="md-label">
+                    <font>
+                        <Font size="48" />
+                    </font>
+                </Label>
+                <Label text="宠物管理系统" styleClass="md-label">
+                    <font>
+                        <Font size="18" name="Microsoft YaHei" />
+                    </font>
+                    <style>
+                        -fx-text-fill: white;
+                        -fx-font-weight: bold;
+                    </style>
+                </Label>
+                <Label text="版本 1.0.0" styleClass="md-label-caption">
+                    <style>
+                        -fx-text-fill: rgba(255,255,255,0.8);
+                    </style>
+                </Label>
+            </VBox>
             
-            <VBox spacing="5" styleClass="info-section">
-                <Label styleClass="info-label" text="系统信息" />
-                <Label styleClass="info-value" text="版本: 1.0.0" />
-                <Label styleClass="info-value" text="数据库: SQLite" />
+            <!-- 导航菜单 -->
+            <VBox spacing="0" VBox.vgrow="ALWAYS">
+                <padding>
+                    <Insets top="8" bottom="8" />
+                </padding>
+                
+                <!-- 高频操作置顶 -->
+                <Button fx:id="navCustomer" styleClass="md-nav-item active" 
+                        onAction="#handleCustomerManagement" text="👥  顾客管理" />
+                <Button fx:id="navFinance" styleClass="md-nav-item" 
+                        onAction="#handleFinanceManagement" text="💰  财务管理" />
+                <Button fx:id="navClerk" styleClass="md-nav-item" 
+                        onAction="#handleClerkManagement" text="👨‍💼  员工管理" />
+                
+                <Separator styleClass="md-nav-divider">
+                    <padding>
+                        <Insets top="8" bottom="8" />
+                    </padding>
+                </Separator>
+                
+                <Button fx:id="navReport" styleClass="md-nav-item" 
+                        onAction="#handleReports" text="📊  报表中心" />
+                <Button fx:id="navSettings" styleClass="md-nav-item" 
+                        onAction="#handleSettings" text="⚙️  系统设置" />
+            </VBox>
+            
+            <!-- 底部系统信息 -->
+            <VBox spacing="4" styleClass="md-card">
+                <padding>
+                    <Insets top="16" right="16" bottom="16" left="16" />
+                </padding>
+                <Label text="系统信息" styleClass="md-label-h4" />
+                <Label text="数据库: SQLite" styleClass="md-label-body2" />
+                <Label text="状态: 在线" styleClass="md-label-body2">
+                    <graphic>
+                        <Region styleClass="status-dot status-success" />
+                    </graphic>
+                </Label>
             </VBox>
         </VBox>
     </left>
     
     <!-- 主内容区域 -->
     <center>
-        <VBox styleClass="content" fillWidth="true" spacing="10">
-            <StackPane fx:id="contentPane" styleClass="content-pane" />
+        <VBox styleClass="md-card" spacing="0" fillWidth="true">
+            <padding>
+                <Insets top="24" right="24" bottom="24" left="24" />
+            </padding>
+            
+            <StackPane fx:id="contentPane" VBox.vgrow="ALWAYS" />
         </VBox>
     </center>
     
     <!-- 底部状态栏 -->
     <bottom>
-        <HBox styleClass="footer" spacing="10" alignment="CENTER_LEFT">
-            <Label styleClass="status-label" fx:id="statusLabel" text="欢迎使用宠物管理系统" />
-            <HBox styleClass="footer-right" alignment="CENTER_RIGHT">
-                <Label styleClass="version-label" text="版本 1.0.0" />
+        <HBox styleClass="md-card elevation-1" spacing="16" alignment="CENTER_LEFT">
+            <padding>
+                <Insets top="12" right="16" bottom="12" left="16" />
+            </padding>
+            
+            <HBox spacing="8" alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                <Region styleClass="status-dot status-success" />
+                <Label fx:id="statusLabel" text="欢迎使用宠物管理系统" styleClass="md-label-body2" />
             </HBox>
+            
+            <Label text="© 2024 宠物管理系统" styleClass="md-label-caption" />
         </HBox>
     </bottom>
 </BorderPane>
