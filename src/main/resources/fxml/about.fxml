@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane fx:id="aboutPane" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" prefHeight="600.0" prefWidth="800.0">
+    <VBox alignment="TOP_CENTER" spacing="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+        <Label text="宠物管理系统" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #333333;">
+            <VBox.margin>
+                <Insets top="10.0" bottom="10.0"/>
+            </VBox.margin>
+        </Label>
+        
+        <Label text="Pet Management System" style="-fx-font-size: 16px; -fx-text-fill: #666666;">
+            <VBox.margin>
+                <Insets bottom="20.0"/>
+            </VBox.margin>
+        </Label>
+        
+        <Separator/>
+        
+        <VBox alignment="TOP_LEFT" spacing="10.0" prefWidth="600.0">
+            <Label text="版本信息" style="-fx-font-size: 18px; -fx-font-weight: bold;">
+                <VBox.margin>
+                    <Insets bottom="10.0"/>
+                </VBox.margin>
+            </Label>
+            
+            <GridPane hgap="10.0" vgap="10.0">
+                <Label text="版本号:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <Label text="1.0.0" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                
+                <Label text="构建日期:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <Label text="2024-01-01" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                
+                <Label text="Java版本:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                <Label text="17+" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                
+                <Label text="JavaFX版本:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                <Label text="17+" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+            </GridPane>
+        </VBox>
+        
+        <Separator/>
+        
+        <VBox alignment="TOP_LEFT" spacing="10.0" prefWidth="600.0">
+            <Label text="功能介绍" style="-fx-font-size: 18px; -fx-font-weight: bold;">
+                <VBox.margin>
+                    <Insets bottom="10.0"/>
+                </VBox.margin>
+            </Label>
+            
+            <Label text="这是一个功能完善的宠物管理系统，帮助宠物商店实现信息化管理。系统提供以下功能：" wrapText="true">
+                <VBox.margin>
+                    <Insets bottom="10.0"/>
+                </VBox.margin>
+            </Label>
+            
+            <VBox alignment="TOP_LEFT" spacing="5.0">
+                <Label text="• 客户管理：客户信息录入、查询、修改、删除"/>
+                <Label text="• 员工管理：员工信息管理、提成设置"/>
+                <Label text="• 财务管理：交易记录、销售收入统计、提成计算"/>
+                <Label text="• 报表中心：日报、月报、年报分析，图表可视化"/>
+                <Label text="• 系统设置：基本参数配置、数据备份与恢复"/>
+            </VBox>
+        </VBox>
+        
+        <Separator/>
+        
+        <VBox alignment="TOP_LEFT" spacing="10.0" prefWidth="600.0">
+            <Label text="技术支持" style="-fx-font-size: 18px; -fx-font-weight: bold;">
+                <VBox.margin>
+                    <Insets bottom="10.0"/>
+                </VBox.margin>
+            </Label>
+            
+            <GridPane hgap="10.0" vgap="10.0">
+                <Label text="开发团队:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <Label text="Pet Management Team" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                
+                <Label text="联系邮箱:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <Label text="support@petmanagement.com" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                
+                <Label text="官方网站:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                <Label text="www.petmanagement.com" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+            </GridPane>
+        </VBox>
+        
+        <Separator/>
+        
+        <VBox alignment="TOP_LEFT" spacing="10.0" prefWidth="600.0">
+            <Label text="版权信息" style="-fx-font-size: 18px; -fx-font-weight: bold;">
+                <VBox.margin>
+                    <Insets bottom="10.0"/>
+                </VBox.margin>
+            </Label>
+            
+            <Label text="© 2024 Pet Management System. All rights reserved." wrapText="true">
+                <VBox.margin>
+                    <Insets bottom="10.0"/>
+                </VBox.margin>
+            </Label>
+            
+            <Label text="本系统采用Spring Boot + JavaFX技术栈开发，使用SQLite数据库存储数据。" wrapText="true"/>
+        </VBox>
+        
+        <Separator/>
+        
+        <HBox alignment="CENTER" spacing="20.0" prefHeight="50.0">
+            <Button text="关闭" fx:id="closeButton" prefWidth="100.0">
+                <HBox.margin>
+                    <Insets top="10.0" bottom="10.0"/>
+                </HBox.margin>
+            </Button>
+        </HBox>
+    </VBox>
+</AnchorPane>

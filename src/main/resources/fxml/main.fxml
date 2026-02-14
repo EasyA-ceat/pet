@@ -22,24 +22,8 @@
             <HBox styleClass="toolbar" alignment="CENTER_RIGHT" spacing="15">
                 <Label fx:id="currentDate" styleClass="date-label" />
                 <Label fx:id="currentTime" styleClass="time-label" />
-                <Button styleClass="btn-icon" onAction="#handleSettings">
-                    <graphic>
-                        <ImageView fitHeight="24" fitWidth="24">
-                            <image>
-                                <Image url="/images/settings.png" />
-                            </image>
-                        </ImageView>
-                    </graphic>
-                </Button>
-                <Button styleClass="btn-icon" onAction="#handleAbout">
-                    <graphic>
-                        <ImageView fitHeight="24" fitWidth="24">
-                            <image>
-                                <Image url="/images/about.png" />
-                            </image>
-                        </ImageView>
-                    </graphic>
-                </Button>
+                <Button styleClass="btn-icon" onAction="#handleSettings" text="设置" />
+                <Button styleClass="btn-icon" onAction="#handleAbout" text="关于" />
             </HBox>
         </VBox>
     </top>
@@ -47,57 +31,11 @@
     <!-- 左侧导航栏 -->
     <left>
         <VBox styleClass="sidebar" spacing="10" prefWidth="200">
-            <Button styleClass="nav-button active" onAction="#handleCustomerManagement">
-                <graphic>
-                    <HBox spacing="10" alignment="CENTER_LEFT">
-                        <ImageView fitHeight="20" fitWidth="20">
-                            <image>
-                                <Image url="/images/customers.png" />
-                            </image>
-                        </ImageView>
-                        <Label text="顾客管理" />
-                    </HBox>
-                </graphic>
-            </Button>
-            
-            <Button styleClass="nav-button" onAction="#handleFinanceManagement">
-                <graphic>
-                    <HBox spacing="10" alignment="CENTER_LEFT">
-                        <ImageView fitHeight="20" fitWidth="20">
-                            <image>
-                                <Image url="/images/finance.png" />
-                            </image>
-                        </ImageView>
-                        <Label text="财务管理" />
-                    </HBox>
-                </graphic>
-            </Button>
-            
-            <Button styleClass="nav-button" onAction="#handleReports">
-                <graphic>
-                    <HBox spacing="10" alignment="CENTER_LEFT">
-                        <ImageView fitHeight="20" fitWidth="20">
-                            <image>
-                                <Image url="/images/reports.png" />
-                            </image>
-                        </ImageView>
-                        <Label text="报表中心" />
-                    </HBox>
-                </graphic>
-            </Button>
-            
-            <Button styleClass="nav-button" onAction="#handleSettings">
-                <graphic>
-                    <HBox spacing="10" alignment="CENTER_LEFT">
-                        <ImageView fitHeight="20" fitWidth="20">
-                            <image>
-                                <Image url="/images/settings-menu.png" />
-                            </image>
-                        </ImageView>
-                        <Label text="系统设置" />
-                    </HBox>
-                </graphic>
-            </Button>
+            <Button styleClass="nav-button active" onAction="#handleCustomerManagement" text="顾客管理" />
+            <Button styleClass="nav-button" onAction="#handleFinanceManagement" text="财务管理" />
+            <Button styleClass="nav-button" onAction="#handleReports" text="报表中心" />
+            <Button styleClass="nav-button" onAction="#handleClerkManagement" text="员工管理" />
+            <Button styleClass="nav-button" onAction="#handleSettings" text="系统设置" />
             
             <Separator styleClass="nav-separator" />
             

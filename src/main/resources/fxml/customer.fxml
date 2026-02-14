@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      spacing="10"
+      padding="20">
+    
+    <!-- 标题栏 -->
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Label styleClass="page-title" text="顾客管理">
+            <font>
+                <Font size="24" name="Microsoft YaHei" />
+            </font>
+        </Label>
+    </HBox>
+    
+    <!-- 搜索与操作栏 -->
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <TextField fx:id="searchField" promptText="搜索顾客/宠物名称..." prefWidth="300">
+            <HBox.margin>
+                <Insets left="10" />
+            </HBox.margin>
+        </TextField>
+        <Button fx:id="searchBtn" text="搜索" styleClass="btn-primary">
+            <HBox.margin>
+                <Insets left="10" />
+            </HBox.margin>
+        </Button>
+        <Button fx:id="addBtn" text="添加顾客" styleClass="btn-success">
+            <HBox.margin>
+                <Insets left="10" />
+            </HBox.margin>
+        </Button>
+        <Button fx:id="refreshBtn" text="刷新" styleClass="btn-info">
+            <HBox.margin>
+                <Insets left="10" />
+            </HBox.margin>
+        </Button>
+    </HBox>
+    
+    <!-- 顾客列表 -->
+    <TableView fx:id="customerTable" prefHeight="400">
+        <columns>
+            <TableColumn text="ID" prefWidth="50">
+                <cellValueFactory>
+                    <PropertyValueFactory property="id" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="顾客姓名" prefWidth="120">
+                <cellValueFactory>
+                    <PropertyValueFactory property="customerName" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="联系电话" prefWidth="120">
+                <cellValueFactory>
+                    <PropertyValueFactory property="phone" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="宠物姓名" prefWidth="120">
+                <cellValueFactory>
+                    <PropertyValueFactory property="petName" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="宠物类型" prefWidth="100">
+                <cellValueFactory>
+                    <PropertyValueFactory property="petType" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="宠物品种" prefWidth="120">
+                <cellValueFactory>
+                    <PropertyValueFactory property="petBreed" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="宠物年龄" prefWidth="80">
+                <cellValueFactory>
+                    <PropertyValueFactory property="petAge" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="创建时间" prefWidth="150">
+                <cellValueFactory>
+                    <PropertyValueFactory property="createTime" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="操作" prefWidth="150">
+                <cellValueFactory>
+                    <PropertyValueFactory property="id" />
+                </cellValueFactory>
+            </TableColumn>
+        </columns>
+    </TableView>
+    
+    <!-- 统计信息 -->
+    <HBox alignment="CENTER_LEFT" spacing="20" styleClass="stats-panel">
+        <Label fx:id="totalCustomersLabel" text="总顾客数: 0" styleClass="stat-label" />
+        <Label fx:id="activeCustomersLabel" text="活跃顾客: 0" styleClass="stat-label" />
+        <Label fx:id="recentCustomersLabel" text="本月新增: 0" styleClass="stat-label" />
+    </HBox>
+    
+    <!-- 底部操作栏 -->
+    <HBox alignment="CENTER_RIGHT" spacing="10">
+        <Label fx:id="statusLabel" text="就绪" styleClass="status-label" />
+    </HBox>
+</VBox>

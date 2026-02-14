@@ -24,8 +24,15 @@ public class MainApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        // 设置应用程序图标
-        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/icon.png")));
+        // 设置应用程序图标（容错处理）
+        try {
+            Image icon = new Image(getClass().getResourceAsStream("/images/icon.png"));
+            if (icon != null) {
+                primaryStage.getIcons().add(icon);
+            }
+        } catch (Exception e) {
+            System.out.println("图标资源未找到，使用默认图标");
+        }
         
         // 设置应用程序标题
         primaryStage.setTitle("宠物管理系统");

@@ -1,5 +1,12 @@
 package com.pet.management.view.controller;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
@@ -7,18 +14,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Controller
 public class MainController {
@@ -46,6 +46,9 @@ public class MainController {
 
     @Autowired
     private SettingsController settingsController;
+
+    @Autowired
+    private ClerkController clerkController;
 
     private Timeline clockTimeline;
 
@@ -101,6 +104,13 @@ public class MainController {
         updateStatus("报表中心页面已加载");
     }
 
+    // 员工管理
+    @FXML
+    public void handleClerkManagement() {
+        showClerkManagement();
+        updateStatus("员工管理页面已加载");
+    }
+
     // 系统设置
     @FXML
     public void handleSettings() {
@@ -152,6 +162,20 @@ public class MainController {
             updateActiveNavButton("reports");
         } catch (IOException e) {
             showErrorDialog("加载报表中心页面失败", e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    // 显示员工管理界面
+    private void showClerkManagement() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/clerk.fxml"));
+            loader.setController(clerkController);
+            Parent clerkView = loader.load();
+            contentPane.getChildren().setAll(clerkView);
+            updateActiveNavButton("clerk");
+        } catch (IOException e) {
+            showErrorDialog("加载员工管理页面失败", e.getMessage());
             e.printStackTrace();
         }
     }
