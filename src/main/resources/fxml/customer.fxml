@@ -8,7 +8,6 @@
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.pet.management.view.controller.CustomerController"
       spacing="16">
     <padding>
         <Insets top="0" right="0" bottom="0" left="0" />
@@ -47,9 +46,6 @@
     
     <!-- 统计卡片 -->
     <HBox spacing="16">
-        <HBox.hgrow>
-            <Priority value="ALWAYS" />
-        </HBox.hgrow>
         
         <!-- 总顾客数 -->
         <VBox styleClass="md-card elevation-1" spacing="8" HBox.hgrow="ALWAYS">

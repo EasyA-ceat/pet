@@ -211,7 +211,7 @@ public class ReportService {
     /**
      * 生成销售统计图表
      */
-    public void generateSalesChart(String reportType) {
+    public String generateSalesChart(String reportType) {
         LocalDateTime startDate, endDate;
 
         switch (reportType) {
@@ -241,6 +241,10 @@ public class ReportService {
                         Collectors.reducing(BigDecimal.ZERO, Transaction::getAmount, BigDecimal::add)
                 ));
 
+        if (salesByService.isEmpty()) {
+            return null;
+        }
+
         // 生成柱状图
         CategoryChart chart = new CategoryChartBuilder().width(800).height(600).title("销售统计").xAxisTitle("服务类型").yAxisTitle("销售额").build();
         chart.getStyler().setLegendPosition(Styler.LegendPosition.OutsideE);
@@ -250,8 +254,17 @@ public class ReportService {
                 new ArrayList<>(salesByService.keySet()),
                 salesByService.values().stream().map(BigDecimal::doubleValue).collect(Collectors.toList()));
 
-        // 显示图表
-        new SwingWrapper<CategoryChart>(chart).displayChart();
+        // 保存图表为图片
+        String fileName = "chart_" + reportType + "_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")) + ".png";
+        String filePath = REPORT_DIR + fileName;
+        
+        try {
+            org.knowm.xchart.BitmapEncoder.saveBitmap(chart, filePath, org.knowm.xchart.BitmapEncoder.BitmapFormat.PNG);
+            return filePath;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**

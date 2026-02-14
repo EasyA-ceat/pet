@@ -81,18 +81,18 @@
             </VBox>
             
             <!-- 导航菜单 -->
-            <VBox spacing="0" VBox.vgrow="ALWAYS">
+            <VBox spacing="4" VBox.vgrow="ALWAYS">
                 <padding>
                     <Insets top="8" bottom="8" />
                 </padding>
                 
                 <!-- 高频操作置顶 -->
-                <Button fx:id="navCustomer" styleClass="md-nav-item active" 
-                        onAction="#handleCustomerManagement" text="👥  顾客管理" />
-                <Button fx:id="navFinance" styleClass="md-nav-item" 
-                        onAction="#handleFinanceManagement" text="💰  财务管理" />
-                <Button fx:id="navClerk" styleClass="md-nav-item" 
-                        onAction="#handleClerkManagement" text="👨‍💼  员工管理" />
+                <Button fx:id="navCustomer" styleClass="md-nav-item active"
+                        onAction="#handleCustomerManagement" text="👥  顾客管理" prefWidth="240" />
+                <Button fx:id="navFinance" styleClass="md-nav-item"
+                        onAction="#handleFinanceManagement" text="💰  财务管理" prefWidth="240" />
+                <Button fx:id="navClerk" styleClass="md-nav-item"
+                        onAction="#handleClerkManagement" text="👨‍💼  员工管理" prefWidth="240" />
                 
                 <Separator styleClass="md-nav-divider">
                     <padding>
@@ -100,10 +100,10 @@
                     </padding>
                 </Separator>
                 
-                <Button fx:id="navReport" styleClass="md-nav-item" 
-                        onAction="#handleReports" text="📊  报表中心" />
-                <Button fx:id="navSettings" styleClass="md-nav-item" 
-                        onAction="#handleSettings" text="⚙️  系统设置" />
+                <Button fx:id="navReport" styleClass="md-nav-item"
+                        onAction="#handleReports" text="📊  报表中心" prefWidth="240" />
+                <Button fx:id="navSettings" styleClass="md-nav-item"
+                        onAction="#handleSettings" text="⚙️  系统设置" prefWidth="240" />
             </VBox>
             
             <!-- 底部系统信息 -->

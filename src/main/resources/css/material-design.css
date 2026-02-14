@@ -410,10 +410,15 @@
     -fx-text-fill: -md-text-primary;
     -fx-alignment: center-left;
     -fx-padding: 12 16;
-    -fx-pref-width: 100%;
+    -fx-pref-width: 240;
+    -fx-min-width: 240;
+    -fx-pref-height: 48;
+    -fx-min-height: 48;
     -fx-cursor: hand;
     -fx-font-size: 14px;
     -fx-font-weight: 500;
+    -fx-wrap-text: false;
+    -fx-text-overrun: CLIP;
 }
 
 .md-nav-item:hover {

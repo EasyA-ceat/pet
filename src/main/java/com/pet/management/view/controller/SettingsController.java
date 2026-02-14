@@ -63,12 +63,12 @@ public class SettingsController {
     }
 
     private void setupEventHandlers() {
-        backupButton.setOnAction(event -> backupData());
-        restoreButton.setOnAction(event -> restoreData());
-        cleanButton.setOnAction(event -> cleanData());
-        saveButton.setOnAction(event -> saveSettings());
-        resetButton.setOnAction(event -> resetSettings());
-        closeButton.setOnAction(event -> close());
+        if (backupButton != null) backupButton.setOnAction(event -> backupData());
+        if (restoreButton != null) restoreButton.setOnAction(event -> restoreData());
+        if (cleanButton != null) cleanButton.setOnAction(event -> cleanData());
+        if (saveButton != null) saveButton.setOnAction(event -> saveSettings());
+        if (resetButton != null) resetButton.setOnAction(event -> resetSettings());
+        if (closeButton != null) closeButton.setOnAction(event -> close());
     }
 
     // 系统设置功能方法
