@@ -218,18 +218,11 @@ public class MainController {
         // 由于FXML中没有直接引用导航按钮，需要通过其他方式获取
     }
 
-    // 更新状态信息
+    // 更新状态信息（保持原有功能）
     public void updateStatus(String status) {
         statusLabel.setText(status);
-    }
-
-    // 显示错误对话框
-    private void showErrorDialog(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("错误");
-        alert.setHeaderText(title);
-        alert.setContentText(message);
-        alert.showAndWait();
+        // 移除所有样式类，使用默认样式
+        statusLabel.getStyleClass().setAll("status-label");
     }
 
     // 显示成功对话框
@@ -239,6 +232,27 @@ public class MainController {
         alert.setHeaderText(title);
         alert.setContentText(message);
         alert.showAndWait();
+        
+        // 更新状态标签为成功样式
+        if (statusLabel != null) {
+            statusLabel.setText(message);
+            statusLabel.getStyleClass().setAll("status-label", "success");
+        }
+    }
+
+    // 显示错误对话框
+    private void showErrorDialog(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("错误");
+        alert.setHeaderText(title);
+        alert.setContentText(message);
+        alert.showAndWait();
+        
+        // 更新状态标签为错误样式
+        if (statusLabel != null) {
+            statusLabel.setText(message);
+            statusLabel.getStyleClass().setAll("status-label", "error");
+        }
     }
 
     // 显示确认对话框

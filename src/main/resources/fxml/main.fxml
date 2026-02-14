@@ -30,7 +30,7 @@
     
     <!-- 左侧导航栏 -->
     <left>
-        <VBox styleClass="sidebar" spacing="10" prefWidth="200">
+        <VBox styleClass="sidebar" spacing="10" prefWidth="220">
             <Button styleClass="nav-button active" onAction="#handleCustomerManagement" text="顾客管理" />
             <Button styleClass="nav-button" onAction="#handleFinanceManagement" text="财务管理" />
             <Button styleClass="nav-button" onAction="#handleReports" text="报表中心" />

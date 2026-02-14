@@ -78,7 +78,7 @@
                             <PropertyValueFactory property="notes" />
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn text="操作" prefWidth="150">
+                    <TableColumn text="操作" prefWidth="120">
                         <cellValueFactory>
                             <PropertyValueFactory property="id" />
                         </cellValueFactory>

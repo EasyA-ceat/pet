@@ -63,16 +63,26 @@ BorderPane {
     -fx-cursor: hand;
     -fx-pref-width: 100%;
     -fx-background-radius: 5;
+    /* 确保文本完整显示 */
+    -fx-text-overrun: none;
+    -fx-wrap-text: false;
+    -fx-min-width: 180;
+    /* 添加字体大小确保可读性 */
+    -fx-font-size: 14px;
+}
+
+/* 为活动状态按钮添加更好的视觉效果 */
+.nav-button.active {
+    -fx-background-color: rgba(52, 152, 219, 0.8);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-min-width: 180;
+    -fx-font-size: 14px;
 }
 
 .nav-button:hover {
     -fx-background-color: rgba(255,255,255,0.1);
     -fx-text-fill: #ecf0f1;
-}
-
-.nav-button.active {
-    -fx-background-color: rgba(52, 152, 219, 0.8);
-    -fx-text-fill: white;
 }
 
 .nav-separator {
@@ -122,6 +132,18 @@ BorderPane {
     -fx-text-fill: #34495e;
     -fx-font-size: 12;
     -fx-min-width: 300;
+    /* 增加内边距和字体粗体以提高可读性 */
+    -fx-padding: 5 10;
+    -fx-font-weight: bold;
+}
+
+/* 为状态信息添加更好的视觉效果 */
+.status-label.success {
+    -fx-text-fill: #27ae60;
+}
+
+.status-label.error {
+    -fx-text-fill: #e74c3c;
 }
 
 .footer-right {
