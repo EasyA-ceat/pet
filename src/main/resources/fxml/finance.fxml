@@ -25,6 +25,12 @@
                 </VBox.margin>
             </Label>
             
+            <!-- 搜索区域 -->
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+                <TextField fx:id="searchField" promptText="搜索顾客姓名、宠物姓名或服务类型..." prefWidth="300.0"/>
+                <Button fx:id="searchBtn" text="搜索" prefWidth="80.0"/>
+            </HBox>
+            
             <TableView fx:id="transactionTable" prefHeight="400">
                 <columns>
                     <TableColumn fx:id="idColumn" text="ID" prefWidth="50">
@@ -67,6 +73,11 @@
                             <PropertyValueFactory property="commission" />
                         </cellValueFactory>
                     </TableColumn>
+                    <TableColumn fx:id="notesColumn" text="备注" prefWidth="150">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="notes" />
+                        </cellValueFactory>
+                    </TableColumn>
                     <TableColumn text="操作" prefWidth="150">
                         <cellValueFactory>
                             <PropertyValueFactory property="id" />
@@ -103,29 +114,44 @@
         <Separator/>
         
         <HBox alignment="CENTER" spacing="20.0" prefHeight="50.0">
-            <Button text="添加交易" fx:id="addButton" prefWidth="100.0">
+            <Button text="添加交易" fx:id="addBtn" prefWidth="100.0">
                 <HBox.margin>
                     <Insets top="10.0" bottom="10.0"/>
                 </HBox.margin>
             </Button>
             
-            <Button text="编辑交易" fx:id="editButton" prefWidth="100.0">
+            <Button text="搜索交易" fx:id="searchBtn" prefWidth="100.0">
                 <HBox.margin>
                     <Insets top="10.0" bottom="10.0"/>
                 </HBox.margin>
             </Button>
             
-            <Button text="删除交易" fx:id="deleteButton" prefWidth="100.0">
+            <Button text="删除交易" fx:id="deleteBtn" prefWidth="100.0">
                 <HBox.margin>
                     <Insets top="10.0" bottom="10.0"/>
                 </HBox.margin>
             </Button>
             
-            <Button text="刷新" fx:id="refreshButton" prefWidth="100.0">
+            <Button text="刷新" fx:id="refreshBtn" prefWidth="100.0">
                 <HBox.margin>
                     <Insets top="10.0" bottom="10.0"/>
                 </HBox.margin>
             </Button>
+            
+            <Button text="计算提成" fx:id="calculateCommissionBtn" prefWidth="100.0">
+                <HBox.margin>
+                    <Insets top="10.0" bottom="10.0"/>
+                </HBox.margin>
+            </Button>
+        </HBox>
+        
+        <!-- 状态栏 -->
+        <HBox alignment="CENTER_RIGHT" spacing="10.0" prefHeight="30.0">
+            <Label fx:id="statusLabel" text="就绪" style="-fx-text-fill: #666666;">
+                <HBox.margin>
+                    <Insets right="20.0"/>
+                </HBox.margin>
+            </Label>
         </HBox>
     </VBox>
 </AnchorPane>

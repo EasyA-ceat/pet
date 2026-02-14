@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -101,12 +102,12 @@ public class ReportService {
         BigDecimal totalAmount = transactions.stream()
                 .map(Transaction::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
-        report.append("  总金额: ").append(totalAmount.setScale(2, BigDecimal.ROUND_HALF_UP)).append(" 元\n");
+        report.append("  总金额: ").append(totalAmount.setScale(2, RoundingMode.HALF_UP)).append(" 元\n");
 
         BigDecimal totalCommission = transactions.stream()
                 .map(Transaction::getCommission)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
-        report.append("  总提成: ").append(totalCommission.setScale(2, BigDecimal.ROUND_HALF_UP)).append(" 元\n\n");
+        report.append("  总提成: ").append(totalCommission.setScale(2, RoundingMode.HALF_UP)).append(" 元\n\n");
 
         if (!transactions.isEmpty()) {
             report.append("交易详情:\n");
@@ -250,7 +251,7 @@ public class ReportService {
                 salesByService.values().stream().map(BigDecimal::doubleValue).collect(Collectors.toList()));
 
         // 显示图表
-        new SwingWrapper(chart).displayChart();
+        new SwingWrapper<CategoryChart>(chart).displayChart();
     }
 
     /**

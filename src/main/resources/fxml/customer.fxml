@@ -8,8 +8,10 @@
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      spacing="10"
-      padding="20">
+      spacing="10">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20" />
+    </padding>
     
     <!-- 标题栏 -->
     <HBox alignment="CENTER_LEFT" spacing="10">

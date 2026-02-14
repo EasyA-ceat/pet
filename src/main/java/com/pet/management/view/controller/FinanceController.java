@@ -137,7 +137,13 @@ public class FinanceController {
                 }
             }
         });
-        notesColumn.setCellValueFactory(new PropertyValueFactory<>("notes"));
+        
+        // 添加空值检查以防止NullPointerException
+        if (notesColumn != null) {
+            notesColumn.setCellValueFactory(new PropertyValueFactory<>("notes"));
+        } else {
+            System.err.println("Warning: notesColumn is null - FXML binding may be missing");
+        }
 
         // 添加操作列
         TableColumn<Transaction, Void> actionColumn = new TableColumn<>("操作");

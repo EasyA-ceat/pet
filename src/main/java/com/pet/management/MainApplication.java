@@ -24,14 +24,18 @@ public class MainApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        // 设置应用程序图标（容错处理）
+        // 设置应用程序图标（改进的容错处理）
         try {
+            // 尝试加载自定义图标
             Image icon = new Image(getClass().getResourceAsStream("/images/icon.png"));
-            if (icon != null) {
+            if (icon != null && !icon.isError()) {
                 primaryStage.getIcons().add(icon);
+            } else {
+                // 如果自定义图标不存在，使用系统默认图标
+                System.out.println("自定义图标未找到，使用系统默认图标");
             }
         } catch (Exception e) {
-            System.out.println("图标资源未找到，使用默认图标");
+            System.out.println("图标加载失败: " + e.getMessage() + "，使用系统默认图标");
         }
         
         // 设置应用程序标题
