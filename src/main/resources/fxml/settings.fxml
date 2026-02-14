@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            prefHeight="600.0" prefWidth="800.0">
+    <VBox alignment="TOP_CENTER" spacing="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+        <Label text="系统设置" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #333333;">
+            <VBox.margin>
+                <Insets top="10.0" bottom="10.0"/>
+            </VBox.margin>
+        </Label>
+        
+        <Separator/>
+        
+        <VBox alignment="TOP_LEFT" spacing="10.0" prefWidth="600.0">
+            <Label text="基本设置" style="-fx-font-size: 18px; -fx-font-weight: bold;">
+                <VBox.margin>
+                    <Insets bottom="10.0"/>
+                </VBox.margin>
+            </Label>
+            
+            <GridPane hgap="10.0" vgap="10.0">
+                <Label text="系统名称:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <TextField fx:id="systemNameField" promptText="请输入系统名称" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                
+                <Label text="数据库路径:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <TextField fx:id="databasePathField" promptText="请输入数据库路径" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                
+                <Label text="备份路径:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                <TextField fx:id="backupPathField" promptText="请输入备份路径" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                
+                <Label text="自动备份:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                <CheckBox fx:id="autoBackupCheckBox" text="启用自动备份" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+            </GridPane>
+        </VBox>
+        
+        <Separator/>
+        
+        <VBox alignment="TOP_LEFT" spacing="10.0" prefWidth="600.0">
+            <Label text="数据管理" style="-fx-font-size: 18px; -fx-font-weight: bold;">
+                <VBox.margin>
+                    <Insets bottom="10.0"/>
+                </VBox.margin>
+            </Label>
+            
+            <HBox alignment="CENTER" spacing="20.0">
+                <Button text="备份数据库" fx:id="backupButton" prefWidth="120.0">
+                    <HBox.margin>
+                        <Insets top="10.0" bottom="10.0"/>
+                    </HBox.margin>
+                </Button>
+                
+                <Button text="恢复数据库" fx:id="restoreButton" prefWidth="120.0">
+                    <HBox.margin>
+                        <Insets top="10.0" bottom="10.0"/>
+                    </HBox.margin>
+                </Button>
+                
+                <Button text="清理数据" fx:id="cleanButton" prefWidth="120.0">
+                    <HBox.margin>
+                        <Insets top="10.0" bottom="10.0"/>
+                    </HBox.margin>
+                </Button>
+            </HBox>
+        </VBox>
+        
+        <Separator/>
+        
+        <VBox alignment="TOP_LEFT" spacing="10.0" prefWidth="600.0">
+            <Label text="关于系统" style="-fx-font-size: 18px; -fx-font-weight: bold;">
+                <VBox.margin>
+                    <Insets bottom="10.0"/>
+                </VBox.margin>
+            </Label>
+            
+            <GridPane hgap="10.0" vgap="10.0">
+                <Label text="版本号:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <Label fx:id="versionLabel" text="1.0.0" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                
+                <Label text="开发商:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <Label fx:id="developerLabel" text="宠物管理系统开发团队" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                
+                <Label text="联系方式:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                <Label fx:id="contactLabel" text="support@petmanagement.com" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                
+                <Label text="版权信息:" style="-fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                <Label fx:id="copyrightLabel" text="© 2024 Pet Management System" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+            </GridPane>
+        </VBox>
+        
+        <Separator/>
+        
+        <HBox alignment="CENTER" spacing="20.0" prefHeight="50.0">
+            <Button text="保存设置" fx:id="saveButton" prefWidth="100.0">
+                <HBox.margin>
+                    <Insets top="10.0" bottom="10.0"/>
+                </HBox.margin>
+            </Button>
+            
+            <Button text="重置设置" fx:id="resetButton" prefWidth="100.0">
+                <HBox.margin>
+                    <Insets top="10.0" bottom="10.0"/>
+                </HBox.margin>
+            </Button>
+            
+            <Button text="关闭" fx:id="closeButton" prefWidth="100.0">
+                <HBox.margin>
+                    <Insets top="10.0" bottom="10.0"/>
+                </HBox.margin>
+            </Button>
+        </HBox>
+    </VBox>
+</AnchorPane>

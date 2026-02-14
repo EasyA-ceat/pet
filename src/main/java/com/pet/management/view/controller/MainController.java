@@ -155,7 +155,7 @@ public class MainController {
     // 显示报表中心界面
     private void showReports() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/reports.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/report.fxml"));
             loader.setController(reportController);
             Parent reportView = loader.load();
             contentPane.getChildren().setAll(reportView);

@@ -73,12 +73,32 @@ public class Photo {
         this.customer = customer;
     }
 
+    // 设置顾客ID（用于简化操作）
+    public void setCustomerId(Long customerId) {
+        if (customerId != null) {
+            this.customer = new Customer();
+            this.customer.setId(customerId);
+        } else {
+            this.customer = null;
+        }
+    }
+
     public Transaction getTransaction() {
         return transaction;
     }
 
     public void setTransaction(Transaction transaction) {
         this.transaction = transaction;
+    }
+
+    // 设置交易ID（用于简化操作）
+    public void setTransactionId(Long transactionId) {
+        if (transactionId != null) {
+            this.transaction = new Transaction();
+            this.transaction.setId(transactionId);
+        } else {
+            this.transaction = null;
+        }
     }
 
     public String getPhotoType() {

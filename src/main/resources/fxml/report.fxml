@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            prefHeight="600.0" prefWidth="800.0">
+    <VBox alignment="TOP_CENTER" spacing="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+        <Label text="报表中心" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #333333;">
+            <VBox.margin>
+                <Insets top="10.0" bottom="10.0"/>
+            </VBox.margin>
+        </Label>
+        
+        <Separator/>
+        
+        <VBox alignment="TOP_LEFT" spacing="10.0" prefWidth="600.0">
+            <Label text="报表类型" style="-fx-font-size: 18px; -fx-font-weight: bold;">
+                <VBox.margin>
+                    <Insets bottom="10.0"/>
+                </VBox.margin>
+            </Label>
+            
+            <HBox alignment="CENTER" spacing="20.0">
+                <Button text="日报" fx:id="dailyReportButton" prefWidth="100.0" onAction="#generateDailyReport">
+                    <HBox.margin>
+                        <Insets top="10.0" bottom="10.0"/>
+                    </HBox.margin>
+                </Button>
+                
+                <Button text="月报" fx:id="monthlyReportButton" prefWidth="100.0" onAction="#generateMonthlyReport">
+                    <HBox.margin>
+                        <Insets top="10.0" bottom="10.0"/>
+                    </HBox.margin>
+                </Button>
+                
+                <Button text="年报" fx:id="annualReportButton" prefWidth="100.0" onAction="#generateAnnualReport">
+                    <HBox.margin>
+                        <Insets top="10.0" bottom="10.0"/>
+                    </HBox.margin>
+                </Button>
+            </HBox>
+        </VBox>
+        
+        <Separator/>
+        
+        <VBox alignment="TOP_LEFT" spacing="10.0" prefWidth="600.0">
+            <Label text="报表预览" style="-fx-font-size: 18px; -fx-font-weight: bold;">
+                <VBox.margin>
+                    <Insets bottom="10.0"/>
+                </VBox.margin>
+            </Label>
+            
+            <TextArea fx:id="reportPreview" prefHeight="300" prefWidth="600" editable="false">
+                <VBox.margin>
+                    <Insets bottom="10.0"/>
+                </VBox.margin>
+            </TextArea>
+        </VBox>
+        
+        <Separator/>
+        
+        <HBox alignment="CENTER" spacing="20.0" prefHeight="50.0">
+            <Button text="导出PDF" fx:id="exportPdfButton" prefWidth="100.0" onAction="#exportPdfReport">
+                <HBox.margin>
+                    <Insets top="10.0" bottom="10.0"/>
+                </HBox.margin>
+            </Button>
+            
+            <Button text="导出Excel" fx:id="exportExcelButton" prefWidth="100.0" onAction="#exportExcelReport">
+                <HBox.margin>
+                    <Insets top="10.0" bottom="10.0"/>
+                </HBox.margin>
+            </Button>
+            
+            <Button text="生成图表" fx:id="generateChartButton" prefWidth="100.0" onAction="#generateSalesChart">
+                <HBox.margin>
+                    <Insets top="10.0" bottom="10.0"/>
+                </HBox.margin>
+            </Button>
+            
+            <Button text="刷新" fx:id="refreshButton" prefWidth="100.0">
+                <HBox.margin>
+                    <Insets top="10.0" bottom="10.0"/>
+                </HBox.margin>
+            </Button>
+        </HBox>
+    </VBox>
+</AnchorPane>

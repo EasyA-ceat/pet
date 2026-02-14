@@ -1,5 +1,7 @@
 package com.pet.management.view.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -8,26 +10,36 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.pet.management.model.Customer;
+import com.pet.management.model.Photo;
 import com.pet.management.service.CustomerService;
+import com.pet.management.service.PhotoService;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.stage.FileChooser;
 
 @Controller
 public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
+    
+    @Autowired
+    private PhotoService photoService;
 
     @FXML
     private TextField searchField;
@@ -303,6 +315,153 @@ public class CustomerController {
             updateStats();
         } catch (Exception e) {
             statusLabel.setText("搜索顾客失败: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    // 上传照片
+    @FXML
+    public void uploadPhoto() {
+        try {
+            Customer selectedCustomer = customerTable.getSelectionModel().getSelectedItem();
+            if (selectedCustomer == null) {
+                statusLabel.setText("请先选择要上传照片的顾客");
+                return;
+            }
+
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("选择照片");
+            fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("图片文件", "*.png", "*.jpg", "*.jpeg", "*.gif")
+            );
+
+            File selectedFile = fileChooser.showOpenDialog(null);
+            if (selectedFile != null) {
+                Photo photo = photoService.uploadPhoto(selectedFile, selectedCustomer.getId(), null, "other", "顾客照片");
+                statusLabel.setText("照片上传成功: " + photo.getFileName());
+            }
+        } catch (Exception e) {
+            statusLabel.setText("上传照片失败: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    // 查看照片
+    @FXML
+    public void viewPhotos() {
+        try {
+            Customer selectedCustomer = customerTable.getSelectionModel().getSelectedItem();
+            if (selectedCustomer == null) {
+                statusLabel.setText("请先选择要查看照片的顾客");
+                return;
+            }
+
+            List<Photo> photos = photoService.findByCustomerId(selectedCustomer.getId());
+            if (photos.isEmpty()) {
+                statusLabel.setText("该顾客暂无照片");
+                return;
+            }
+
+            // 创建照片查看对话框
+            Dialog<Void> dialog = new Dialog<>();
+            dialog.setTitle("照片查看");
+            dialog.setHeaderText("顾客: " + selectedCustomer.getCustomerName() + " 的照片");
+
+            GridPane grid = new GridPane();
+            grid.setHgap(10);
+            grid.setVgap(10);
+            grid.setPadding(new javafx.geometry.Insets(20, 150, 10, 10));
+
+            int row = 0;
+            for (Photo photo : photos) {
+                // 显示缩略图
+                File thumbnailFile = new File(photoService.getThumbnailPath(photo));
+                if (thumbnailFile.exists()) {
+                    Image image = new Image(thumbnailFile.toURI().toString());
+                    ImageView imageView = new ImageView(image);
+                    imageView.setFitWidth(100);
+                    imageView.setFitHeight(100);
+                    imageView.setPreserveRatio(true);
+
+                    grid.add(imageView, 0, row);
+                    grid.add(new Label(photo.getFileName()), 1, row);
+                    row++;
+                }
+            }
+
+            dialog.getDialogPane().setContent(grid);
+            dialog.getDialogPane().getButtonTypes().addAll(ButtonType.CLOSE);
+            dialog.showAndWait();
+        } catch (Exception e) {
+            statusLabel.setText("查看照片失败: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    // 删除照片
+    @FXML
+    public void deletePhoto() {
+        try {
+            Customer selectedCustomer = customerTable.getSelectionModel().getSelectedItem();
+            if (selectedCustomer == null) {
+                statusLabel.setText("请先选择要删除照片的顾客");
+                return;
+            }
+
+            List<Photo> photos = photoService.findByCustomerId(selectedCustomer.getId());
+            if (photos.isEmpty()) {
+                statusLabel.setText("该顾客暂无照片");
+                return;
+            }
+
+            // 创建照片选择对话框
+            Dialog<Photo> dialog = new Dialog<>();
+            dialog.setTitle("选择要删除的照片");
+            dialog.setHeaderText("请选择要删除的照片");
+
+            GridPane grid = new GridPane();
+            grid.setHgap(10);
+            grid.setVgap(10);
+            grid.setPadding(new javafx.geometry.Insets(20, 150, 10, 10));
+
+            ComboBox<Photo> photoComboBox = new ComboBox<>();
+            photoComboBox.getItems().addAll(photos);
+            photoComboBox.setCellFactory(lv -> new ListCell<Photo>() {
+                @Override
+                protected void updateItem(Photo item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setText(empty ? null : item.getFileName());
+                }
+            });
+            photoComboBox.setButtonCell(new ListCell<Photo>() {
+                @Override
+                protected void updateItem(Photo item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setText(empty ? "选择照片" : item.getFileName());
+                }
+            });
+
+            grid.add(new Label("照片:"), 0, 0);
+            grid.add(photoComboBox, 1, 0);
+
+            dialog.getDialogPane().setContent(grid);
+            dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+
+            dialog.setResultConverter(dialogButton -> {
+                if (dialogButton == ButtonType.OK) {
+                    return photoComboBox.getValue();
+                }
+                return null;
+            });
+
+            Optional<Photo> result = dialog.showAndWait();
+            if (result.isPresent()) {
+                Photo photo = result.get();
+                photoService.deleteById(photo.getId());
+                statusLabel.setText("照片删除成功");
+            }
+        } catch (Exception e) {
+            statusLabel.setText("删除照片失败: " + e.getMessage());
             e.printStackTrace();
         }
     }
