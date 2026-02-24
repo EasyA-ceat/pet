@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
 import javafx.animation.KeyFrame;
@@ -16,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -32,6 +34,15 @@ public class MainController {
 
     @FXML
     private Label currentTime;
+
+    @FXML
+    private TextField globalSearchField;
+
+    @FXML
+    private Button quickAddCustomer;
+
+    @FXML
+    private Button quickAddTransaction;
 
     @FXML
     private Button navDashboard;
@@ -66,18 +77,51 @@ public class MainController {
     @Autowired
     private ClerkController clerkController;
 
+    @Autowired
+    @Lazy
+    private DashboardController dashboardController;
+
     private Timeline clockTimeline;
 
     @FXML
     public void initialize() {
-        // 初始化时钟
         initializeClock();
-        
-        // 默认显示仪表盘
+        initializeToolbar();
         showDashboard();
-        
-        // 设置状态信息
         System.out.println("欢迎使用宠物管家");
+    }
+
+    private void initializeToolbar() {
+        if (globalSearchField != null) {
+            globalSearchField.setOnAction(event -> handleGlobalSearch());
+        }
+        
+        if (quickAddCustomer != null) {
+            quickAddCustomer.setOnAction(event -> handleQuickAddCustomer());
+        }
+        
+        if (quickAddTransaction != null) {
+            quickAddTransaction.setOnAction(event -> handleQuickAddTransaction());
+        }
+    }
+
+    @FXML
+    private void handleGlobalSearch() {
+        String keyword = globalSearchField.getText();
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            showCustomerManagement();
+            showSuccessDialog("搜索", "正在搜索: " + keyword);
+        }
+    }
+
+    @FXML
+    private void handleQuickAddCustomer() {
+        showCustomerManagement();
+    }
+
+    @FXML
+    private void handleQuickAddTransaction() {
+        showFinanceManagement();
     }
 
     private void initializeClock() {
@@ -93,68 +137,61 @@ public class MainController {
         clockTimeline.setCycleCount(Timeline.INDEFINITE);
         clockTimeline.play();
         
-        // 立即更新时间
         LocalDateTime now = LocalDateTime.now();
         currentDate.setText(now.format(dateFormatter));
         currentTime.setText(now.format(timeFormatter));
     }
 
-    // 仪表盘
     @FXML
     public void handleDashboard() {
         showDashboard();
     }
 
-    // 顾客管理
     @FXML
     public void handleCustomerManagement() {
         showCustomerManagement();
     }
 
-    // 财务管理
     @FXML
     public void handleFinanceManagement() {
         showFinanceManagement();
     }
 
-    // 报表中心
     @FXML
     public void handleReports() {
         showReports();
     }
 
-    // 员工管理
     @FXML
     public void handleClerkManagement() {
         showClerkManagement();
     }
 
-    // 系统设置
     @FXML
     public void handleSettings() {
         showSettings();
     }
 
-    // 关于
     @FXML
     public void handleAbout() {
         showAbout();
     }
 
-    // 显示仪表盘
     private void showDashboard() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/dashboard.fxml"));
+            loader.setController(dashboardController);
             Parent dashboardView = loader.load();
             contentPane.getChildren().setAll(dashboardView);
             updateActiveNavButton("dashboard");
+            // 加载 FXML 后手动初始化数据
+            dashboardController.loadDashboardData();
         } catch (IOException e) {
             showErrorDialog("加载仪表盘失败", e.getMessage());
             e.printStackTrace();
         }
     }
 
-    // 显示顾客管理界面
     private void showCustomerManagement() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/customer.fxml"));
@@ -168,7 +205,6 @@ public class MainController {
         }
     }
 
-    // 显示财务管理界面
     private void showFinanceManagement() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/finance.fxml"));
@@ -182,7 +218,6 @@ public class MainController {
         }
     }
 
-    // 显示报表中心界面
     private void showReports() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/report.fxml"));
@@ -196,7 +231,6 @@ public class MainController {
         }
     }
 
-    // 显示员工管理界面
     private void showClerkManagement() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/clerk.fxml"));
@@ -210,7 +244,6 @@ public class MainController {
         }
     }
 
-    // 显示系统设置界面
     private void showSettings() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/settings.fxml"));
@@ -224,7 +257,6 @@ public class MainController {
         }
     }
 
-    // 显示关于对话框
     private void showAbout() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/about.fxml"));
@@ -242,9 +274,7 @@ public class MainController {
         }
     }
 
-    // 更新导航按钮状态
     private void updateActiveNavButton(String activePage) {
-        // 重置所有导航按钮样式
         if (navDashboard != null) navDashboard.getStyleClass().remove("active");
         if (navCustomer != null) navCustomer.getStyleClass().remove("active");
         if (navFinance != null) navFinance.getStyleClass().remove("active");
@@ -252,7 +282,6 @@ public class MainController {
         if (navReport != null) navReport.getStyleClass().remove("active");
         if (navSettings != null) navSettings.getStyleClass().remove("active");
         
-        // 设置当前页面按钮为激活状态
         switch (activePage) {
             case "dashboard":
                 if (navDashboard != null) navDashboard.getStyleClass().add("active");
@@ -275,7 +304,6 @@ public class MainController {
         }
     }
 
-    // 显示成功对话框
     public void showSuccessDialog(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("成功");
@@ -284,7 +312,6 @@ public class MainController {
         alert.showAndWait();
     }
 
-    // 显示错误对话框
     private void showErrorDialog(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("错误");
@@ -293,7 +320,6 @@ public class MainController {
         alert.showAndWait();
     }
 
-    // 显示确认对话框
     public boolean showConfirmationDialog(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("确认");

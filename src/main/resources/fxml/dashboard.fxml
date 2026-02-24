@@ -124,10 +124,10 @@
                         <ColumnConstraints hgrow="ALWAYS" percentWidth="50" />
                     </columnConstraints>
                     
-                    <Button styleClass="btn btn-primary btn-large" text="➕ 登记新顾客" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                    <Button styleClass="btn btn-secondary btn-large" text="💰 记录新交易" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                    <Button styleClass="btn btn-outline btn-large" text="📊 查看日报表" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                    <Button styleClass="btn btn-outline btn-large" text="📋 预约管理" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                    <Button fx:id="quickAddCustomerBtn" styleClass="btn btn-primary btn-large" text="➕ 登记新顾客" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                    <Button fx:id="quickAddTransactionBtn" styleClass="btn btn-secondary btn-large" text="💰 记录新交易" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                    <Button fx:id="viewDailyReportBtn" styleClass="btn btn-outline btn-large" text="📊 查看日报表" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                    <Button fx:id="appointmentManagementBtn" styleClass="btn btn-outline btn-large" text="📋 预约管理" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                 </GridPane>
             </VBox>
             
@@ -136,7 +136,7 @@
                 <HBox alignment="CENTER_LEFT">
                     <Label styleClass="card-title" text="最近到访顾客" />
                     <Region HBox.hgrow="ALWAYS" />
-                    <Button styleClass="btn btn-ghost btn-small" text="查看全部 →" />
+                    <Button fx:id="viewAllCustomersBtn" styleClass="btn btn-ghost btn-small" text="查看全部 →" />
                 </HBox>
                 
                 <VBox spacing="12">
@@ -186,7 +186,7 @@
                 <HBox alignment="CENTER_LEFT">
                     <Label styleClass="card-title" text="最近交易" />
                     <Region HBox.hgrow="ALWAYS" />
-                    <Button styleClass="btn btn-ghost btn-small" text="查看全部 →" />
+                    <Button fx:id="viewAllTransactionsBtn" styleClass="btn btn-ghost btn-small" text="查看全部 →" />
                 </HBox>
                 
                 <VBox spacing="12">
