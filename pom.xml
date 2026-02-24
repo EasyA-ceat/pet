@@ -215,7 +215,7 @@
                             <outfile>${project.build.directory}/宠物管理系统.exe</outfile>
                             <downloadUrl>https://adoptium.net/</downloadUrl>
                             <classPath>
-                                <mainClass>com.pet.management.MainApplication</mainClass>
+                                <mainClass>org.springframework.boot.loader.JarLauncher</mainClass>
                             </classPath>
                             <jre>
                                 <minVersion>17</minVersion>
