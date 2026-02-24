@@ -7,123 +7,116 @@
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      spacing="16">
+      styleClass="page-container"
+      spacing="20">
     <padding>
         <Insets top="0" right="0" bottom="0" left="0" />
     </padding>
     
-    <!-- 页面标题栏 -->
-    <HBox alignment="CENTER_LEFT" spacing="16">
-        <Label text="系统设置" styleClass="md-label-h3" />
+    <!-- 页面标题与操作 -->
+    <HBox styleClass="page-header" alignment="CENTER_LEFT">
+        <VBox spacing="4">
+            <Label styleClass="page-title" text="系统设置" />
+            <Label styleClass="page-subtitle" text="配置系统参数和数据管理" />
+        </VBox>
         <Region HBox.hgrow="ALWAYS" />
     </HBox>
     
-    <!-- 基本设置卡片 -->
-    <VBox styleClass="md-card elevation-1" spacing="16">
+    <!-- 基本设置 -->
+    <VBox styleClass="card shadow-md" spacing="20">
         <padding>
-            <Insets top="20" right="24" bottom="20" left="24" />
+            <Insets top="24" right="24" bottom="24" left="24" />
         </padding>
         
-        <Label text="基本设置" styleClass="md-label-h4" />
+        <Label styleClass="section-title" text="基本设置" />
         
-        <GridPane hgap="16" vgap="16">
+        <GridPane hgap="16" vgap="20">
             <columnConstraints>
-                <ColumnConstraints halignment="RIGHT" hgrow="NEVER" minWidth="100" />
-                <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" minWidth="250" />
+                <ColumnConstraints halignment="RIGHT" hgrow="NEVER" minWidth="110" />
+                <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" minWidth="280" />
             </columnConstraints>
             
             <!-- 系统名称 -->
-            <Label text="系统名称:" styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-            <TextField fx:id="systemNameField" promptText="请输入系统名称" 
-                       styleClass="md-text-field-outlined" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <Label styleClass="form-label" text="系统名称:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <TextField fx:id="systemNameField" styleClass="input" promptText="请输入系统名称" 
+                       GridPane.columnIndex="1" GridPane.rowIndex="0" />
             
             <!-- 数据库路径 -->
-            <Label text="数据库路径:" styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-            <TextField fx:id="databasePathField" promptText="请输入数据库路径" 
-                       styleClass="md-text-field-outlined" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label styleClass="form-label" text="数据库路径:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <TextField fx:id="databasePathField" styleClass="input" promptText="请输入数据库路径" 
+                       GridPane.columnIndex="1" GridPane.rowIndex="1" />
             
             <!-- 备份路径 -->
-            <Label text="备份路径:" styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-            <TextField fx:id="backupPathField" promptText="请输入备份路径" 
-                       styleClass="md-text-field-outlined" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label styleClass="form-label" text="备份路径:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <TextField fx:id="backupPathField" styleClass="input" promptText="请输入备份路径" 
+                       GridPane.columnIndex="1" GridPane.rowIndex="2" />
             
             <!-- 自动备份 -->
-            <Label text="自动备份:" styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-            <CheckBox fx:id="autoBackupCheckBox" text="启用自动备份" 
-                      styleClass="md-check-box" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label styleClass="form-label" text="自动备份:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+            <CheckBox fx:id="autoBackupCheckBox" styleClass="modern-checkbox" text="启用自动备份" 
+                      GridPane.columnIndex="1" GridPane.rowIndex="3" />
         </GridPane>
     </VBox>
     
-    <!-- 数据管理卡片 -->
-    <VBox styleClass="md-card elevation-1" spacing="16">
+    <!-- 数据管理 -->
+    <VBox styleClass="card shadow-md" spacing="20">
         <padding>
-            <Insets top="20" right="24" bottom="20" left="24" />
+            <Insets top="24" right="24" bottom="24" left="24" />
         </padding>
         
-        <Label text="数据管理" styleClass="md-label-h4" />
+        <Label styleClass="section-title" text="数据管理" />
         
         <HBox spacing="16" alignment="CENTER_LEFT">
-            <Button text="💾 备份数据库" fx:id="backupButton" 
-                    styleClass="md-button md-button-info" prefWidth="150" />
-            
-            <Button text="🔄 恢复数据库" fx:id="restoreButton" 
-                    styleClass="md-button md-button-warning" prefWidth="150" />
-            
-            <Button text="🗑️ 清理数据" fx:id="cleanButton" 
-                    styleClass="md-button md-button-danger" prefWidth="150" />
+            <Button fx:id="backupButton" styleClass="btn btn-primary" text="💾 备份数据库" prefWidth="160" />
+            <Button fx:id="restoreButton" styleClass="btn btn-secondary" text="🔄 恢复数据库" prefWidth="160" />
+            <Button fx:id="cleanButton" styleClass="btn btn-danger" text="🗑️ 清理数据" prefWidth="160" />
         </HBox>
     </VBox>
     
-    <!-- 关于系统卡片 -->
-    <VBox styleClass="md-card elevation-1" spacing="16">
+    <!-- 关于系统 -->
+    <VBox styleClass="card shadow-md" spacing="20">
         <padding>
-            <Insets top="20" right="24" bottom="20" left="24" />
+            <Insets top="24" right="24" bottom="24" left="24" />
         </padding>
         
-        <Label text="关于系统" styleClass="md-label-h4" />
+        <Label styleClass="section-title" text="关于系统" />
         
-        <GridPane hgap="16" vgap="12">
+        <GridPane hgap="16" vgap="16">
             <columnConstraints>
-                <ColumnConstraints halignment="RIGHT" hgrow="NEVER" minWidth="100" />
-                <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" minWidth="250" />
+                <ColumnConstraints halignment="RIGHT" hgrow="NEVER" minWidth="110" />
+                <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" minWidth="280" />
             </columnConstraints>
             
-            <Label text="版本号:" styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-            <Label fx:id="versionLabel" text="1.0.0" styleClass="md-label-body1" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <Label styleClass="form-label" text="版本号:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <Label fx:id="versionLabel" styleClass="stat-label" text="1.0.2" GridPane.columnIndex="1" GridPane.rowIndex="0" />
             
-            <Label text="开发商:" styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-            <Label fx:id="developerLabel" text="宠物管理系统开发团队" styleClass="md-label-body1" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label styleClass="form-label" text="开发商:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <Label fx:id="developerLabel" styleClass="stat-label" text="宠物管理系统开发团队" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             
-            <Label text="联系方式:" styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-            <Label fx:id="contactLabel" text="support@petmanagement.com" styleClass="md-label-body1" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label styleClass="form-label" text="联系方式:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <Label fx:id="contactLabel" styleClass="stat-label" text="support@petmanagement.com" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             
-            <Label text="版权信息:" styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-            <Label fx:id="copyrightLabel" text="© 2024 Pet Management System" styleClass="md-label-body1" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label styleClass="form-label" text="版权信息:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+            <Label fx:id="copyrightLabel" styleClass="stat-label" text="© 2024 Pet Management System" GridPane.columnIndex="1" GridPane.rowIndex="3" />
         </GridPane>
     </VBox>
     
     <!-- 底部操作栏 -->
-    <HBox styleClass="md-card elevation-1" spacing="16" alignment="CENTER_RIGHT">
+    <HBox styleClass="card shadow-md" spacing="16" alignment="CENTER_RIGHT">
         <padding>
-            <Insets top="16" right="24" bottom="16" left="24" />
+            <Insets top="20" right="24" bottom="20" left="24" />
         </padding>
         
         <Region HBox.hgrow="ALWAYS" />
         
-        <Button text="🔄 重置设置" fx:id="resetButton" 
-                styleClass="md-button md-button-outlined" />
-        
-        <Button text="💾 保存设置" fx:id="saveButton" 
-                styleClass="md-button md-button-success" />
+        <Button fx:id="resetButton" styleClass="btn btn-outline" text="🔄 重置设置" />
+        <Button fx:id="saveButton" styleClass="btn btn-primary" text="💾 保存设置" />
     </HBox>
     
     <!-- 底部状态栏 -->
     <HBox alignment="CENTER_LEFT" spacing="16">
-        <Label fx:id="statusLabel" text="就绪" styleClass="md-label-body2">
-            <graphic>
-                <Region styleClass="status-dot status-success" />
-            </graphic>
-        </Label>
+        <Label fx:id="statusLabel" styleClass="stat-label" text="就绪" />
         <Region HBox.hgrow="ALWAYS" />
     </HBox>
+    
 </VBox>

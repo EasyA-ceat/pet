@@ -34,7 +34,7 @@ public class MainController {
     private Label currentTime;
 
     @FXML
-    private Label statusLabel;
+    private Button navDashboard;
     
     @FXML
     private Button navCustomer;
@@ -73,16 +73,16 @@ public class MainController {
         // 初始化时钟
         initializeClock();
         
-        // 默认显示顾客管理界面
-        showCustomerManagement();
+        // 默认显示仪表盘
+        showDashboard();
         
         // 设置状态信息
-        updateStatus("欢迎使用宠物管理系统");
+        System.out.println("欢迎使用宠物管家");
     }
 
     private void initializeClock() {
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd EEEE");
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
         
         clockTimeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
             LocalDateTime now = LocalDateTime.now();
@@ -99,45 +99,59 @@ public class MainController {
         currentTime.setText(now.format(timeFormatter));
     }
 
+    // 仪表盘
+    @FXML
+    public void handleDashboard() {
+        showDashboard();
+    }
+
     // 顾客管理
     @FXML
     public void handleCustomerManagement() {
         showCustomerManagement();
-        updateStatus("顾客管理页面已加载");
     }
 
     // 财务管理
     @FXML
     public void handleFinanceManagement() {
         showFinanceManagement();
-        updateStatus("财务管理页面已加载");
     }
 
     // 报表中心
     @FXML
     public void handleReports() {
         showReports();
-        updateStatus("报表中心页面已加载");
     }
 
     // 员工管理
     @FXML
     public void handleClerkManagement() {
         showClerkManagement();
-        updateStatus("员工管理页面已加载");
     }
 
     // 系统设置
     @FXML
     public void handleSettings() {
         showSettings();
-        updateStatus("系统设置页面已加载");
     }
 
     // 关于
     @FXML
     public void handleAbout() {
         showAbout();
+    }
+
+    // 显示仪表盘
+    private void showDashboard() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/dashboard.fxml"));
+            Parent dashboardView = loader.load();
+            contentPane.getChildren().setAll(dashboardView);
+            updateActiveNavButton("dashboard");
+        } catch (IOException e) {
+            showErrorDialog("加载仪表盘失败", e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     // 显示顾客管理界面
@@ -231,6 +245,7 @@ public class MainController {
     // 更新导航按钮状态
     private void updateActiveNavButton(String activePage) {
         // 重置所有导航按钮样式
+        if (navDashboard != null) navDashboard.getStyleClass().remove("active");
         if (navCustomer != null) navCustomer.getStyleClass().remove("active");
         if (navFinance != null) navFinance.getStyleClass().remove("active");
         if (navClerk != null) navClerk.getStyleClass().remove("active");
@@ -239,6 +254,9 @@ public class MainController {
         
         // 设置当前页面按钮为激活状态
         switch (activePage) {
+            case "dashboard":
+                if (navDashboard != null) navDashboard.getStyleClass().add("active");
+                break;
             case "customer":
                 if (navCustomer != null) navCustomer.getStyleClass().add("active");
                 break;
@@ -257,13 +275,6 @@ public class MainController {
         }
     }
 
-    // 更新状态信息（保持原有功能）
-    public void updateStatus(String status) {
-        statusLabel.setText(status);
-        // 移除所有样式类，使用默认样式
-        statusLabel.getStyleClass().setAll("status-label");
-    }
-
     // 显示成功对话框
     public void showSuccessDialog(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -271,12 +282,6 @@ public class MainController {
         alert.setHeaderText(title);
         alert.setContentText(message);
         alert.showAndWait();
-        
-        // 更新状态标签为成功样式
-        if (statusLabel != null) {
-            statusLabel.setText(message);
-            statusLabel.getStyleClass().setAll("status-label", "success");
-        }
     }
 
     // 显示错误对话框
@@ -286,12 +291,6 @@ public class MainController {
         alert.setHeaderText(title);
         alert.setContentText(message);
         alert.showAndWait();
-        
-        // 更新状态标签为错误样式
-        if (statusLabel != null) {
-            statusLabel.setText(message);
-            statusLabel.getStyleClass().setAll("status-label", "error");
-        }
     }
 
     // 显示确认对话框

@@ -7,89 +7,74 @@
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      spacing="16">
+      styleClass="page-container"
+      spacing="20">
     <padding>
         <Insets top="0" right="0" bottom="0" left="0" />
     </padding>
     
-    <!-- 页面标题栏 -->
-    <HBox alignment="CENTER_LEFT" spacing="16">
-        <Label text="报表中心" styleClass="md-label-h3" />
+    <!-- 页面标题与操作 -->
+    <HBox styleClass="page-header" alignment="CENTER_LEFT">
+        <VBox spacing="4">
+            <Label styleClass="page-title" text="报表中心" />
+            <Label styleClass="page-subtitle" text="生成和导出各类业务报表" />
+        </VBox>
         <Region HBox.hgrow="ALWAYS" />
     </HBox>
     
-    <!-- 报表类型选择卡片 -->
-    <VBox styleClass="md-card elevation-1" spacing="16">
+    <!-- 报表类型选择 -->
+    <VBox styleClass="card shadow-md" spacing="20">
         <padding>
-            <Insets top="20" right="24" bottom="20" left="24" />
+            <Insets top="24" right="24" bottom="24" left="24" />
         </padding>
         
-        <Label text="报表类型" styleClass="md-label-h4" />
+        <Label styleClass="section-title" text="报表类型" />
         
         <HBox spacing="16" alignment="CENTER_LEFT">
-            <!-- 日报按钮 -->
-            <Button text="📅 日报" fx:id="dailyReportButton" 
-                    styleClass="md-button md-button-primary" 
-                    onAction="#generateDailyReport" prefWidth="120" />
-            
-            <!-- 月报按钮 -->
-            <Button text="📆 月报" fx:id="monthlyReportButton" 
-                    styleClass="md-button md-button-primary" 
-                    onAction="#generateMonthlyReport" prefWidth="120" />
-            
-            <!-- 年报按钮 -->
-            <Button text="📊 年报" fx:id="annualReportButton" 
-                    styleClass="md-button md-button-primary" 
-                    onAction="#generateAnnualReport" prefWidth="120" />
+            <Button fx:id="dailyReportButton" styleClass="btn btn-primary" text="📅 日报" 
+                    onAction="#generateDailyReport" prefWidth="140" />
+            <Button fx:id="monthlyReportButton" styleClass="btn btn-primary" text="📆 月报" 
+                    onAction="#generateMonthlyReport" prefWidth="140" />
+            <Button fx:id="annualReportButton" styleClass="btn btn-primary" text="📊 年报" 
+                    onAction="#generateAnnualReport" prefWidth="140" />
         </HBox>
     </VBox>
     
     <!-- 报表预览区域 -->
-    <VBox styleClass="md-card elevation-1" spacing="16" VBox.vgrow="ALWAYS">
+    <VBox styleClass="card shadow-md" spacing="20" VBox.vgrow="ALWAYS">
         <padding>
-            <Insets top="20" right="24" bottom="20" left="24" />
+            <Insets top="24" right="24" bottom="24" left="24" />
         </padding>
         
-        <Label text="报表预览" styleClass="md-label-h4" />
+        <Label styleClass="section-title" text="报表预览" />
         
-        <TextArea fx:id="reportPreview" styleClass="md-text-area" 
+        <TextArea fx:id="reportPreview" styleClass="modern-textarea" 
                   prefHeight="300" editable="false" VBox.vgrow="ALWAYS" />
     </VBox>
     
     <!-- 导出操作栏 -->
-    <HBox styleClass="md-card elevation-1" spacing="16" alignment="CENTER_LEFT">
+    <HBox styleClass="card shadow-md" spacing="16" alignment="CENTER_LEFT">
         <padding>
-            <Insets top="16" right="24" bottom="16" left="24" />
+            <Insets top="20" right="24" bottom="20" left="24" />
         </padding>
         
-        <Label text="导出选项:" styleClass="md-label-body1" />
+        <Label styleClass="stat-label" text="导出选项:" />
         
         <Region HBox.hgrow="ALWAYS" />
         
-        <!-- 导出按钮 - 按频率排序 -->
-        <Button text="📄 导出PDF" fx:id="exportPdfButton" 
-                styleClass="md-button md-button-success" 
+        <Button fx:id="exportPdfButton" styleClass="btn btn-primary" text="📄 导出PDF" 
                 onAction="#exportPdfReport" />
-        
-        <Button text="📊 导出Excel" fx:id="exportExcelButton" 
-                styleClass="md-button md-button-info" 
+        <Button fx:id="exportExcelButton" styleClass="btn btn-secondary" text="📊 导出Excel" 
                 onAction="#exportExcelReport" />
-        
-        <Button text="📈 生成图表" fx:id="generateChartButton" 
-                styleClass="md-button md-button-warning" 
+        <Button fx:id="generateChartButton" styleClass="btn btn-outline" text="📈 生成图表" 
                 onAction="#generateSalesChart" />
-        
-        <Button text="🔄 刷新" fx:id="refreshButton" 
-                styleClass="md-button md-button-outlined" />
+        <Button fx:id="refreshButton" styleClass="btn btn-secondary" text="🔄 刷新" />
     </HBox>
     
     <!-- 底部状态栏 -->
     <HBox alignment="CENTER_LEFT" spacing="16">
-        <Label fx:id="statusLabel" text="就绪" styleClass="md-label-body2">
-            <graphic>
-                <Region styleClass="status-dot status-success" />
-            </graphic>
-        </Label>
+        <Label fx:id="statusLabel" styleClass="stat-label" text="就绪" />
         <Region HBox.hgrow="ALWAYS" />
     </HBox>
+    
 </VBox>

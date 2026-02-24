@@ -8,92 +8,126 @@
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      spacing="16">
+      styleClass="page-container"
+      spacing="20">
     <padding>
         <Insets top="0" right="0" bottom="0" left="0" />
     </padding>
     
-    <!-- 页面标题栏 -->
-    <HBox alignment="CENTER_LEFT" spacing="16">
-        <Label text="员工管理" styleClass="md-label-h3" />
+    <!-- 页面标题与操作 -->
+    <HBox styleClass="page-header" alignment="CENTER_LEFT">
+        <VBox spacing="4">
+            <Label styleClass="page-title" text="员工管理" />
+            <Label styleClass="page-subtitle" text="管理员工信息和提成设置" />
+        </VBox>
         <Region HBox.hgrow="ALWAYS" />
     </HBox>
     
-    <!-- 员工信息表单卡片 -->
-    <VBox styleClass="md-card elevation-1" spacing="16">
-        <padding>
-            <Insets top="20" right="24" bottom="20" left="24" />
-        </padding>
+    <!-- 主要内容区域 -->
+    <HBox spacing="20" VBox.vgrow="ALWAYS">
         
-        <Label text="员工信息" styleClass="md-label-h4" />
+        <!-- 左侧：员工信息表单 -->
+        <VBox styleClass="card shadow-md" spacing="20" HBox.hgrow="ALWAYS">
+            <padding>
+                <Insets top="24" right="24" bottom="24" left="24" />
+            </padding>
+            
+            <Label styleClass="section-title" text="员工信息" />
+            
+            <GridPane hgap="16" vgap="20">
+                <columnConstraints>
+                    <ColumnConstraints halignment="RIGHT" hgrow="NEVER" minWidth="90" />
+                    <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" minWidth="200" />
+                </columnConstraints>
+                
+                <!-- 员工姓名 -->
+                <Label styleClass="form-label" text="员工姓名:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                <TextField fx:id="nameField" styleClass="input" promptText="请输入员工姓名"
+                           GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                
+                <!-- 联系电话 -->
+                <Label styleClass="form-label" text="联系电话:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                <TextField fx:id="phoneField" styleClass="input" promptText="请输入联系电话"
+                           GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                
+                <!-- 提成比例 -->
+                <Label styleClass="form-label" text="提成比例:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                <TextField fx:id="commissionRateField" styleClass="input" promptText="请输入提成比例(0-1)"
+                           GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                
+                <!-- 备注信息 -->
+                <Label styleClass="form-label" text="备注信息:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                <TextField fx:id="notesField" styleClass="input" promptText="请输入备注信息"
+                           GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            </GridPane>
+            
+            <!-- 操作按钮 -->
+            <HBox spacing="12" alignment="CENTER_LEFT">
+                <Button fx:id="addButton" styleClass="btn btn-primary" text="➕ 添加" onAction="#addClerk" />
+                <Button fx:id="editButton" styleClass="btn btn-secondary" text="✏️ 编辑" onAction="#editClerk" />
+                <Button fx:id="clearButton" styleClass="btn btn-outline" text="🧹 清空" onAction="#clearForm" />
+                
+                <Region HBox.hgrow="ALWAYS" />
+                
+                <Button fx:id="deleteButton" styleClass="btn btn-danger" text="🗑️ 删除" onAction="#deleteClerk" />
+            </HBox>
+        </VBox>
         
-        <GridPane hgap="16" vgap="16">
-            <columnConstraints>
-                <ColumnConstraints halignment="RIGHT" hgrow="NEVER" minWidth="80" />
-                <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" minWidth="200" />
-                <ColumnConstraints halignment="RIGHT" hgrow="NEVER" minWidth="80" />
-                <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" minWidth="200" />
-            </columnConstraints>
+        <!-- 右侧：照片管理 -->
+        <VBox styleClass="card shadow-md" spacing="20" prefWidth="300">
+            <padding>
+                <Insets top="24" right="24" bottom="24" left="24" />
+            </padding>
             
-            <!-- 员工姓名 -->
-            <Label text="员工姓名:" styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-            <TextField fx:id="nameField" promptText="请输入员工姓名" 
-                       styleClass="md-text-field-outlined" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <Label styleClass="section-title" text="照片管理" />
             
-            <!-- 联系电话 -->
-            <Label text="联系电话:" styleClass="form-label" GridPane.columnIndex="2" GridPane.rowIndex="0" />
-            <TextField fx:id="phoneField" promptText="请输入联系电话" 
-                       styleClass="md-text-field-outlined" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+            <VBox styleClass="card shadow-sm" spacing="16" alignment="CENTER">
+                <padding>
+                    <Insets top="20" right="20" bottom="20" left="20" />
+                </padding>
+                <Region styleClass="photo-placeholder" />
+                <Label styleClass="stat-label" text="点击添加照片" />
+            </VBox>
             
-            <!-- 提成比例 -->
-            <Label text="提成比例:" styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-            <TextField fx:id="commissionRateField" promptText="请输入提成比例(0-1)" 
-                       styleClass="md-text-field-outlined" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            
-            <!-- 备注信息 -->
-            <Label text="备注信息:" styleClass="form-label" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <TextField fx:id="notesField" promptText="请输入备注信息" 
-                       styleClass="md-text-field-outlined" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-        </GridPane>
+            <VBox spacing="12">
+                <Button fx:id="importPhotoButton" styleClass="btn btn-primary" text="📷 导入照片"
+                        prefWidth="252" onAction="#importPhoto" />
+                <Button fx:id="viewPhotosButton" styleClass="btn btn-outline" text="📂 查看相册"
+                        prefWidth="252" onAction="#viewPhotos" />
+            </VBox>
+        </VBox>
         
-        <!-- 操作按钮 - 按频率排序 -->
-        <HBox spacing="12" alignment="CENTER_LEFT">
-            <Button fx:id="addButton" text="➕ 添加" styleClass="md-button md-button-success" onAction="#addClerk" />
-            <Button fx:id="editButton" text="✏️ 编辑" styleClass="md-button" onAction="#editClerk" />
-            <Button fx:id="clearButton" text="🧹 清空" styleClass="md-button md-button-outlined" onAction="#clearForm" />
-            
-            <Region HBox.hgrow="ALWAYS" />
-            
-            <!-- 危险操作 - 删除 -->
-            <Button fx:id="deleteButton" text="🗑️ 删除" styleClass="md-button md-button-danger" onAction="#deleteClerk" />
-        </HBox>
-    </VBox>
+    </HBox>
     
     <!-- 员工列表 -->
-    <VBox styleClass="md-card elevation-1" spacing="0" VBox.vgrow="ALWAYS">
-        <TableView fx:id="clerkTable" styleClass="md-table-view" VBox.vgrow="ALWAYS">
+    <VBox styleClass="card shadow-md" spacing="0" VBox.vgrow="ALWAYS">
+        <padding>
+            <Insets top="16" right="16" bottom="16" left="16" />
+        </padding>
+        
+        <TableView fx:id="clerkTable" styleClass="modern-table" VBox.vgrow="ALWAYS">
             <columns>
-                <TableColumn fx:id="idColumn" text="ID" prefWidth="70">
+                <TableColumn fx:id="idColumn" text="ID" prefWidth="80">
                     <cellValueFactory>
                         <PropertyValueFactory property="id" />
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn fx:id="nameColumn" text="姓名" prefWidth="150">
+                <TableColumn fx:id="nameColumn" text="姓名" prefWidth="160">
                     <cellValueFactory>
                         <PropertyValueFactory property="name" />
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn fx:id="phoneColumn" text="电话" prefWidth="150">
+                <TableColumn fx:id="phoneColumn" text="电话" prefWidth="160">
                     <cellValueFactory>
                         <PropertyValueFactory property="phone" />
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn fx:id="commissionRateColumn" text="提成比例" prefWidth="120">
+                <TableColumn fx:id="commissionRateColumn" text="提成比例" prefWidth="130">
                     <cellValueFactory>
                         <PropertyValueFactory property="commissionRate" />
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn fx:id="notesColumn" text="备注" prefWidth="200">
+                <TableColumn fx:id="notesColumn" text="备注" prefWidth="220">
                     <cellValueFactory>
                         <PropertyValueFactory property="notes" />
                     </cellValueFactory>
@@ -104,11 +138,8 @@
     
     <!-- 底部状态栏 -->
     <HBox alignment="CENTER_LEFT" spacing="16">
-        <Label fx:id="statusLabel" text="就绪" styleClass="md-label-body2">
-            <graphic>
-                <Region styleClass="status-dot status-success" />
-            </graphic>
-        </Label>
+        <Label fx:id="statusLabel" styleClass="stat-label" text="就绪" />
         <Region HBox.hgrow="ALWAYS" />
     </HBox>
+    
 </VBox>

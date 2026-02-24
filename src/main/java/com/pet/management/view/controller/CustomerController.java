@@ -140,6 +140,27 @@ public class CustomerController {
             TextField petBreedField = new TextField();
             TextField petAgeField = new TextField();
             TextArea notesArea = new TextArea();
+            
+            // 照片上传相关组件
+            Button uploadPhotoBtn = new Button("📷 选择宠物照片");
+            Label photoStatusLabel = new Label("未选择照片");
+            final File[] selectedPhotoFile = {null}; // 使用数组来允许在lambda中修改
+            
+            // 设置照片上传按钮事件
+            uploadPhotoBtn.setOnAction(e -> {
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("选择宠物照片");
+                fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("图片文件", "*.png", "*.jpg", "*.jpeg", "*.gif")
+                );
+                
+                File file = fileChooser.showOpenDialog(null);
+                if (file != null) {
+                    selectedPhotoFile[0] = file;
+                    photoStatusLabel.setText("已选择: " + file.getName());
+                    photoStatusLabel.setStyle("-fx-text-fill: #4CAF50;");
+                }
+            });
 
             grid.add(new Label("顾客姓名:"), 0, 0);
             grid.add(customerNameField, 1, 0);
@@ -153,8 +174,11 @@ public class CustomerController {
             grid.add(petBreedField, 1, 4);
             grid.add(new Label("宠物年龄:"), 0, 5);
             grid.add(petAgeField, 1, 5);
-            grid.add(new Label("备注:"), 0, 6);
-            grid.add(notesArea, 1, 6);
+            grid.add(new Label("宠物照片:"), 0, 6);
+            grid.add(uploadPhotoBtn, 1, 6);
+            grid.add(photoStatusLabel, 1, 7);
+            grid.add(new Label("备注:"), 0, 8);
+            grid.add(notesArea, 1, 8);
 
             dialog.getDialogPane().setContent(grid);
 
@@ -185,8 +209,27 @@ public class CustomerController {
             if (result.isPresent()) {
                 Customer customer = result.get();
                 customerService.save(customer);
+                
+                // 如果选择了照片，则上传
+                if (selectedPhotoFile[0] != null) {
+                    try {
+                        Photo photo = photoService.uploadPhoto(
+                            selectedPhotoFile[0],
+                            customer.getId(),
+                            null,
+                            "pet",
+                            "宠物照片"
+                        );
+                        statusLabel.setText("顾客添加成功，照片上传成功: " + photo.getFileName());
+                    } catch (Exception e) {
+                        statusLabel.setText("顾客添加成功，但照片上传失败: " + e.getMessage());
+                        e.printStackTrace();
+                    }
+                } else {
+                    statusLabel.setText("顾客添加成功");
+                }
+                
                 loadCustomerData();
-                statusLabel.setText("顾客添加成功");
             }
         } catch (Exception e) {
             statusLabel.setText("添加顾客失败: " + e.getMessage());

@@ -6,7 +6,7 @@
     
     <groupId>com.pet.management</groupId>
     <artifactId>pet-management-system</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.2</version>
     <packaging>jar</packaging>
     
     <name>宠物管理系统</name>
@@ -171,10 +171,10 @@
                 <version>${spring-boot.version}</version>
                 <configuration>
                     <mainClass>com.pet.management.MainApplication</mainClass>
-                    <layout>ZIP</layout>
                 </configuration>
                 <executions>
                     <execution>
+                        <id>repackage</id>
                         <goals>
                             <goal>repackage</goal>
                         </goals>
@@ -195,6 +195,48 @@
                     <stripDebug>true</stripDebug>
                     <noHeaderFiles>true</noHeaderFiles>
                 </configuration>
+            </plugin>
+            
+            <!-- Launch4j Plugin for creating EXE wrapper -->
+            <plugin>
+                <groupId>com.akathist.maven.plugins.launch4j</groupId>
+                <artifactId>launch4j-maven-plugin</artifactId>
+                <version>2.5.0</version>
+                <executions>
+                    <execution>
+                        <id>create-exe</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>launch4j</goal>
+                        </goals>
+                        <configuration>
+                            <headerType>gui</headerType>
+                            <jar>${project.build.directory}/${project.artifactId}-${project.version}.jar</jar>
+                            <outfile>${project.build.directory}/宠物管理系统.exe</outfile>
+                            <downloadUrl>https://adoptium.net/</downloadUrl>
+                            <classPath>
+                                <mainClass>com.pet.management.MainApplication</mainClass>
+                            </classPath>
+                            <jre>
+                                <minVersion>17</minVersion>
+                                <jdkPreference>preferJre</jdkPreference>
+                                <runtimeBits>64/32</runtimeBits>
+                            </jre>
+                            <versionInfo>
+                                <fileVersion>1.0.2.0</fileVersion>
+                                <txtFileVersion>${project.version}</txtFileVersion>
+                                <fileDescription>宠物管理系统</fileDescription>
+                                <copyright>2024</copyright>
+                                <productVersion>1.0.2.0</productVersion>
+                                <txtProductVersion>${project.version}</txtProductVersion>
+                                <productName>宠物管理系统</productName>
+                                <companyName>Pet Management</companyName>
+                                <internalName>PetManagementSystem</internalName>
+                                <originalFilename>宠物管理系统.exe</originalFilename>
+                            </versionInfo>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             
             <!-- Maven Surefire Plugin -->

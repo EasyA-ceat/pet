@@ -8,145 +8,133 @@
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      spacing="16">
+      styleClass="page-container"
+      spacing="20">
     <padding>
         <Insets top="0" right="0" bottom="0" left="0" />
     </padding>
     
-    <!-- 页面标题栏 -->
-    <HBox alignment="CENTER_LEFT" spacing="16">
-        <Label text="顾客管理" styleClass="md-label-h3" />
+    <!-- 页面标题与操作 -->
+    <HBox styleClass="page-header" alignment="CENTER_LEFT">
+        <VBox spacing="4">
+            <Label styleClass="page-title" text="顾客管理" />
+            <Label styleClass="page-subtitle" text="管理您的顾客信息和宠物档案" />
+        </VBox>
         <Region HBox.hgrow="ALWAYS" />
+        <HBox spacing="12">
+            <Button styleClass="btn btn-outline" text="📥 导入" />
+            <Button fx:id="addBtn" styleClass="btn btn-primary" text="➕ 添加顾客" />
+        </HBox>
     </HBox>
     
-    <!-- 操作工具栏 - 高频操作靠前 -->
-    <HBox styleClass="md-card elevation-1" spacing="12" alignment="CENTER_LEFT">
+    <!-- 筛选与搜索 -->
+    <HBox styleClass="filter-bar shadow-sm" spacing="12" alignment="CENTER_LEFT">
+        <TextField fx:id="searchField" styleClass="search-input" promptText="搜索顾客姓名、电话、宠物名..." prefWidth="360" />
+        <Button fx:id="searchBtn" styleClass="btn btn-primary" text="🔍 搜索" />
+        <Region HBox.hgrow="ALWAYS" />
+        <Button fx:id="refreshBtn" styleClass="btn btn-secondary" text="🔄 刷新" />
+    </HBox>
+    
+    <!-- 统计摘要 -->
+    <GridPane hgap="16">
+        <columnConstraints>
+            <ColumnConstraints hgrow="ALWAYS" percentWidth="33.33" />
+            <ColumnConstraints hgrow="ALWAYS" percentWidth="33.33" />
+            <ColumnConstraints hgrow="ALWAYS" percentWidth="33.33" />
+        </columnConstraints>
+        
+        <VBox styleClass="card shadow-sm" spacing="8" GridPane.columnIndex="0">
+            <Label styleClass="stat-label" text="总顾客数" />
+            <Label fx:id="totalCustomersLabel" styleClass="stat-value" text="0" />
+        </VBox>
+        
+        <VBox styleClass="card shadow-sm" spacing="8" GridPane.columnIndex="1">
+            <Label styleClass="stat-label" text="活跃顾客" />
+            <Label fx:id="activeCustomersLabel" styleClass="stat-value" text="0" />
+        </VBox>
+        
+        <VBox styleClass="card shadow-sm" spacing="8" GridPane.columnIndex="2">
+            <Label styleClass="stat-label" text="本月新增" />
+            <Label fx:id="recentCustomersLabel" styleClass="stat-value" text="0" />
+        </VBox>
+    </GridPane>
+    
+    <!-- ToggleGroup定义 -->
+    <fx:define>
+        <ToggleGroup fx:id="viewToggleGroup" />
+    </fx:define>
+    
+    <!-- 视图切换和内容 -->
+    <VBox styleClass="card shadow-md" spacing="0" VBox.vgrow="ALWAYS">
         <padding>
-            <Insets top="16" right="16" bottom="16" left="16" />
+            <Insets top="16" right="16" bottom="0" left="16" />
         </padding>
         
-        <!-- 搜索框 -->
-        <HBox spacing="8" alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
-            <TextField fx:id="searchField" promptText="搜索顾客/宠物名称..." 
-                       styleClass="md-text-field-outlined" prefWidth="320">
-                <HBox.margin>
-                    <Insets right="8" />
-                </HBox.margin>
-            </TextField>
-            
-            <Button fx:id="searchBtn" text="搜索" styleClass="md-button" />
+        <!-- 视图切换 -->
+        <HBox alignment="CENTER_LEFT" spacing="8">
+            <ToggleButton fx:id="listViewBtn" styleClass="btn btn-ghost btn-small" text="📋 列表" selected="true" toggleGroup="$viewToggleGroup" />
+            <ToggleButton fx:id="cardViewBtn" styleClass="btn btn-ghost btn-small" text="🃏 卡片" toggleGroup="$viewToggleGroup" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Label fx:id="statusLabel" styleClass="stat-label" text="就绪" />
         </HBox>
         
-        <Region HBox.hgrow="ALWAYS" />
+        <Separator />
         
-        <!-- 操作按钮 - 按频率排序 -->
-        <Button fx:id="addBtn" text="➕ 添加顾客" styleClass="md-button md-button-success" />
-        <Button fx:id="refreshBtn" text="🔄 刷新" styleClass="md-button md-button-outlined" />
-    </HBox>
-    
-    <!-- 统计卡片 -->
-    <HBox spacing="16">
+        <!-- 列表视图 -->
+        <StackPane fx:id="listViewContainer" VBox.vgrow="ALWAYS">
+            <TableView fx:id="customerTable" styleClass="modern-table" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="idColumn" text="ID" prefWidth="70">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="id" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn fx:id="customerNameColumn" text="顾客姓名" prefWidth="120">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="customerName" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn fx:id="phoneColumn" text="联系电话" prefWidth="140">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="phone" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn fx:id="petNameColumn" text="宠物姓名" prefWidth="100">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="petName" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn fx:id="petTypeColumn" text="宠物类型" prefWidth="90">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="petType" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn fx:id="petBreedColumn" text="宠物品种" prefWidth="110">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="petBreed" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn fx:id="petAgeColumn" text="宠物年龄" prefWidth="80">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="petAge" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn fx:id="createTimeColumn" text="创建时间" prefWidth="170">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="createTime" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn text="操作" prefWidth="160">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="id" />
+                        </cellValueFactory>
+                    </TableColumn>
+                </columns>
+            </TableView>
+        </StackPane>
         
-        <!-- 总顾客数 -->
-        <VBox styleClass="md-card elevation-1" spacing="8" HBox.hgrow="ALWAYS">
-            <padding>
-                <Insets top="16" right="20" bottom="16" left="20" />
-            </padding>
-            <Label text="总顾客数" styleClass="md-label-caption" />
-            <Label fx:id="totalCustomersLabel" text="0" styleClass="md-label-h2">
-                <style>
-                    -fx-text-fill: #2196F3;
-                </style>
-            </Label>
-        </VBox>
-        
-        <!-- 活跃顾客 -->
-        <VBox styleClass="md-card elevation-1" spacing="8" HBox.hgrow="ALWAYS">
-            <padding>
-                <Insets top="16" right="20" bottom="16" left="20" />
-            </padding>
-            <Label text="活跃顾客" styleClass="md-label-caption" />
-            <Label fx:id="activeCustomersLabel" text="0" styleClass="md-label-h2">
-                <style>
-                    -fx-text-fill: #4CAF50;
-                </style>
-            </Label>
-        </VBox>
-        
-        <!-- 本月新增 -->
-        <VBox styleClass="md-card elevation-1" spacing="8" HBox.hgrow="ALWAYS">
-            <padding>
-                <Insets top="16" right="20" bottom="16" left="20" />
-            </padding>
-            <Label text="本月新增" styleClass="md-label-caption" />
-            <Label fx:id="recentCustomersLabel" text="0" styleClass="md-label-h2">
-                <style>
-                    -fx-text-fill: #FF9800;
-                </style>
-            </Label>
-        </VBox>
-    </HBox>
-    
-    <!-- 顾客列表表格 -->
-    <VBox styleClass="md-card elevation-1" spacing="0" VBox.vgrow="ALWAYS">
-        <TableView fx:id="customerTable" styleClass="md-table-view" VBox.vgrow="ALWAYS">
-            <columns>
-                <TableColumn fx:id="idColumn" text="ID" prefWidth="60">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="id" />
-                    </cellValueFactory>
-                </TableColumn>
-                <TableColumn fx:id="customerNameColumn" text="顾客姓名" prefWidth="120">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="customerName" />
-                    </cellValueFactory>
-                </TableColumn>
-                <TableColumn fx:id="phoneColumn" text="联系电话" prefWidth="130">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="phone" />
-                    </cellValueFactory>
-                </TableColumn>
-                <TableColumn fx:id="petNameColumn" text="宠物姓名" prefWidth="100">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="petName" />
-                    </cellValueFactory>
-                </TableColumn>
-                <TableColumn fx:id="petTypeColumn" text="宠物类型" prefWidth="90">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="petType" />
-                    </cellValueFactory>
-                </TableColumn>
-                <TableColumn fx:id="petBreedColumn" text="宠物品种" prefWidth="100">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="petBreed" />
-                    </cellValueFactory>
-                </TableColumn>
-                <TableColumn fx:id="petAgeColumn" text="宠物年龄" prefWidth="80">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="petAge" />
-                    </cellValueFactory>
-                </TableColumn>
-                <TableColumn fx:id="createTimeColumn" text="创建时间" prefWidth="160">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="createTime" />
-                    </cellValueFactory>
-                </TableColumn>
-                <TableColumn text="操作" prefWidth="150">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="id" />
-                    </cellValueFactory>
-                </TableColumn>
-            </columns>
-        </TableView>
+        <!-- 卡片视图 (默认隐藏) -->
+        <FlowPane fx:id="cardViewContainer" styleClass="card-view-container" hgap="16" vgap="16" VBox.vgrow="ALWAYS" visible="false" />
     </VBox>
     
-    <!-- 底部状态栏 -->
-    <HBox alignment="CENTER_LEFT" spacing="16">
-        <Label fx:id="statusLabel" text="就绪" styleClass="md-label-body2">
-            <graphic>
-                <Region styleClass="status-dot status-success" />
-            </graphic>
-        </Label>
-        <Region HBox.hgrow="ALWAYS" />
-    </HBox>
 </VBox>

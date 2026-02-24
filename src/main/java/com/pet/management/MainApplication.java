@@ -1,5 +1,10 @@
 package com.pet.management;
 
+import java.io.IOException;
+
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.ConfigurableApplicationContext;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -7,10 +12,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.context.ConfigurableApplicationContext;
-
-import java.io.IOException;
 
 public class MainApplication extends Application {
 
@@ -53,9 +54,8 @@ public class MainApplication extends Application {
         Pane root = fxmlLoader.load();
         Scene scene = new Scene(root, 1280, 720);
         
-        // 加载Material Design样式
-        scene.getStylesheets().add(getClass().getResource("/css/material-design.css").toExternalForm());
-        scene.getStylesheets().add(getClass().getResource("/css/main.css").toExternalForm());
+        // 加载现代化设计样式
+        scene.getStylesheets().add(getClass().getResource("/css/modern-design.css").toExternalForm());
         
         // 启用抗锯齿
         scene.setFill(javafx.scene.paint.Color.valueOf("#FAFAFA"));

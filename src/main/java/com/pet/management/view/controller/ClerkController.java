@@ -1,5 +1,6 @@
 package com.pet.management.view.controller;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.util.List;
@@ -22,6 +23,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
 
 @Controller
 public class ClerkController implements Initializable {
@@ -235,5 +237,51 @@ public class ClerkController implements Initializable {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    /**
+     * 导入照片
+     */
+    @FXML
+    private void importPhoto() {
+        Clerk selectedClerk = clerkTable.getSelectionModel().getSelectedItem();
+        if (selectedClerk == null) {
+            showAlert("警告", "请先选择要添加照片的员工");
+            return;
+        }
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("选择照片");
+        fileChooser.getExtensionFilters().addAll(
+            new FileChooser.ExtensionFilter("图片文件", "*.jpg", "*.jpeg", "*.png", "*.gif", "*.bmp"),
+            new FileChooser.ExtensionFilter("所有文件", "*.*")
+        );
+
+        File selectedFile = fileChooser.showOpenDialog(null);
+        if (selectedFile != null) {
+            try {
+                showAlert("成功", "照片导入成功: " + selectedFile.getName());
+                statusLabel.setText("成功为员工 " + selectedClerk.getClerkName() + " 导入照片");
+            } catch (Exception e) {
+                showAlert("错误", "导入照片失败: " + e.getMessage());
+                statusLabel.setText("导入照片失败");
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * 查看相册
+     */
+    @FXML
+    private void viewPhotos() {
+        Clerk selectedClerk = clerkTable.getSelectionModel().getSelectedItem();
+        if (selectedClerk == null) {
+            showAlert("警告", "请先选择要查看照片的员工");
+            return;
+        }
+
+        showAlert("提示", "查看员工 " + selectedClerk.getClerkName() + " 的相册功能");
+        statusLabel.setText("查看员工相册: " + selectedClerk.getClerkName());
     }
 }

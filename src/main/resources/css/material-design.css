@@ -400,25 +400,28 @@
 }
 
 .md-nav-header {
-    -fx-background-color: -md-primary;
-    -fx-pref-height: 160;
+    -fx-background-color: linear-gradient(to bottom right, #2196F3, #1976D2);
+    -fx-pref-height: 180;
     -fx-padding: 16;
 }
 
 .md-nav-item {
     -fx-background-color: transparent;
     -fx-text-fill: -md-text-primary;
-    -fx-alignment: center-left;
+    -fx-alignment: center;
     -fx-padding: 12 16;
-    -fx-pref-width: 240;
-    -fx-min-width: 240;
+    -fx-pref-width: 264;
+    -fx-min-width: 264;
+    -fx-max-width: 264;
     -fx-pref-height: 48;
     -fx-min-height: 48;
+    -fx-max-height: 48;
     -fx-cursor: hand;
     -fx-font-size: 14px;
     -fx-font-weight: 500;
     -fx-wrap-text: false;
     -fx-text-overrun: CLIP;
+    -fx-background-radius: 8;
 }
 
 .md-nav-item:hover {
@@ -757,6 +760,20 @@
 
 .status-info {
     -fx-background-color: -md-info;
+}
+
+/* 照片占位符 */
+.photo-placeholder {
+    -fx-pref-width: 200;
+    -fx-pref-height: 200;
+    -fx-min-width: 200;
+    -fx-min-height: 200;
+    -fx-background-color: #EEEEEE;
+    -fx-background-radius: 8;
+    -fx-border-color: #BDBDBD;
+    -fx-border-width: 2;
+    -fx-border-radius: 8;
+    -fx-border-style: dashed;
 }
 
 /* ================================

@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      styleClass="page-container"
+      spacing="24">
+    <padding>
+        <Insets top="0" right="0" bottom="0" left="0" />
+    </padding>
+    
+    <!-- 欢迎区域 -->
+    <HBox styleClass="card shadow-md" alignment="CENTER_LEFT">
+        <padding>
+            <Insets top="24" right="24" bottom="24" left="24" />
+        </padding>
+        <VBox spacing="8" HBox.hgrow="ALWAYS">
+            <Label styleClass="page-title" text="早上好！👋" />
+            <Label styleClass="page-subtitle" text="今天是美好的一天，让我们开始工作吧" />
+        </VBox>
+        <VBox spacing="8" alignment="CENTER_RIGHT">
+            <Label text="本周目标完成度" styleClass="page-subtitle" />
+            <ProgressBar fx:id="weeklyProgress" progress="0.65" prefWidth="200" />
+            <Label text="65% (13/20)" styleClass="stat-label" />
+        </VBox>
+    </HBox>
+    
+    <!-- 统计卡片 -->
+    <GridPane styleClass="stats-grid" hgap="16" vgap="16">
+        <columnConstraints>
+            <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+            <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+            <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+            <ColumnConstraints hgrow="ALWAYS" percentWidth="25" />
+        </columnConstraints>
+        
+        <!-- 今日营收 -->
+        <VBox styleClass="stat-card primary shadow-md" GridPane.columnIndex="0" GridPane.rowIndex="0">
+            <HBox alignment="CENTER_LEFT" spacing="16">
+                <VBox spacing="4">
+                    <Label styleClass="stat-label" text="今日营收" />
+                    <Label fx:id="todayRevenue" styleClass="stat-value" text="¥12,580" />
+                    <HBox alignment="CENTER_LEFT" spacing="4">
+                        <Label styleClass="stat-trend up" text="↑ 12.5%" />
+                        <Label styleClass="stat-label" text="较昨日" />
+                    </HBox>
+                </VBox>
+                <Region HBox.hgrow="ALWAYS" />
+                <VBox styleClass="stat-icon-wrapper" alignment="CENTER">
+                    <Label text="💰" styleClass="stat-icon-lg" />
+                </VBox>
+            </HBox>
+        </VBox>
+        
+        <!-- 活跃顾客 -->
+        <VBox styleClass="stat-card success shadow-md" GridPane.columnIndex="1" GridPane.rowIndex="0">
+            <HBox alignment="CENTER_LEFT" spacing="16">
+                <VBox spacing="4">
+                    <Label styleClass="stat-label" text="活跃顾客" />
+                    <Label fx:id="activeCustomers" styleClass="stat-value" text="156" />
+                    <HBox alignment="CENTER_LEFT" spacing="4">
+                        <Label styleClass="stat-trend up" text="↑ 8" />
+                        <Label styleClass="stat-label" text="较上周" />
+                    </HBox>
+                </VBox>
+                <Region HBox.hgrow="ALWAYS" />
+                <VBox styleClass="stat-icon-wrapper" alignment="CENTER">
+                    <Label text="👥" styleClass="stat-icon-lg" />
+                </VBox>
+            </HBox>
+        </VBox>
+        
+        <!-- 待处理事项 -->
+        <VBox styleClass="stat-card shadow-md" GridPane.columnIndex="2" GridPane.rowIndex="0">
+            <HBox alignment="CENTER_LEFT" spacing="16">
+                <VBox spacing="4">
+                    <Label styleClass="stat-label" text="待处理" />
+                    <Label fx:id="pendingTasks" styleClass="stat-value" text="12" />
+                    <HBox alignment="CENTER_LEFT" spacing="4">
+                        <Label styleClass="stat-label" text="需要关注" />
+                    </HBox>
+                </VBox>
+                <Region HBox.hgrow="ALWAYS" />
+                <VBox styleClass="stat-icon-wrapper warning" alignment="CENTER">
+                    <Label text="📋" styleClass="stat-icon-lg" />
+                </VBox>
+            </HBox>
+        </VBox>
+        
+        <!-- 本月目标 -->
+        <VBox styleClass="stat-card shadow-md" GridPane.columnIndex="3" GridPane.rowIndex="0">
+            <HBox alignment="CENTER_LEFT" spacing="16">
+                <VBox spacing="4">
+                    <Label styleClass="stat-label" text="本月目标" />
+                    <Label fx:id="monthlyTarget" styleClass="stat-value" text="¥185,000" />
+                    <HBox alignment="CENTER_LEFT" spacing="4">
+                        <Label styleClass="stat-label" text="已完成 62%" />
+                    </HBox>
+                </VBox>
+                <Region HBox.hgrow="ALWAYS" />
+                <VBox styleClass="stat-icon-wrapper info" alignment="CENTER">
+                    <Label text="🎯" styleClass="stat-icon-lg" />
+                </VBox>
+            </HBox>
+        </VBox>
+    </GridPane>
+    
+    <!-- 下方内容区域 -->
+    <HBox spacing="16" HBox.hgrow="ALWAYS">
+        
+        <!-- 左侧：快速操作和最近顾客 -->
+        <VBox spacing="16" HBox.hgrow="ALWAYS">
+            
+            <!-- 快速操作 -->
+            <VBox styleClass="card shadow-md" spacing="16">
+                <Label styleClass="card-title" text="快速操作" />
+                <GridPane hgap="12" vgap="12">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="50" />
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="50" />
+                    </columnConstraints>
+                    
+                    <Button styleClass="btn btn-primary btn-large" text="➕ 登记新顾客" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                    <Button styleClass="btn btn-secondary btn-large" text="💰 记录新交易" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                    <Button styleClass="btn btn-outline btn-large" text="📊 查看日报表" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                    <Button styleClass="btn btn-outline btn-large" text="📋 预约管理" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                </GridPane>
+            </VBox>
+            
+            <!-- 最近顾客 -->
+            <VBox styleClass="card shadow-md" spacing="16" VBox.vgrow="ALWAYS">
+                <HBox alignment="CENTER_LEFT">
+                    <Label styleClass="card-title" text="最近到访顾客" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Button styleClass="btn btn-ghost btn-small" text="查看全部 →" />
+                </HBox>
+                
+                <VBox spacing="12">
+                    <!-- 顾客列表 -->
+                    <HBox styleClass="customer-card" alignment="CENTER_LEFT" spacing="12">
+                        <Region styleClass="customer-avatar" />
+                        <VBox spacing="2" HBox.hgrow="ALWAYS">
+                            <Label styleClass="customer-name" text="张三 · 毛毛" />
+                            <Label styleClass="customer-phone" text="金毛犬 · 今天上午" />
+                        </VBox>
+                        <Label styleClass="customer-tag vip" text="VIP" />
+                    </HBox>
+                    
+                    <HBox styleClass="customer-card" alignment="CENTER_LEFT" spacing="12">
+                        <Region styleClass="customer-avatar" />
+                        <VBox spacing="2" HBox.hgrow="ALWAYS">
+                            <Label styleClass="customer-name" text="李四 · 咪咪" />
+                            <Label styleClass="customer-phone" text="英国短毛猫 · 昨天" />
+                        </VBox>
+                    </HBox>
+                    
+                    <HBox styleClass="customer-card" alignment="CENTER_LEFT" spacing="12">
+                        <Region styleClass="customer-avatar" />
+                        <VBox spacing="2" HBox.hgrow="ALWAYS">
+                            <Label styleClass="customer-name" text="王五 · 旺财" />
+                            <Label styleClass="customer-phone" text="柯基犬 · 2天前" />
+                        </VBox>
+                    </HBox>
+                </VBox>
+            </VBox>
+        </VBox>
+        
+        <!-- 右侧：最近交易和营收趋势 -->
+        <VBox spacing="16" prefWidth="420">
+            
+            <!-- 营收趋势小卡片 -->
+            <VBox styleClass="card shadow-md" spacing="16">
+                <Label styleClass="card-title" text="营收趋势" />
+                <VBox styleClass="chart-placeholder" alignment="CENTER">
+                    <Label text="📈" styleClass="chart-placeholder-icon" />
+                    <Label styleClass="page-subtitle" text="最近7天营收趋势图" />
+                </VBox>
+            </VBox>
+            
+            <!-- 最近交易 -->
+            <VBox styleClass="card shadow-md" spacing="16" VBox.vgrow="ALWAYS">
+                <HBox alignment="CENTER_LEFT">
+                    <Label styleClass="card-title" text="最近交易" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Button styleClass="btn btn-ghost btn-small" text="查看全部 →" />
+                </HBox>
+                
+                <VBox spacing="12">
+                    <!-- 交易列表 -->
+                    <HBox styleClass="transaction-item" alignment="CENTER_LEFT" spacing="12">
+                        <VBox styleClass="transaction-icon success" alignment="CENTER">
+                            <Label text="💰" />
+                        </VBox>
+                        <VBox spacing="2" HBox.hgrow="ALWAYS">
+                            <Label styleClass="transaction-title" text="洗澡服务" />
+                            <Label styleClass="transaction-subtitle" text="张三 · 10:30" />
+                        </VBox>
+                        <Label styleClass="transaction-amount" text="+¥128" />
+                    </HBox>
+                    
+                    <HBox styleClass="transaction-item" alignment="CENTER_LEFT" spacing="12">
+                        <VBox styleClass="transaction-icon primary" alignment="CENTER">
+                            <Label text="✂️" />
+                        </VBox>
+                        <VBox spacing="2" HBox.hgrow="ALWAYS">
+                            <Label styleClass="transaction-title" text="美容造型" />
+                            <Label styleClass="transaction-subtitle" text="李四 · 昨天" />
+                        </VBox>
+                        <Label styleClass="transaction-amount" text="+¥268" />
+                    </HBox>
+                    
+                    <HBox styleClass="transaction-item" alignment="CENTER_LEFT" spacing="12">
+                        <VBox styleClass="transaction-icon info" alignment="CENTER">
+                            <Label text="💊" />
+                        </VBox>
+                        <VBox spacing="2" HBox.hgrow="ALWAYS">
+                            <Label styleClass="transaction-title" text="医疗检查" />
+                            <Label styleClass="transaction-subtitle" text="王五 · 昨天" />
+                        </VBox>
+                        <Label styleClass="transaction-amount" text="+¥380" />
+                    </HBox>
+                </VBox>
+            </VBox>
+        </VBox>
+    </HBox>
+    
+</VBox>
