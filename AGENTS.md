@@ -49,3 +49,22 @@ This file provides guidance to agents when working with code in this repository.
 - 图片资源必须放在 src/main/resources/images/ 目录下
 - FXML 文件必须放在 src/main/resources/fxml/ 目录下
 - CSS 文件必须放在 src/main/resources/css/ 目录下
+
+## 常见问题与解决方案
+
+### EXE 文件无法启动（找不到主类）
+
+**问题现象**：运行 EXE 文件时提示 "错误: 找不到或无法加载主类 com.pet.management.MainApplication"
+
+**原因**：项目使用了 Spring Boot 的 repackage 插件，JAR 文件被重新打包后，真正的启动类不是应用程序的主类，而是 Spring Boot 的启动器类。
+
+**解决方案**：在 pom.xml 的 launch4j 配置中，将 mainClass 设置为 `org.springframework.boot.loader.JarLauncher` 而不是 `com.pet.management.MainApplication`。
+
+正确的配置示例：
+```xml
+<classPath>
+    <mainClass>org.springframework.boot.loader.JarLauncher</mainClass>
+</classPath>
+```
+
+**验证方法**：可以通过 `jar xf target/xxx.jar META-INF/MANIFEST.MF` 命令解压查看 MANIFEST.MF 文件，确认 Main-Class 的值。
