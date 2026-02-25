@@ -25,7 +25,7 @@
         <VBox spacing="8" alignment="CENTER_RIGHT">
             <Label text="本周目标完成度" styleClass="page-subtitle" />
             <ProgressBar fx:id="weeklyProgress" progress="0.65" prefWidth="200" />
-            <Label text="65% (13/20)" styleClass="stat-label" />
+            <Label fx:id="weeklyProgressLabel" text="65% (13/20)" styleClass="stat-label" />
         </VBox>
     </HBox>
     
@@ -45,7 +45,7 @@
                     <Label styleClass="stat-label" text="今日营收" />
                     <Label fx:id="todayRevenue" styleClass="stat-value" text="¥12,580" />
                     <HBox alignment="CENTER_LEFT" spacing="4">
-                        <Label styleClass="stat-trend up" text="↑ 12.5%" />
+                        <Label fx:id="todayRevenueTrend" styleClass="stat-trend up" text="↑ 12.5%" />
                         <Label styleClass="stat-label" text="较昨日" />
                     </HBox>
                 </VBox>
@@ -63,7 +63,7 @@
                     <Label styleClass="stat-label" text="活跃顾客" />
                     <Label fx:id="activeCustomers" styleClass="stat-value" text="156" />
                     <HBox alignment="CENTER_LEFT" spacing="4">
-                        <Label styleClass="stat-trend up" text="↑ 8" />
+                        <Label fx:id="activeCustomersTrend" styleClass="stat-trend up" text="↑ 8" />
                         <Label styleClass="stat-label" text="较上周" />
                     </HBox>
                 </VBox>
@@ -98,7 +98,7 @@
                     <Label styleClass="stat-label" text="本月目标" />
                     <Label fx:id="monthlyTarget" styleClass="stat-value" text="¥185,000" />
                     <HBox alignment="CENTER_LEFT" spacing="4">
-                        <Label styleClass="stat-label" text="已完成 62%" />
+                        <Label fx:id="monthlyTargetProgress" styleClass="stat-label" text="已完成 62%" />
                     </HBox>
                 </VBox>
                 <Region HBox.hgrow="ALWAYS" />

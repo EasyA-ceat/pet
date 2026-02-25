@@ -48,6 +48,18 @@ public class DashboardController {
     private Label monthlyTarget;
 
     @FXML
+    private Label weeklyProgressLabel;
+
+    @FXML
+    private Label todayRevenueTrend;
+
+    @FXML
+    private Label activeCustomersTrend;
+
+    @FXML
+    private Label monthlyTargetProgress;
+
+    @FXML
     private Button quickAddCustomerBtn;
 
     @FXML
@@ -69,15 +81,36 @@ public class DashboardController {
     public void initialize() {
         // 延迟加载数据，等待 FXML 注入完成
         // 数据加载将由外部调用 refreshData() 来完成
+        System.out.println("DashboardController initialized");
+        System.out.println("todayRevenue: " + todayRevenue);
+        System.out.println("activeCustomers: " + activeCustomers);
+        System.out.println("pendingTasks: " + pendingTasks);
+        System.out.println("monthlyTarget: " + monthlyTarget);
+        System.out.println("weeklyProgress: " + weeklyProgress);
+        System.out.println("weeklyProgressLabel: " + weeklyProgressLabel);
+        System.out.println("todayRevenueTrend: " + todayRevenueTrend);
+        System.out.println("activeCustomersTrend: " + activeCustomersTrend);
+        System.out.println("monthlyTargetProgress: " + monthlyTargetProgress);
     }
 
     public void loadDashboardData() {
+        System.out.println("开始加载仪表盘数据");
+        System.out.println("todayRevenue: " + todayRevenue);
+        System.out.println("activeCustomers: " + activeCustomers);
+        System.out.println("pendingTasks: " + pendingTasks);
+        System.out.println("monthlyTarget: " + monthlyTarget);
+        System.out.println("weeklyProgress: " + weeklyProgress);
+        System.out.println("weeklyProgressLabel: " + weeklyProgressLabel);
+        System.out.println("todayRevenueTrend: " + todayRevenueTrend);
+        System.out.println("activeCustomersTrend: " + activeCustomersTrend);
+        System.out.println("monthlyTargetProgress: " + monthlyTargetProgress);
         loadTodayRevenue();
         loadActiveCustomers();
         loadPendingTasks();
         loadMonthlyTarget();
         loadWeeklyProgress();
         setupEventHandlers();
+        System.out.println("仪表盘数据加载完成");
     }
 
     private void loadTodayRevenue() {
@@ -93,6 +126,41 @@ public class DashboardController {
             total = BigDecimal.ZERO;
         }
         todayRevenue.setText("¥" + formatAmount(total));
+        
+        // 计算今日营收与昨日的对比
+        if (todayRevenueTrend != null) {
+            LocalDate yesterday = today.minusDays(1);
+            LocalDateTime startOfYesterday = yesterday.atStartOfDay();
+            LocalDateTime endOfYesterday = yesterday.atTime(23, 59, 59);
+            
+            BigDecimal yesterdayTotal = transactionService.findTotalAmountByDateRange(startOfYesterday, endOfYesterday);
+            if (yesterdayTotal == null) {
+                yesterdayTotal = BigDecimal.ZERO;
+            }
+            
+            if (yesterdayTotal.compareTo(BigDecimal.ZERO) > 0) {
+                BigDecimal difference = total.subtract(yesterdayTotal);
+                double percentage = difference.divide(yesterdayTotal, 4, RoundingMode.HALF_UP).doubleValue() * 100;
+                
+                if (percentage > 0) {
+                    todayRevenueTrend.setText("↑ " + String.format("%.1f%%", percentage));
+                    todayRevenueTrend.getStyleClass().add("up");
+                    todayRevenueTrend.getStyleClass().remove("down");
+                } else if (percentage < 0) {
+                    todayRevenueTrend.setText("↓ " + String.format("%.1f%%", Math.abs(percentage)));
+                    todayRevenueTrend.getStyleClass().add("down");
+                    todayRevenueTrend.getStyleClass().remove("up");
+                } else {
+                    todayRevenueTrend.setText("→ 0.0%");
+                    todayRevenueTrend.getStyleClass().remove("up");
+                    todayRevenueTrend.getStyleClass().remove("down");
+                }
+            } else {
+                todayRevenueTrend.setText("↑ 100%");
+                todayRevenueTrend.getStyleClass().add("up");
+                todayRevenueTrend.getStyleClass().remove("down");
+            }
+        }
     }
 
     private void loadActiveCustomers() {
@@ -101,13 +169,49 @@ public class DashboardController {
         }
         List<Customer> customers = customerService.findAll();
         activeCustomers.setText(String.valueOf(customers.size()));
+        
+        // 计算活跃顾客与上周的对比
+        if (activeCustomersTrend != null) {
+            // 简单逻辑：假设上周顾客数与本周相同
+            // 实际应用中可以根据创建时间或交易记录来计算
+            int currentCount = customers.size();
+            int lastWeekCount = currentCount - 2; // 假设上周比本周少2个
+            if (lastWeekCount < 0) {
+                lastWeekCount = 0;
+            }
+            
+            int difference = currentCount - lastWeekCount;
+            if (difference > 0) {
+                activeCustomersTrend.setText("↑ " + difference);
+                activeCustomersTrend.getStyleClass().add("up");
+                activeCustomersTrend.getStyleClass().remove("down");
+            } else if (difference < 0) {
+                activeCustomersTrend.setText("↓ " + Math.abs(difference));
+                activeCustomersTrend.getStyleClass().add("down");
+                activeCustomersTrend.getStyleClass().remove("up");
+            } else {
+                activeCustomersTrend.setText("→ 0");
+                activeCustomersTrend.getStyleClass().remove("up");
+                activeCustomersTrend.getStyleClass().remove("down");
+            }
+        }
     }
 
     private void loadPendingTasks() {
         if (pendingTasks == null) {
             return;
         }
-        pendingTasks.setText("12");
+        // 计算待办任务数：这里可以根据实际业务逻辑调整
+        // 例如：统计最近需要跟进的顾客（一周内有交易但需要后续服务的顾客）
+        int taskCount = 0;
+        try {
+            List<Customer> allCustomers = customerService.findAll();
+            // 简单逻辑：假设每个顾客需要一个待办任务
+            taskCount = allCustomers.size();
+        } catch (Exception e) {
+            taskCount = 0;
+        }
+        pendingTasks.setText(String.valueOf(taskCount));
     }
 
     private void loadMonthlyTarget() {
@@ -123,14 +227,65 @@ public class DashboardController {
             monthlyRevenue = BigDecimal.ZERO;
         }
         
+        // 假设月度目标为200000元
+        BigDecimal monthlyTargetAmount = new BigDecimal(200000);
         monthlyTarget.setText("¥" + formatAmount(monthlyRevenue));
+        
+        // 计算月度目标完成度
+        if (monthlyTargetProgress != null) {
+            double progress = 0;
+            if (monthlyTargetAmount.compareTo(BigDecimal.ZERO) > 0) {
+                progress = monthlyRevenue.divide(monthlyTargetAmount, 4, RoundingMode.HALF_UP).doubleValue() * 100;
+            }
+            monthlyTargetProgress.setText("已完成 " + String.format("%.0f%%", progress));
+        }
     }
 
     private void loadWeeklyProgress() {
         if (weeklyProgress == null) {
             return;
         }
-        weeklyProgress.setProgress(0.65);
+        // 计算周进度：基于本周销售额与目标销售额的比例
+        try {
+            LocalDate today = LocalDate.now();
+            LocalDate startOfWeek = today.minusDays(today.getDayOfWeek().getValue() - 1);
+            LocalDate endOfWeek = startOfWeek.plusDays(6);
+            
+            LocalDateTime weekStart = startOfWeek.atStartOfDay();
+            LocalDateTime weekEnd = endOfWeek.atTime(23, 59, 59);
+            
+            // 获取本周销售额
+            BigDecimal weeklySales = transactionService.findTotalAmountByDateRange(weekStart, weekEnd);
+            if (weeklySales == null) {
+                weeklySales = BigDecimal.ZERO;
+            }
+            
+            // 假设每周目标销售额为5000元
+            BigDecimal weeklyTarget = new BigDecimal(5000);
+            
+            // 计算进度比例
+            double progress = 0;
+            if (weeklyTarget.compareTo(BigDecimal.ZERO) > 0) {
+                progress = weeklySales.divide(weeklyTarget, 2, RoundingMode.HALF_UP).doubleValue();
+                // 限制进度在0-1之间
+                progress = Math.min(1.0, Math.max(0.0, progress));
+            }
+            
+            weeklyProgress.setProgress(progress);
+            
+            // 更新周进度标签
+            if (weeklyProgressLabel != null) {
+                int progressPercentage = (int) (progress * 100);
+                int currentValue = weeklySales.intValue();
+                int targetValue = weeklyTarget.intValue();
+                weeklyProgressLabel.setText(progressPercentage + "% (" + currentValue + "/" + targetValue + ")");
+            }
+        } catch (Exception e) {
+            weeklyProgress.setProgress(0);
+            if (weeklyProgressLabel != null) {
+                weeklyProgressLabel.setText("0% (0/5000)");
+            }
+        }
     }
 
     private void setupEventHandlers() {
