@@ -180,12 +180,14 @@ public class MainController {
     private void showDashboard() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/dashboard.fxml"));
-            loader.setController(dashboardController);
             Parent dashboardView = loader.load();
             contentPane.getChildren().setAll(dashboardView);
             updateActiveNavButton("dashboard");
-            // 加载 FXML 后手动初始化数据
-            dashboardController.loadDashboardData();
+            // 获取控制器实例并加载数据
+            DashboardController controller = loader.getController();
+            if (controller != null) {
+                controller.loadDashboardData();
+            }
         } catch (IOException e) {
             showErrorDialog("加载仪表盘失败", e.getMessage());
             e.printStackTrace();

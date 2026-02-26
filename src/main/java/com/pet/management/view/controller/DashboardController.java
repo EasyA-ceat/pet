@@ -91,6 +91,11 @@ public class DashboardController {
         System.out.println("todayRevenueTrend: " + todayRevenueTrend);
         System.out.println("activeCustomersTrend: " + activeCustomersTrend);
         System.out.println("monthlyTargetProgress: " + monthlyTargetProgress);
+        System.out.println("quickAddCustomerBtn: " + quickAddCustomerBtn);
+        System.out.println("quickAddTransactionBtn: " + quickAddTransactionBtn);
+        System.out.println("viewDailyReportBtn: " + viewDailyReportBtn);
+        System.out.println("appointmentManagementBtn: " + appointmentManagementBtn);
+        System.out.println("mainController: " + mainController);
     }
 
     public void loadDashboardData() {
@@ -104,6 +109,13 @@ public class DashboardController {
         System.out.println("todayRevenueTrend: " + todayRevenueTrend);
         System.out.println("activeCustomersTrend: " + activeCustomersTrend);
         System.out.println("monthlyTargetProgress: " + monthlyTargetProgress);
+        System.out.println("quickAddCustomerBtn: " + quickAddCustomerBtn);
+        System.out.println("quickAddTransactionBtn: " + quickAddTransactionBtn);
+        System.out.println("viewDailyReportBtn: " + viewDailyReportBtn);
+        System.out.println("appointmentManagementBtn: " + appointmentManagementBtn);
+        System.out.println("viewAllCustomersBtn: " + viewAllCustomersBtn);
+        System.out.println("viewAllTransactionsBtn: " + viewAllTransactionsBtn);
+        System.out.println("mainController: " + mainController);
         loadTodayRevenue();
         loadActiveCustomers();
         loadPendingTasks();
@@ -289,70 +301,108 @@ public class DashboardController {
     }
 
     private void setupEventHandlers() {
+        System.out.println("开始设置事件处理器");
+        System.out.println("quickAddCustomerBtn: " + quickAddCustomerBtn);
         if (quickAddCustomerBtn != null) {
             quickAddCustomerBtn.setOnAction(event -> handleQuickAddCustomer());
+            System.out.println("quickAddCustomerBtn 事件处理器已设置");
         }
         
+        System.out.println("quickAddTransactionBtn: " + quickAddTransactionBtn);
         if (quickAddTransactionBtn != null) {
             quickAddTransactionBtn.setOnAction(event -> handleQuickAddTransaction());
+            System.out.println("quickAddTransactionBtn 事件处理器已设置");
         }
         
+        System.out.println("viewDailyReportBtn: " + viewDailyReportBtn);
         if (viewDailyReportBtn != null) {
             viewDailyReportBtn.setOnAction(event -> handleViewDailyReport());
+            System.out.println("viewDailyReportBtn 事件处理器已设置");
         }
         
+        System.out.println("appointmentManagementBtn: " + appointmentManagementBtn);
         if (appointmentManagementBtn != null) {
             appointmentManagementBtn.setOnAction(event -> handleAppointmentManagement());
+            System.out.println("appointmentManagementBtn 事件处理器已设置");
         }
         
+        System.out.println("viewAllCustomersBtn: " + viewAllCustomersBtn);
         if (viewAllCustomersBtn != null) {
             viewAllCustomersBtn.setOnAction(event -> handleViewAllCustomers());
+            System.out.println("viewAllCustomersBtn 事件处理器已设置");
         }
         
+        System.out.println("viewAllTransactionsBtn: " + viewAllTransactionsBtn);
         if (viewAllTransactionsBtn != null) {
             viewAllTransactionsBtn.setOnAction(event -> handleViewAllTransactions());
+            System.out.println("viewAllTransactionsBtn 事件处理器已设置");
         }
+        System.out.println("事件处理器设置完成");
     }
 
     @FXML
     private void handleQuickAddCustomer() {
+        System.out.println("handleQuickAddCustomer 被调用");
         if (mainController != null) {
+            System.out.println("mainController 不为空，调用 handleCustomerManagement()");
             mainController.handleCustomerManagement();
+        } else {
+            System.out.println("mainController 为空");
         }
     }
 
     @FXML
     private void handleQuickAddTransaction() {
+        System.out.println("handleQuickAddTransaction 被调用");
         if (mainController != null) {
+            System.out.println("mainController 不为空，调用 handleFinanceManagement()");
             mainController.handleFinanceManagement();
+        } else {
+            System.out.println("mainController 为空");
         }
     }
 
     @FXML
     private void handleViewDailyReport() {
+        System.out.println("handleViewDailyReport 被调用");
         if (mainController != null) {
+            System.out.println("mainController 不为空，调用 handleReports()");
             mainController.handleReports();
+        } else {
+            System.out.println("mainController 为空");
         }
     }
 
     @FXML
     private void handleAppointmentManagement() {
+        System.out.println("handleAppointmentManagement 被调用");
         if (mainController != null) {
+            System.out.println("mainController 不为空，显示提示对话框");
             mainController.showSuccessDialog("提示", "预约管理功能开发中...");
+        } else {
+            System.out.println("mainController 为空");
         }
     }
 
     @FXML
     private void handleViewAllCustomers() {
+        System.out.println("handleViewAllCustomers 被调用");
         if (mainController != null) {
+            System.out.println("mainController 不为空，调用 handleCustomerManagement()");
             mainController.handleCustomerManagement();
+        } else {
+            System.out.println("mainController 为空");
         }
     }
 
     @FXML
     private void handleViewAllTransactions() {
+        System.out.println("handleViewAllTransactions 被调用");
         if (mainController != null) {
+            System.out.println("mainController 不为空，调用 handleFinanceManagement()");
             mainController.handleFinanceManagement();
+        } else {
+            System.out.println("mainController 为空");
         }
     }
 

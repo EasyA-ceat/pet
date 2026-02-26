@@ -135,14 +135,25 @@
 
     <repositories>
         <repository>
-            <id>central</id>
-            <url>https://repo.maven.apache.org/maven2</url>
-        </repository>
-        <repository>
             <id>aliyunmaven</id>
             <url>https://maven.aliyun.com/repository/public</url>
         </repository>
+        <repository>
+            <id>tuna</id>
+            <url>https://mirrors.tuna.tsinghua.edu.cn/maven2</url>
+        </repository>
     </repositories>
+    
+    <pluginRepositories>
+        <pluginRepository>
+            <id>aliyun-plugin</id>
+            <url>https://maven.aliyun.com/repository/public</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>tuna-plugin</id>
+            <url>https://mirrors.tuna.tsinghua.edu.cn/maven2</url>
+        </pluginRepository>
+    </pluginRepositories>
     
     <build>
         <plugins>
