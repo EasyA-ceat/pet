@@ -3,6 +3,8 @@ package com.pet.management.model;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -47,9 +49,11 @@ public class Customer {
     private LocalDateTime updateTime;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Transaction> transactions;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Photo> photos;
 
     public Customer() {
@@ -161,7 +165,14 @@ public class Customer {
     }
 
     public void setTransactions(List<Transaction> transactions) {
-        this.transactions = transactions;
+        if (this.transactions == null) {
+            this.transactions = transactions;
+        } else {
+            this.transactions.clear();
+            if (transactions != null) {
+                this.transactions.addAll(transactions);
+            }
+        }
     }
 
     public List<Photo> getPhotos() {
@@ -169,7 +180,14 @@ public class Customer {
     }
 
     public void setPhotos(List<Photo> photos) {
-        this.photos = photos;
+        if (this.photos == null) {
+            this.photos = photos;
+        } else {
+            this.photos.clear();
+            if (photos != null) {
+                this.photos.addAll(photos);
+            }
+        }
     }
 
     @Override

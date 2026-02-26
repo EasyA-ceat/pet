@@ -1,11 +1,8 @@
+
 # Project Debug Rules (Non-Obvious Only)
 
 ## 日志位置
 - 应用程序日志文件存储在 `user.home/.pet-management-system/logs/pet-management.log`
-
-## 调试工具
-- 可以使用 JavaFX Scene Builder 预览 FXML 界面
-- 使用 Spring Boot DevTools 进行热部署（如果配置）
 
 ## 常见问题
 - **图标加载失败**：检查 `src/main/resources/images/icon.png` 是否存在
@@ -15,3 +12,4 @@
 ## 运行模式
 - 使用 `mvn spring-boot:run` 运行应用程序（包含 Spring Boot 支持）
 - 使用 `mvn javafx:run` 直接运行 JavaFX 应用（不包含 Spring Boot 支持）
+

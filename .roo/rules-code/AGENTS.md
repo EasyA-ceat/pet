@@ -1,3 +1,4 @@
+
 # Project Coding Rules (Non-Obvious Only)
 
 ## 架构约束
@@ -23,3 +24,4 @@
 ## 数据库
 - SQLite 数据库文件自动创建在 `user.home/.pet-management-system/pet_db.sqlite` 目录下
 - 使用 SQLite JDBC 驱动和 Hibernate SQLite 方言
+
