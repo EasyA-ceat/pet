@@ -20,6 +20,10 @@
           <el-icon><User /></el-icon>
           <span>顾客管理</span>
         </el-menu-item>
+        <el-menu-item index="/appointments">
+          <el-icon><Calendar /></el-icon>
+          <span>预约管理</span>
+        </el-menu-item>
         <el-menu-item index="/transactions">
           <el-icon><Document /></el-icon>
           <span>财务管理</span>
@@ -63,14 +67,15 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { 
-  Odometer, 
-  User, 
-  Document, 
-  Avatar, 
-  DataAnalysis, 
-  Setting, 
-  InfoFilled 
+import {
+  Odometer,
+  User,
+  Calendar,
+  Document,
+  Avatar,
+  DataAnalysis,
+  Setting,
+  InfoFilled
 } from '@element-plus/icons-vue'
 
 const route = useRoute()
@@ -83,6 +88,7 @@ const pageTitle = computed(() => {
   const titles = {
     '/': '仪表盘',
     '/customers': '顾客管理',
+    '/appointments': '预约管理',
     '/transactions': '财务管理',
     '/clerks': '员工管理',
     '/reports': '报表中心',

@@ -5,6 +5,7 @@
       <template #header>
         <div class="card-header">
           <span>员工管理</span>
+          <el-button type="primary" @click="handleAdd">新增员工</el-button>
         </div>
       </template>
 

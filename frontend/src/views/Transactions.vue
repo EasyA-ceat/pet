@@ -5,12 +5,13 @@
       <template #header>
         <div class="card-header">
           <span>财务管理</span>
+          <el-button type="primary" @click="handleAdd">新增交易</el-button>
         </div>
       </template>
 
       <el-form :inline="true" :model="searchForm" class="search-form">
         <el-form-item>
-          <el-input v-model="searchForm.keyword" placeholder="搜索顾客姓名" clearable />
+          <el-input v-model="searchForm.keyword" placeholder="搜索顾客姓名" clearable @clear="handleRefresh" />
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="handleSearch">搜索</el-button>
@@ -112,11 +113,12 @@
 <script setup>
 import { ref, reactive, computed, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { getTransactionList, createTransaction, updateTransaction, deleteTransaction } from '@/api/transaction'
+import { getTransactionList, createTransaction, updateTransaction, deleteTransaction, searchTransactions } from '@/api/transaction'
 import { getCustomerList } from '@/api/customer'
 import { getClerkList } from '@/api/clerk'
 
 const transactionList = ref([])
+const allTransactionList = ref([])
 const customerList = ref([])
 const clerkList = ref([])
 const dialogVisible = ref(false)
@@ -170,6 +172,7 @@ const formatDate = (dateString) => {
 const loadTransactionData = async () => {
   try {
     const data = await getTransactionList()
+    allTransactionList.value = data
     transactionList.value = data
   } catch (error) {
     ElMessage.error('加载交易数据失败')
@@ -194,12 +197,23 @@ const loadClerkData = async () => {
   }
 }
 
-const handleSearch = () => {
-  ElMessage.info('搜索功能待实现')
+const handleSearch = async () => {
+  if (!searchForm.keyword || searchForm.keyword.trim() === '') {
+    transactionList.value = allTransactionList.value
+    return
+  }
+  
+  try {
+    const data = await searchTransactions(searchForm.keyword)
+    transactionList.value = data
+  } catch (error) {
+    ElMessage.error('搜索失败')
+  }
 }
 
 const handleRefresh = () => {
-  loadTransactionData()
+  searchForm.keyword = ''
+  transactionList.value = allTransactionList.value
 }
 
 const handleAdd = () => {

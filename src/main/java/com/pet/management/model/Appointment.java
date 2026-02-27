@@ -1,14 +1,9 @@
 package com.pet.management.model;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -17,33 +12,28 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "transactions")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class Transaction {
+@Table(name = "appointments")
+public class Appointment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "clerk_id")
-    private Clerk clerk;
+    @Column(name = "appointment_time", nullable = false)
+    private LocalDateTime appointmentTime;
 
-    @Column(name = "transaction_date", nullable = false)
-    private LocalDateTime transactionDate;
+    @Column(name = "end_time")
+    private LocalDateTime endTime;
 
-    @Column(name = "service_type", nullable = false, length = 100)
+    @Column(nullable = false, length = 100)
     private String serviceType;
 
-    @Column(nullable = false, precision = 10, scale = 2)
-    private BigDecimal amount;
-
-    @Column(precision = 10, scale = 2)
-    private BigDecimal commission;
+    @Column(length = 50)
+    private String status;
 
     @Column(columnDefinition = "TEXT")
     private String notes;
@@ -54,24 +44,19 @@ public class Transaction {
     @Column(name = "update_time")
     private LocalDateTime updateTime;
 
-    public Transaction() {
+    public Appointment() {
         this.createTime = LocalDateTime.now();
         this.updateTime = LocalDateTime.now();
-        this.transactionDate = LocalDateTime.now();
+        this.status = "PENDING";
     }
 
-    public Transaction(Customer customer, Clerk clerk, String serviceType, BigDecimal amount, BigDecimal commission) {
+    public Appointment(Customer customer, LocalDateTime appointmentTime, String serviceType) {
+        this();
         this.customer = customer;
-        this.clerk = clerk;
+        this.appointmentTime = appointmentTime;
         this.serviceType = serviceType;
-        this.amount = amount;
-        this.commission = commission;
-        this.transactionDate = LocalDateTime.now();
-        this.createTime = LocalDateTime.now();
-        this.updateTime = LocalDateTime.now();
     }
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -89,21 +74,21 @@ public class Transaction {
         this.updateTime = LocalDateTime.now();
     }
 
-    public Clerk getClerk() {
-        return clerk;
+    public LocalDateTime getAppointmentTime() {
+        return appointmentTime;
     }
 
-    public void setClerk(Clerk clerk) {
-        this.clerk = clerk;
+    public void setAppointmentTime(LocalDateTime appointmentTime) {
+        this.appointmentTime = appointmentTime;
         this.updateTime = LocalDateTime.now();
     }
 
-    public LocalDateTime getTransactionDate() {
-        return transactionDate;
+    public LocalDateTime getEndTime() {
+        return endTime;
     }
 
-    public void setTransactionDate(LocalDateTime transactionDate) {
-        this.transactionDate = transactionDate;
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
         this.updateTime = LocalDateTime.now();
     }
 
@@ -116,21 +101,12 @@ public class Transaction {
         this.updateTime = LocalDateTime.now();
     }
 
-    public BigDecimal getAmount() {
-        return amount;
+    public String getStatus() {
+        return status;
     }
 
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-        this.updateTime = LocalDateTime.now();
-    }
-
-    public BigDecimal getCommission() {
-        return commission;
-    }
-
-    public void setCommission(BigDecimal commission) {
-        this.commission = commission;
+    public void setStatus(String status) {
+        this.status = status;
         this.updateTime = LocalDateTime.now();
     }
 
@@ -157,5 +133,10 @@ public class Transaction {
 
     public void setUpdateTime(LocalDateTime updateTime) {
         this.updateTime = updateTime;
+    }
+
+    @Override
+    public String toString() {
+        return "Appointment for " + (customer != null ? customer.getPetName() : "unknown") + " at " + appointmentTime;
     }
 }

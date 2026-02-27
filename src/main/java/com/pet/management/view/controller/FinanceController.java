@@ -30,6 +30,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 
 @Controller
 public class FinanceController {
@@ -79,6 +80,8 @@ public class FinanceController {
     private Label totalCommissionLabel;
     @FXML
     private Label transactionCountLabel;
+    @FXML
+    private Label averageAmountLabel;
     @FXML
     private Label statusLabel;
 
@@ -147,7 +150,43 @@ public class FinanceController {
 
         // 添加操作列
         TableColumn<Transaction, Void> actionColumn = new TableColumn<>("操作");
-        actionColumn.setPrefWidth(120);
+        actionColumn.setPrefWidth(140);
+        actionColumn.setCellFactory(col -> {
+            TableCell<Transaction, Void> cell = new TableCell<>() {
+                private final Button editBtn = new Button("编辑");
+                private final Button deleteBtn = new Button("删除");
+                
+                {
+                    editBtn.getStyleClass().addAll("btn", "btn-sm", "btn-secondary");
+                    deleteBtn.getStyleClass().addAll("btn", "btn-sm", "btn-danger");
+                    
+                    editBtn.setOnAction(event -> {
+                        Transaction transaction = getTableView().getItems().get(getIndex());
+                        transactionTable.getSelectionModel().select(transaction);
+                        editTransaction();
+                    });
+                    
+                    deleteBtn.setOnAction(event -> {
+                        Transaction transaction = getTableView().getItems().get(getIndex());
+                        transactionTable.getSelectionModel().select(transaction);
+                        deleteTransaction();
+                    });
+                }
+                
+                @Override
+                protected void updateItem(Void item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setGraphic(null);
+                    } else {
+                        HBox buttons = new HBox(5);
+                        buttons.getChildren().addAll(editBtn, deleteBtn);
+                        setGraphic(buttons);
+                    }
+                }
+            };
+            return cell;
+        });
         transactionTable.getColumns().add(actionColumn);
 
         // 绑定事件
@@ -431,6 +470,15 @@ public class FinanceController {
 
             totalAmountLabel.setText("总金额: " + String.format("%.2f", totalAmount.doubleValue()));
             totalCommissionLabel.setText("总提成: " + String.format("%.2f", totalCommission.doubleValue()));
+            
+            // 计算平均交易额
+            BigDecimal averageAmount = BigDecimal.ZERO;
+            if (allTransactions.size() > 0) {
+                averageAmount = totalAmount.divide(new BigDecimal(allTransactions.size()), 2, java.math.RoundingMode.HALF_UP);
+            }
+            if (averageAmountLabel != null) {
+                averageAmountLabel.setText("¥" + String.format("%.2f", averageAmount.doubleValue()));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
