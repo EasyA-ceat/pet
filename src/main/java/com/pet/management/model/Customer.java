@@ -1,5 +1,6 @@
 package com.pet.management.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -47,6 +48,15 @@ public class Customer {
 
     @Column(name = "update_time")
     private LocalDateTime updateTime;
+
+    @Column(name = "is_vip", nullable = false)
+    private Boolean isVip = false;
+
+    @Column(name = "balance", precision = 10, scale = 2)
+    private BigDecimal balance = BigDecimal.ZERO;
+
+    @Column(name = "total_recharge", precision = 10, scale = 2)
+    private BigDecimal totalRecharge = BigDecimal.ZERO;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
@@ -158,6 +168,33 @@ public class Customer {
 
     public void setUpdateTime(LocalDateTime updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Boolean getIsVip() {
+        return isVip;
+    }
+
+    public void setIsVip(Boolean isVip) {
+        this.isVip = isVip;
+        this.updateTime = LocalDateTime.now();
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
+        this.updateTime = LocalDateTime.now();
+    }
+
+    public BigDecimal getTotalRecharge() {
+        return totalRecharge;
+    }
+
+    public void setTotalRecharge(BigDecimal totalRecharge) {
+        this.totalRecharge = totalRecharge;
+        this.updateTime = LocalDateTime.now();
     }
 
     public List<Transaction> getTransactions() {

@@ -38,6 +38,8 @@
             <tr>
               <th>ID</th>
               <th>顾客姓名</th>
+              <th>VIP</th>
+              <th>余额</th>
               <th>电话</th>
               <th>宠物姓名</th>
               <th>宠物类型</th>
@@ -51,6 +53,13 @@
             <tr v-for="customer in customers" :key="customer.id">
               <td>{{ customer.id }}</td>
               <td>{{ customer.customerName }}</td>
+              <td>
+                <span v-if="customer.isVip" class="vip-badge">VIP</span>
+                <span v-else>-</span>
+              </td>
+              <td class="balance-cell">
+                <span class="balance-amount">¥{{ (customer.balance || 0).toFixed(2) }}</span>
+              </td>
               <td>{{ customer.phone }}</td>
               <td>{{ customer.petName }}</td>
               <td>{{ customer.petType }}</td>
@@ -105,6 +114,18 @@
             <div class="form-group">
               <label>宠物年龄</label>
               <input type="number" v-model="customerForm.petAge" />
+            </div>
+            <div class="form-group">
+              <label>是否VIP会员</label>
+              <input type="checkbox" v-model="customerForm.isVip" />
+            </div>
+            <div class="form-group">
+              <label>账户余额</label>
+              <input type="number" v-model.number="customerForm.balance" step="0.01" disabled />
+            </div>
+            <div class="form-group">
+              <label>累计充值</label>
+              <input type="number" v-model.number="customerForm.totalRecharge" step="0.01" disabled />
             </div>
             <div class="form-group">
               <label>备注</label>
@@ -180,6 +201,9 @@ const customerForm = ref({
   petType: '',
   petBreed: '',
   petAge: null,
+  isVip: false,
+  balance: 0,
+  totalRecharge: 0,
   notes: ''
 })
 
@@ -230,6 +254,9 @@ const addCustomer = () => {
     petType: '',
     petBreed: '',
     petAge: null,
+    isVip: false,
+    balance: 0,
+    totalRecharge: 0,
     notes: ''
   }
   showModal.value = true
@@ -607,5 +634,24 @@ onMounted(() => {
   text-align: center;
   padding: 40px;
   color: #666;
+}
+
+.vip-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  background: linear-gradient(135deg, #ffd700 0%, #ff8c00 100%);
+  color: white;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.balance-cell {
+  font-weight: bold;
+}
+
+.balance-amount {
+  color: #409eff;
+  font-size: 16px;
 }
 </style>

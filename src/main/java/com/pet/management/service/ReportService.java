@@ -1,20 +1,5 @@
 package com.pet.management.service;
 
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfWriter;
-import com.pet.management.model.Transaction;
-import com.pet.management.repository.TransactionRepository;
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.knowm.xchart.CategoryChart;
-import org.knowm.xchart.CategoryChartBuilder;
-import org.knowm.xchart.SwingWrapper;
-import org.knowm.xchart.style.Styler;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -22,13 +7,33 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Month;
-import java.time.Year;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.knowm.xchart.CategoryChart;
+import org.knowm.xchart.CategoryChartBuilder;
+import org.knowm.xchart.style.Styler;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.pet.management.model.Transaction;
+import com.pet.management.repository.TransactionRepository;
 
 @Service
 public class ReportService {
@@ -185,7 +190,7 @@ public class ReportService {
                 dataRow.createCell(0).setCellValue(transaction.getId());
                 dataRow.createCell(1).setCellValue(transaction.getCustomer().getCustomerName());
                 dataRow.createCell(2).setCellValue(transaction.getCustomer().getPetName());
-                dataRow.createCell(3).setCellValue(transaction.getServiceType());
+                dataRow.createCell(3).setCellValue(transaction.getServiceType().getDisplayName());
                 dataRow.createCell(4).setCellValue(transaction.getTransactionDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
                 dataRow.createCell(5).setCellValue(transaction.getAmount().doubleValue());
                 dataRow.createCell(6).setCellValue(transaction.getCommission().doubleValue());
@@ -237,7 +242,7 @@ public class ReportService {
         // 按服务类型分组统计
         Map<String, BigDecimal> salesByService = transactions.stream()
                 .collect(Collectors.groupingBy(
-                        Transaction::getServiceType,
+                        t -> t.getServiceType().getDisplayName(),
                         Collectors.reducing(BigDecimal.ZERO, Transaction::getAmount, BigDecimal::add)
                 ));
 

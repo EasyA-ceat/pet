@@ -36,7 +36,16 @@
             {{ row.clerk?.clerkName }}
           </template>
         </el-table-column>
-        <el-table-column prop="serviceType" label="服务类型" width="150" />
+        <el-table-column label="服务类型" width="120">
+          <template #default="{ row }">
+            <el-tag size="small">{{ getServiceTypeDisplayName(row.serviceType) }}</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column label="支付方式" width="120">
+          <template #default="{ row }">
+            <el-tag size="small">{{ getPaymentMethodDisplayName(row.paymentMethod) }}</el-tag>
+          </template>
+        </el-table-column>
         <el-table-column prop="transactionDate" label="交易时间" width="180">
           <template #default="{ row }">
             {{ formatDate(row.transactionDate) }}
@@ -93,7 +102,28 @@
           </el-select>
         </el-form-item>
         <el-form-item label="服务类型" prop="serviceType">
-          <el-input v-model="transactionForm.serviceType" placeholder="请输入服务类型" />
+          <el-select v-model="transactionForm.serviceType" placeholder="请选择服务类型" style="width: 100%">
+            <el-option
+              v-for="type in serviceTypes"
+              :key="type.value"
+              :label="type.label"
+              :value="type.value"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="支付方式" prop="paymentMethod">
+          <el-select v-model="transactionForm.paymentMethod" placeholder="请选择支付方式" style="width: 100%" @change="handlePaymentMethodChange">
+            <el-option
+              v-for="method in paymentMethods"
+              :key="method.value"
+              :label="method.label"
+              :value="method.value"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="可用余额" v-if="selectedCustomer && transactionForm.paymentMethod === 'STORED_VALUE'">
+          <span style="font-size: 18px; font-weight: bold; color: #409eff">¥{{ (selectedCustomer.balance || 0).toFixed(2) }}</span>
+          <el-tag v-if="selectedCustomer.isVip" type="warning" style="margin-left: 10px">VIP</el-tag>
         </el-form-item>
         <el-form-item label="金额" prop="amount">
           <el-input-number v-model="transactionForm.amount" :min="0" :precision="2" style="width: 100%" />
@@ -116,11 +146,14 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { getTransactionList, createTransaction, updateTransaction, deleteTransaction, searchTransactions } from '@/api/transaction'
 import { getCustomerList } from '@/api/customer'
 import { getClerkList } from '@/api/clerk'
+import { getServiceTypes, getPaymentMethods } from '@/api/common'
 
 const transactionList = ref([])
 const allTransactionList = ref([])
 const customerList = ref([])
 const clerkList = ref([])
+const serviceTypes = ref([])
+const paymentMethods = ref([])
 const dialogVisible = ref(false)
 const dialogTitle = ref('添加交易')
 const transactionFormRef = ref(null)
@@ -134,8 +167,14 @@ const transactionForm = reactive({
   customerId: null,
   clerkId: null,
   serviceType: '',
+  paymentMethod: 'CASH',
   amount: 0,
   notes: ''
+})
+
+const selectedCustomer = computed(() => {
+  if (!transactionForm.customerId) return null
+  return customerList.value.find(c => c.id === transactionForm.customerId)
 })
 
 const stats = computed(() => {
@@ -163,10 +202,66 @@ const rules = {
   amount: [{ required: true, message: '请输入金额', trigger: 'blur' }]
 }
 
+const getServiceTypeDisplayName = (type) => {
+  const typeMap = {
+    'WASH_CARE': '洗护',
+    'BEAUTY': '美容',
+    'PARTIAL_TRIM': '局部修剪',
+    'OTHER_SERVICE': '其他服务',
+    'FOSTER_CARE': '寄养'
+  }
+  return typeMap[type] || type
+}
+
+const getPaymentMethodDisplayName = (method) => {
+  const methodMap = {
+    'CASH': '现金',
+    'STORED_VALUE': '储值扣款',
+    'MEITUAN': '美团团购券',
+    'DOUYIN': '抖音团购券'
+  }
+  return methodMap[method] || method
+}
+
 const formatDate = (dateString) => {
   if (!dateString) return ''
   const date = new Date(dateString)
   return date.toLocaleString('zh-CN')
+}
+
+const loadServiceTypes = async () => {
+  try {
+    const data = await getServiceTypes()
+    serviceTypes.value = data
+  } catch (error) {
+    console.error('加载服务类型失败:', error)
+    serviceTypes.value = [
+      { value: 'WASH_CARE', label: '洗护' },
+      { value: 'BEAUTY', label: '美容' },
+      { value: 'PARTIAL_TRIM', label: '局部修剪' },
+      { value: 'OTHER_SERVICE', label: '其他服务' },
+      { value: 'FOSTER_CARE', label: '寄养' }
+    ]
+  }
+}
+
+const loadPaymentMethods = async () => {
+  try {
+    const data = await getPaymentMethods()
+    paymentMethods.value = data
+  } catch (error) {
+    console.error('加载支付方式失败:', error)
+    paymentMethods.value = [
+      { value: 'CASH', label: '现金' },
+      { value: 'STORED_VALUE', label: '储值扣款' },
+      { value: 'MEITUAN', label: '美团团购券' },
+      { value: 'DOUYIN', label: '抖音团购券' }
+    ]
+  }
+}
+
+const handlePaymentMethodChange = () => {
+  // 支付方式变更时的处理
 }
 
 const loadTransactionData = async () => {
@@ -223,6 +318,7 @@ const handleAdd = () => {
     customerId: null,
     clerkId: null,
     serviceType: '',
+    paymentMethod: 'CASH',
     amount: 0,
     notes: ''
   })
@@ -236,6 +332,7 @@ const handleEdit = (row) => {
     customerId: row.customer?.id,
     clerkId: row.clerk?.id,
     serviceType: row.serviceType,
+    paymentMethod: row.paymentMethod || 'CASH',
     amount: row.amount,
     notes: row.notes
   })
@@ -296,6 +393,8 @@ onMounted(() => {
   loadTransactionData()
   loadCustomerData()
   loadClerkData()
+  loadServiceTypes()
+  loadPaymentMethods()
 })
 </script>
 

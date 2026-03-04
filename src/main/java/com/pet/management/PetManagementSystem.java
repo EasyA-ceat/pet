@@ -6,10 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {
-    "com.pet.management.controller",
-    "com.pet.management.service",
-    "com.pet.management.repository",
-    "com.pet.management.model"
+    "com.pet.management"
 })
 public class PetManagementSystem {
 

@@ -1,3 +1,4 @@
+
 package com.pet.management.model;
 
 import java.math.BigDecimal;
@@ -5,10 +6,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pet.management.security.Role;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -25,6 +29,19 @@ public class Clerk {
 
     @Column(name = "clerk_name", nullable = false, length = 100)
     private String clerkName;
+
+    @Column(unique = true, nullable = false, length = 50)
+    private String username;
+
+    @Column(nullable = false)
+    private String password;
+
+    @Column(nullable = false)
+    private Boolean enabled = true;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", length = 20)
+    private Role role = Role.STAFF;
 
     @Column(length = 20)
     private String phone;
@@ -74,6 +91,42 @@ public class Clerk {
 
     public void setClerkName(String clerkName) {
         this.clerkName = clerkName;
+        this.updateTime = LocalDateTime.now();
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+        this.updateTime = LocalDateTime.now();
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+        this.updateTime = LocalDateTime.now();
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+        this.updateTime = LocalDateTime.now();
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
         this.updateTime = LocalDateTime.now();
     }
 
@@ -133,3 +186,4 @@ public class Clerk {
         return clerkName != null ? clerkName : "";
     }
 }
+

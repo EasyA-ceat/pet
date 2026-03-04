@@ -19,6 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.pet.management.model.Clerk;
 import com.pet.management.model.Customer;
+import com.pet.management.model.ServiceType;
 import com.pet.management.model.Transaction;
 import com.pet.management.repository.TransactionRepository;
 
@@ -46,11 +47,11 @@ class ReportServiceTest {
         Clerk clerk1 = new Clerk("王五", "13800138003", new BigDecimal("0.1"));
         clerk1.setId(1L);
 
-        Transaction transaction1 = new Transaction(customer1, clerk1, "洗澡", new BigDecimal("50"), new BigDecimal("5"));
+        Transaction transaction1 = new Transaction(customer1, clerk1, ServiceType.WASH_CARE, new BigDecimal("50"), new BigDecimal("5"));
         transaction1.setId(1L);
         transaction1.setTransactionDate(LocalDateTime.now().withHour(10).withMinute(0));
 
-        Transaction transaction2 = new Transaction(customer2, clerk1, "美容", new BigDecimal("100"), new BigDecimal("10"));
+        Transaction transaction2 = new Transaction(customer2, clerk1, ServiceType.BEAUTY, new BigDecimal("100"), new BigDecimal("10"));
         transaction2.setId(2L);
         transaction2.setTransactionDate(LocalDateTime.now().withHour(14).withMinute(0));
 

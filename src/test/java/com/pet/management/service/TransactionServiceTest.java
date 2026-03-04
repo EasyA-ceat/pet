@@ -23,6 +23,7 @@ import org.mockito.MockitoAnnotations;
 
 import com.pet.management.model.Clerk;
 import com.pet.management.model.Customer;
+import com.pet.management.model.ServiceType;
 import com.pet.management.model.Transaction;
 import com.pet.management.repository.TransactionRepository;
 
@@ -125,17 +126,17 @@ class TransactionServiceTest {
     }
 
     @Test
-    void testFindByServiceTypeContaining() {
+    void testFindByServiceType() {
         List<Transaction> transactions = new ArrayList<>();
         transactions.add(createMockTransaction());
         
-        when(transactionRepository.findByServiceTypeContaining(anyString())).thenReturn(transactions);
+        when(transactionRepository.findByServiceType(any(ServiceType.class))).thenReturn(transactions);
         
-        List<Transaction> result = transactionService.findByServiceTypeContaining("洗澡");
+        List<Transaction> result = transactionService.findByServiceType(ServiceType.WASH_CARE);
         
         assertNotNull(result);
         assertEquals(1, result.size());
-        verify(transactionRepository, times(1)).findByServiceTypeContaining("洗澡");
+        verify(transactionRepository, times(1)).findByServiceType(ServiceType.WASH_CARE);
     }
 
     @Test
@@ -198,7 +199,7 @@ class TransactionServiceTest {
         
         transaction.setCustomer(customer);
         transaction.setClerk(clerk);
-        transaction.setServiceType("宠物洗澡");
+        transaction.setServiceType(ServiceType.WASH_CARE);
         transaction.setAmount(BigDecimal.valueOf(100));
         transaction.setCommission(BigDecimal.valueOf(5));
         transaction.setTransactionDate(LocalDateTime.now());

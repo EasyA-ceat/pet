@@ -8,6 +8,8 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -36,8 +38,16 @@ public class Transaction {
     @Column(name = "transaction_date", nullable = false)
     private LocalDateTime transactionDate;
 
-    @Column(name = "service_type", nullable = false, length = 100)
-    private String serviceType;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "service_type", nullable = false, length = 50)
+    private ServiceType serviceType;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "payment_method", length = 50)
+    private PaymentMethod paymentMethod = PaymentMethod.CASH;
+
+    @Column(name = "stored_value_used", precision = 10, scale = 2)
+    private BigDecimal storedValueUsed = BigDecimal.ZERO;
 
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal amount;
@@ -60,7 +70,7 @@ public class Transaction {
         this.transactionDate = LocalDateTime.now();
     }
 
-    public Transaction(Customer customer, Clerk clerk, String serviceType, BigDecimal amount, BigDecimal commission) {
+    public Transaction(Customer customer, Clerk clerk, ServiceType serviceType, BigDecimal amount, BigDecimal commission) {
         this.customer = customer;
         this.clerk = clerk;
         this.serviceType = serviceType;
@@ -107,12 +117,30 @@ public class Transaction {
         this.updateTime = LocalDateTime.now();
     }
 
-    public String getServiceType() {
+    public ServiceType getServiceType() {
         return serviceType;
     }
 
-    public void setServiceType(String serviceType) {
+    public void setServiceType(ServiceType serviceType) {
         this.serviceType = serviceType;
+        this.updateTime = LocalDateTime.now();
+    }
+
+    public PaymentMethod getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
+        this.updateTime = LocalDateTime.now();
+    }
+
+    public BigDecimal getStoredValueUsed() {
+        return storedValueUsed;
+    }
+
+    public void setStoredValueUsed(BigDecimal storedValueUsed) {
+        this.storedValueUsed = storedValueUsed;
         this.updateTime = LocalDateTime.now();
     }
 

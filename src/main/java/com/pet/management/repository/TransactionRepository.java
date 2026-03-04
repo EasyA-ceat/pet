@@ -1,5 +1,6 @@
 package com.pet.management.repository;
 
+import com.pet.management.model.ServiceType;
 import com.pet.management.model.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -20,7 +21,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long>,
 
     List<Transaction> findByClerkId(Long clerkId);
 
-    List<Transaction> findByServiceTypeContaining(String serviceType);
+    List<Transaction> findByServiceType(ServiceType serviceType);
 
     @Query("SELECT t FROM Transaction t WHERE t.customer.customerName LIKE CONCAT('%', :customerName, '%')")
     List<Transaction> findByCustomerNameContaining(@Param("customerName") String customerName);

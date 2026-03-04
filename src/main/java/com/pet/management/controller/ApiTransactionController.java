@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pet.management.model.Clerk;
 import com.pet.management.model.Customer;
+import com.pet.management.model.PaymentMethod;
+import com.pet.management.model.ServiceType;
 import com.pet.management.model.Transaction;
 import com.pet.management.repository.ClerkRepository;
 import com.pet.management.repository.CustomerRepository;
@@ -52,7 +54,18 @@ public class ApiTransactionController {
         
         // 设置基本字段
         if (payload.containsKey("serviceType")) {
-            transaction.setServiceType((String) payload.get("serviceType"));
+            String serviceTypeStr = (String) payload.get("serviceType");
+            transaction.setServiceType(ServiceType.valueOf(serviceTypeStr));
+        }
+        if (payload.containsKey("paymentMethod")) {
+            String paymentMethodStr = (String) payload.get("paymentMethod");
+            transaction.setPaymentMethod(PaymentMethod.valueOf(paymentMethodStr));
+        }
+        if (payload.containsKey("storedValueUsed")) {
+            Object storedValueObj = payload.get("storedValueUsed");
+            if (storedValueObj instanceof Number) {
+                transaction.setStoredValueUsed(BigDecimal.valueOf(((Number) storedValueObj).doubleValue()));
+            }
         }
         if (payload.containsKey("amount")) {
             Object amountObj = payload.get("amount");

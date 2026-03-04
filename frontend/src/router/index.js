@@ -6,6 +6,11 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
+      path: '/login',
+      name: 'Login',
+      component: () => import('@/views/Login.vue')
+    },
+    {
       path: '/',
       component: Layout,
       children: [
@@ -35,9 +40,19 @@ const router = createRouter({
           component: () => import('@/views/Clerks.vue')
         },
         {
+          path: 'recharge',
+          name: 'Recharge',
+          component: () => import('@/views/RechargeManagement.vue')
+        },
+        {
           path: 'reports',
           name: 'Reports',
           component: () => import('@/views/Reports.vue')
+        },
+        {
+          path: 'roles',
+          name: 'Roles',
+          component: () => import('@/views/Roles.vue')
         },
         {
           path: 'settings',
@@ -52,6 +67,25 @@ const router = createRouter({
       ]
     }
   ]
+})
+
+// 路由守卫
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('token')
+  
+  if (to.path === '/login') {
+    if (token) {
+      next('/')
+    } else {
+      next()
+    }
+  } else {
+    if (token) {
+      next()
+    } else {
+      next('/login')
+    }
+  }
 })
 
 export default router

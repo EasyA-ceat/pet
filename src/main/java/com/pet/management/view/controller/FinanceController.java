@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 
 import com.pet.management.model.Clerk;
 import com.pet.management.model.Customer;
+import com.pet.management.model.ServiceType;
 import com.pet.management.model.Transaction;
 import com.pet.management.service.ClerkService;
 import com.pet.management.service.CustomerService;
@@ -266,7 +267,12 @@ public class FinanceController {
                     Transaction transaction = new Transaction();
                     transaction.setCustomer(customerComboBox.getValue());
                     transaction.setClerk(clerkComboBox.getValue());
-                    transaction.setServiceType(serviceTypeField.getText());
+                    // 简单处理：尝试将字符串转换为枚举，如果失败则使用默认值
+                    try {
+                        transaction.setServiceType(ServiceType.valueOf(serviceTypeField.getText()));
+                    } catch (IllegalArgumentException e) {
+                        transaction.setServiceType(ServiceType.OTHER_SERVICE);
+                    }
                     transaction.setAmount(new BigDecimal(amountField.getText()));
                     
                     // 计算提成
@@ -330,7 +336,7 @@ public class FinanceController {
             clerkComboBox.getItems().addAll(clerks);
             clerkComboBox.setValue(selectedTransaction.getClerk());
 
-            TextField serviceTypeField = new TextField(selectedTransaction.getServiceType());
+            TextField serviceTypeField = new TextField(selectedTransaction.getServiceType().name());
             TextField amountField = new TextField(selectedTransaction.getAmount().toString());
             TextArea notesArea = new TextArea(selectedTransaction.getNotes());
 
@@ -355,7 +361,12 @@ public class FinanceController {
                 if (dialogButton == ButtonType.OK) {
                     selectedTransaction.setCustomer(customerComboBox.getValue());
                     selectedTransaction.setClerk(clerkComboBox.getValue());
-                    selectedTransaction.setServiceType(serviceTypeField.getText());
+                    // 简单处理：尝试将字符串转换为枚举，如果失败则使用默认值
+                    try {
+                        selectedTransaction.setServiceType(ServiceType.valueOf(serviceTypeField.getText()));
+                    } catch (IllegalArgumentException e) {
+                        selectedTransaction.setServiceType(ServiceType.OTHER_SERVICE);
+                    }
                     selectedTransaction.setAmount(new BigDecimal(amountField.getText()));
                     
                     // 重新计算提成

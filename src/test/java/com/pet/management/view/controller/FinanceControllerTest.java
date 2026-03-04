@@ -17,6 +17,7 @@ import org.mockito.MockitoAnnotations;
 
 import com.pet.management.model.Clerk;
 import com.pet.management.model.Customer;
+import com.pet.management.model.ServiceType;
 import com.pet.management.model.Transaction;
 import com.pet.management.service.ClerkService;
 import com.pet.management.service.CustomerService;
@@ -144,7 +145,7 @@ class FinanceControllerTest {
         
         transaction.setCustomer(customer);
         transaction.setClerk(clerk);
-        transaction.setServiceType("宠物洗澡");
+        transaction.setServiceType(ServiceType.WASH_CARE);
         transaction.setAmount(BigDecimal.valueOf(100));
         transaction.setCommission(BigDecimal.valueOf(5));
         transaction.setTransactionDate(LocalDateTime.now());
