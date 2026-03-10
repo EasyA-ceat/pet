@@ -10,8 +10,6 @@
 - **Spring Security + JWT** - 权限认证
 - **Spring Data JPA** - ORM框架
 - **SQLite 3** - 嵌入式数据库
-- **JavaFX 17** - 桌面UI框架
-- **JFoenix + ControlsFX** - UI组件库
 
 ### 前端
 - **Vue 3** - 前端框架
@@ -52,12 +50,7 @@
 
 ## 快速开始
 
-### 1. 直接运行（推荐）
-下载打包好的可执行文件，直接双击运行即可：
-- `宠物管理系统.exe` - Windows可执行文件（推荐）
-- `pet-management-system-<version>.jar` - Java跨平台jar包
-
-### 2. 开发环境运行
+### 1. 开发环境运行
 
 #### 后端运行
 ```bash
