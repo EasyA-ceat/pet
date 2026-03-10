@@ -31,3 +31,6 @@ This file provides guidance to agents when working with code in this repository.
 ## 遗留代码说明
 - `src/main/java/com/pet/management/view/` 目录下的JavaFX控制器和FXML文件为遗留代码，不再使用
 - 新功能开发应在Vue前端和REST API控制器中进行
+
+## 计划文件保存
+- 计划文件默认保存到 `C:\Users\27760\Desktop\pet\.claude\` 目录下

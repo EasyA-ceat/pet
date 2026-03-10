@@ -78,6 +78,7 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { getSettings, saveSettings, backupDatabase, restoreDatabase, clearDatabase } from '@/api/settings'
 
 const activeTab = ref('basic')
 
@@ -92,8 +93,36 @@ const databaseForm = reactive({
   autoBackup: false
 })
 
-const saveBasicSettings = () => {
-  ElMessage.success('基本设置保存成功')
+// 加载系统设置
+const loadSettings = async () => {
+  try {
+    const res = await getSettings()
+    if (res) {
+      basicForm.systemName = res.systemName || '宠物管理系统'
+      basicForm.systemDescription = res.systemDescription || '基于Vue + Spring Boot的宠物管理系统'
+      databaseForm.databasePath = res.databasePath || ''
+      databaseForm.backupPath = res.backupPath || ''
+      databaseForm.autoBackup = res.autoBackupEnabled || false
+    }
+  } catch (error) {
+    ElMessage.error('加载系统设置失败')
+  }
+}
+
+const saveBasicSettings = async () => {
+  try {
+    const settings = {
+      systemName: basicForm.systemName,
+      systemDescription: basicForm.systemDescription,
+      databasePath: databaseForm.databasePath,
+      backupPath: databaseForm.backupPath,
+      autoBackupEnabled: databaseForm.autoBackup
+    }
+    await saveSettings(settings)
+    ElMessage.success('基本设置保存成功')
+  } catch (error) {
+    ElMessage.error('基本设置保存失败')
+  }
 }
 
 const resetBasicSettings = () => {
@@ -102,20 +131,46 @@ const resetBasicSettings = () => {
   ElMessage.info('基本设置已重置')
 }
 
-const saveDatabaseSettings = () => {
-  ElMessage.success('数据库设置保存成功')
+const saveDatabaseSettings = async () => {
+  try {
+    const settings = {
+      systemName: basicForm.systemName,
+      systemDescription: basicForm.systemDescription,
+      databasePath: databaseForm.databasePath,
+      backupPath: databaseForm.backupPath,
+      autoBackupEnabled: databaseForm.autoBackup
+    }
+    await saveSettings(settings)
+    ElMessage.success('数据库设置保存成功')
+  } catch (error) {
+    ElMessage.error('数据库设置保存失败')
+  }
 }
 
-const resetDatabaseSettings = () => {
-  databaseForm.databasePath = ''
-  databaseForm.backupPath = ''
-  databaseForm.autoBackup = false
-  ElMessage.info('数据库设置已重置')
+const resetDatabaseSettings = async () => {
+  try {
+    const res = await getSettings()
+    if (res) {
+      databaseForm.databasePath = res.databasePath || ''
+      databaseForm.backupPath = res.backupPath || ''
+      databaseForm.autoBackup = res.autoBackupEnabled || false
+    }
+    ElMessage.info('数据库设置已重置')
+  } catch (error) {
+    ElMessage.error('重置失败')
+  }
 }
 
 const backupData = async () => {
   try {
-    ElMessage.info('数据备份功能开发中...')
+    const loading = ElMessage.loading('正在备份数据...', { duration: 0 })
+    const res = await backupDatabase()
+    loading.close()
+    if (res.success) {
+      ElMessage.success(`数据备份成功: ${res.backupFileName}`)
+    } else {
+      ElMessage.error(res.message || '数据备份失败')
+    }
   } catch (error) {
     ElMessage.error('数据备份失败')
   }
@@ -128,7 +183,15 @@ const restoreData = async () => {
       cancelButtonText: '取消',
       type: 'warning'
     })
-    ElMessage.info('数据恢复功能开发中...')
+    const loading = ElMessage.loading('正在恢复数据...', { duration: 0 })
+    // 这里可以扩展为选择备份文件的功能
+    const res = await restoreDatabase('') // 后续可实现选择备份文件功能
+    loading.close()
+    if (res.success) {
+      ElMessage.success('数据恢复成功，系统将重启生效')
+    } else {
+      ElMessage.error(res.message || '数据恢复失败')
+    }
   } catch (error) {
     if (error !== 'cancel') {
       ElMessage.error('数据恢复失败')
@@ -143,7 +206,14 @@ const clearData = async () => {
       cancelButtonText: '取消',
       type: 'error'
     })
-    ElMessage.info('数据清除功能开发中...')
+    const loading = ElMessage.loading('正在清除数据...', { duration: 0 })
+    const res = await clearDatabase()
+    loading.close()
+    if (res.success) {
+      ElMessage.success('数据清除成功，系统将重启生效')
+    } else {
+      ElMessage.error(res.message || '数据清除失败')
+    }
   } catch (error) {
     if (error !== 'cancel') {
       ElMessage.error('数据清除失败')
@@ -152,7 +222,7 @@ const clearData = async () => {
 }
 
 onMounted(() => {
-  // 加载设置
+  loadSettings()
 })
 </script>
 
