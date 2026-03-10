@@ -1,3 +1,4 @@
+
 <template>
   <div class="roles">
     <el-card>
@@ -18,9 +19,10 @@
                 {{ getPermissionCount(row.name) }}
               </template>
             </el-table-column>
-            <el-table-column label="操作" width="150">
+            <el-table-column label="操作" width="200">
               <template #default="{ row }">
                 <el-button type="primary" size="small" @click="viewRolePermissions(row)">查看权限</el-button>
+                <el-button type="success" size="small" @click="editRolePermissions(row)">编辑权限</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -57,13 +59,32 @@
         <el-button @click="permissionDialogVisible = false">关闭</el-button>
       </template>
     </el-dialog>
+
+    <!-- 编辑角色权限对话框 -->
+    <el-dialog v-model="editDialogVisible" :title="'编辑权限 - ' + (currentEditRole?.displayName || '')" width="800px">
+      <el-row :gutter="20">
+        <el-col :span="8" v-for="(permissions, category) in groupedPermissions" :key="category">
+          <el-card :header="category" class="permission-card">
+            <el-checkbox-group v-model="editPermissions">
+              <el-checkbox v-for="perm in permissions" :key="perm.name" :label="perm.name">
+                {{ perm.displayName }}
+              </el-checkbox>
+            </el-checkbox-group>
+          </el-card>
+        </el-col>
+      </el-row>
+      <template #footer>
+        <el-button @click="editDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="saveRolePermissions" :loading="saving">保存</el-button>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive, computed, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
-import { getRolesAndPermissions } from '@/api/role'
+import { getRolesAndPermissions, updateRolePermissions } from '@/api/role'
 
 const activeTab = ref('roles')
 const roleList = ref([])
@@ -71,7 +92,11 @@ const permissionList = ref([])
 const rolePermissions = ref({})
 const selectedPermissions = ref([])
 const permissionDialogVisible = ref(false)
+const editDialogVisible = ref(false)
 const currentRole = ref(null)
+const currentEditRole = ref(null)
+const editPermissions = ref([])
+const saving = ref(false)
 
 // 按类别分组权限
 const groupedPermissions = computed(() => {
@@ -82,7 +107,9 @@ const groupedPermissions = computed(() => {
     else if (perm.name.startsWith('CLERK')) category = '员工管理'
     else if (perm.name.startsWith('TRANSACTION')) category = '交易管理'
     else if (perm.name.startsWith('APPOINTMENT')) category = '预约管理'
+    else if (perm.name.startsWith('RECHARGE')) category = '储值管理'
     else if (perm.name.startsWith('REPORT')) category = '报告管理'
+    else if (perm.name.startsWith('ROLE')) category = '角色权限'
     else if (perm.name.startsWith('SETTINGS')) category = '系统设置'
     else if (perm.name.startsWith('DASHBOARD')) category = '仪表盘'
     
@@ -138,6 +165,28 @@ const getRolePermissions = (roleName) => {
 const viewRolePermissions = (role) => {
   currentRole.value = role
   permissionDialogVisible.value = true
+}
+
+const editRolePermissions = (role) => {
+  currentEditRole.value = role
+  editPermissions.value = [...getRolePermissions(role.name)]
+  editDialogVisible.value = true
+}
+
+const saveRolePermissions = async () => {
+  if (!currentEditRole.value) return
+  
+  saving.value = true
+  try {
+    await updateRolePermissions(currentEditRole.value.name, editPermissions.value)
+    ElMessage.success('权限保存成功')
+    editDialogVisible.value = false
+    await loadData() // 重新加载数据
+  } catch (error) {
+    ElMessage.error('保存权限失败')
+  } finally {
+    saving.value = false
+  }
 }
 
 onMounted(() => {

@@ -11,39 +11,39 @@
         text-color="#bfcbd9"
         active-text-color="#409EFF"
       >
-        <el-menu-item index="/" v-if="hasPermission('DASHBOARD')">
+        <el-menu-item index="/" v-if="isAdmin() || hasPermission('DASHBOARD')">
           <el-icon><Odometer /></el-icon>
           <span>仪表盘</span>
         </el-menu-item>
-        <el-menu-item index="/customers" v-if="hasPermission('CUSTOMER')">
+        <el-menu-item index="/customers" v-if="isAdmin() || hasPermission('CUSTOMER')">
           <el-icon><User /></el-icon>
           <span>顾客管理</span>
         </el-menu-item>
-        <el-menu-item index="/appointments" v-if="hasPermission('APPOINTMENT')">
+        <el-menu-item index="/appointments" v-if="isAdmin() || hasPermission('APPOINTMENT')">
           <el-icon><Calendar /></el-icon>
           <span>预约管理</span>
         </el-menu-item>
-        <el-menu-item index="/transactions" v-if="hasPermission('TRANSACTION')">
+        <el-menu-item index="/transactions" v-if="isAdmin() || hasPermission('TRANSACTION')">
           <el-icon><Document /></el-icon>
           <span>财务管理</span>
         </el-menu-item>
-        <el-menu-item index="/recharge" v-if="hasPermission('TRANSACTION')">
+        <el-menu-item index="/recharge" v-if="isAdmin() || hasPermission('RECHARGE')">
           <el-icon><Wallet /></el-icon>
           <span>储值管理</span>
         </el-menu-item>
-        <el-menu-item index="/clerks" v-if="hasPermission('CLERK')">
+        <el-menu-item index="/clerks" v-if="isAdmin() || hasPermission('CLERK')">
           <el-icon><Avatar /></el-icon>
           <span>员工管理</span>
         </el-menu-item>
-        <el-menu-item index="/roles" v-if="hasPermission('SETTINGS')">
+        <el-menu-item index="/roles" v-if="isAdmin() || hasPermission('ROLE')">
           <el-icon><Key /></el-icon>
           <span>角色权限</span>
         </el-menu-item>
-        <el-menu-item index="/reports" v-if="hasPermission('REPORT')">
+        <el-menu-item index="/reports" v-if="isAdmin() || hasPermission('REPORT')">
           <el-icon><DataAnalysis /></el-icon>
           <span>报表中心</span>
         </el-menu-item>
-        <el-menu-item index="/settings" v-if="hasPermission('SETTINGS')">
+        <el-menu-item index="/settings" v-if="isAdmin() || hasPermission('SETTINGS')">
           <el-icon><Setting /></el-icon>
           <span>系统设置</span>
         </el-menu-item>
@@ -141,9 +141,13 @@ const pageTitle = computed(() => {
 
 // 角色权限映射
 const rolePermissions = {
-  'ADMIN': ['DASHBOARD', 'CUSTOMER', 'APPOINTMENT', 'TRANSACTION', 'CLERK', 'REPORT', 'SETTINGS'],
-  'MANAGER': ['DASHBOARD', 'CUSTOMER', 'APPOINTMENT', 'TRANSACTION', 'CLERK', 'REPORT'],
-  'STAFF': ['DASHBOARD', 'CUSTOMER', 'APPOINTMENT', 'TRANSACTION']
+  'ADMIN': ['DASHBOARD', 'CUSTOMER', 'APPOINTMENT', 'TRANSACTION', 'RECHARGE', 'CLERK', 'ROLE', 'REPORT', 'SETTINGS'],
+  'MANAGER': ['DASHBOARD', 'CUSTOMER', 'APPOINTMENT', 'TRANSACTION', 'RECHARGE', 'CLERK', 'REPORT'],
+  'STAFF': ['DASHBOARD', 'CUSTOMER', 'APPOINTMENT', 'TRANSACTION', 'RECHARGE']
+}
+
+const isAdmin = () => {
+  return userInfo.value?.role === 'ADMIN'
 }
 
 const hasPermission = (permission) => {

@@ -1,4 +1,3 @@
-
 package com.pet.management.security;
 
 public enum Permission {
@@ -18,9 +17,17 @@ public enum Permission {
     APPOINTMENT_READ("预约查看"),
     APPOINTMENT_WRITE("预约管理"),
     
+    // 储值管理权限
+    RECHARGE_READ("储值查看"),
+    RECHARGE_WRITE("储值管理"),
+    
     // 报告权限
     REPORT_READ("报告查看"),
     REPORT_WRITE("报告生成"),
+    
+    // 角色权限管理权限
+    ROLE_READ("角色查看"),
+    ROLE_WRITE("角色管理"),
     
     // 系统管理权限
     SETTINGS_READ("设置查看"),
@@ -28,6 +35,7 @@ public enum Permission {
     
     // 仪表盘权限
     DASHBOARD_READ("仪表盘查看");
+
 
     private final String displayName;
 

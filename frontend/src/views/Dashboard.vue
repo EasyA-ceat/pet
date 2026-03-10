@@ -151,7 +151,25 @@
           </el-select>
         </el-form-item>
         <el-form-item label="服务类型">
-          <el-input v-model="form.serviceType" placeholder="请输入服务类型" />
+          <el-select v-model="form.serviceType" placeholder="请选择服务类型" style="width: 100%">
+            <el-option label="洗护" value="WASH_CARE" />
+            <el-option label="美容" value="BEAUTY" />
+            <el-option label="局部修剪" value="PARTIAL_TRIM" />
+            <el-option label="寄养" value="FOSTER_CARE" />
+            <el-option label="其他服务" value="OTHER_SERVICE" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="支付方式">
+          <el-select v-model="form.paymentMethod" placeholder="请选择支付方式" style="width: 100%">
+            <el-option label="现金" value="CASH" />
+            <el-option label="储值扣款" value="STORED_VALUE" />
+            <el-option label="美团团购券" value="MEITUAN" />
+            <el-option label="抖音团购券" value="DOUYIN" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="可用余额" v-if="customerType === 'existing' && form.paymentMethod === 'STORED_VALUE'">
+          <span style="font-size: 18px; font-weight: bold; color: #409eff">¥{{ (selectedCustomer?.balance || 0).toFixed(2) }}</span>
+          <el-tag v-if="selectedCustomer?.isVip" type="warning" style="margin-left: 10px">VIP</el-tag>
         </el-form-item>
         <el-form-item label="金额">
           <el-input-number v-model="form.amount" :min="0" :precision="2" style="width: 100%" />
@@ -268,7 +286,6 @@
 <script setup>
 import { ref, reactive, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import axios from 'axios'
 import { ElMessage } from 'element-plus'
 import { getCustomerList } from '@/api/customer'
 import { getClerkList } from '@/api/clerk'
@@ -276,6 +293,7 @@ import { getTransactionList } from '@/api/transaction'
 import { createTransaction } from '@/api/transaction'
 import { createCustomer } from '@/api/customer'
 import * as appointmentApi from '@/api/appointment'
+import { getDashboardData } from '@/api/dashboard'
 
 const router = useRouter()
 
@@ -308,8 +326,14 @@ const form = reactive({
   petAge: null,
   clerkId: null,
   serviceType: '',
+  paymentMethod: 'CASH',
   amount: 0,
   notes: ''
+})
+
+const selectedCustomer = computed(() => {
+  if (!form.customerId) return null
+  return customerList.value.find(c => c.id === form.customerId)
 })
 
 // 预约对话框相关
@@ -404,8 +428,7 @@ const filterCustomer = (query) => {
 // 加载仪表盘数据
 const loadDashboardData = async () => {
   try {
-    const response = await axios.get('/api/dashboard')
-    const data = response.data
+    const data = await getDashboardData()
     
     todayRevenue.value = data.todayRevenue
     todayRevenueTrend.value = data.todayRevenueTrend
@@ -479,6 +502,7 @@ const handleQuickAddTransaction = () => {
     petAge: null,
     clerkId: null,
     serviceType: '',
+    paymentMethod: 'CASH',
     amount: 0,
     notes: ''
   })
@@ -570,8 +594,9 @@ const handleSubmit = async () => {
       customerId: customerId,
       clerkId: form.clerkId,
       serviceType: form.serviceType,
+      paymentMethod: form.paymentMethod,
       amount: form.amount,
-      commission: clerk && form.amount ? 
+      commission: clerk && form.amount ?
         form.amount * clerk.commissionRate : 0,
       notes: form.notes
     }

@@ -5,7 +5,12 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +34,8 @@ import com.pet.management.service.TransactionService;
 @RequestMapping("/api/transactions")
 public class ApiTransactionController {
 
+    private static final Logger logger = LoggerFactory.getLogger(ApiTransactionController.class);
+
     @Autowired
     private TransactionService transactionService;
     
@@ -39,16 +46,21 @@ public class ApiTransactionController {
     private ClerkRepository clerkRepository;
 
     @GetMapping
+    @PreAuthorize("hasAuthority('TRANSACTION_READ')")
     public List<Transaction> getAllTransactions() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        logger.info("获取交易列表 - 用户: {}, 权限: {}", auth.getName(), auth.getAuthorities());
         return transactionService.findAll();
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('TRANSACTION_READ')")
     public Transaction getTransactionById(@PathVariable Long id) {
         return transactionService.findById(id).orElse(null);
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('TRANSACTION_WRITE')")
     public Transaction createTransaction(@RequestBody Map<String, Object> payload) {
         Transaction transaction = new Transaction();
         
@@ -106,22 +118,26 @@ public class ApiTransactionController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('TRANSACTION_WRITE')")
     public Transaction updateTransaction(@PathVariable Long id, @RequestBody Transaction transaction) {
         transaction.setId(id);
         return transactionService.save(transaction);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('TRANSACTION_WRITE')")
     public void deleteTransaction(@PathVariable Long id) {
         transactionService.deleteById(id);
     }
 
     @GetMapping("/search")
+    @PreAuthorize("hasAuthority('TRANSACTION_READ')")
     public List<Transaction> searchTransactions(@RequestParam String keyword) {
         return transactionService.findByCustomerNameContaining(keyword);
     }
 
     @GetMapping("/commission")
+    @PreAuthorize("hasAuthority('TRANSACTION_READ')")
     public BigDecimal calculateTotalCommission() {
         BigDecimal totalCommission = BigDecimal.ZERO;
         List<Transaction> transactions = transactionService.findAll();

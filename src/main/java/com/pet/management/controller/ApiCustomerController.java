@@ -7,8 +7,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +34,8 @@ import com.pet.management.service.PhotoService;
 @RequestMapping("/api/customers")
 public class ApiCustomerController {
 
+    private static final Logger logger = LoggerFactory.getLogger(ApiCustomerController.class);
+
     @Autowired
     private CustomerService customerService;
     
@@ -36,21 +43,27 @@ public class ApiCustomerController {
     private PhotoService photoService;
 
     @GetMapping
+    @PreAuthorize("hasAuthority('CUSTOMER_READ')")
     public List<Customer> getAllCustomers() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        logger.info("获取顾客列表 - 用户: {}, 权限: {}", auth.getName(), auth.getAuthorities());
         return customerService.findAll();
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('CUSTOMER_READ')")
     public Customer getCustomerById(@PathVariable Long id) {
         return customerService.findById(id).orElse(null);
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('CUSTOMER_WRITE')")
     public Customer createCustomer(@RequestBody Customer customer) {
         return customerService.save(customer);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('CUSTOMER_WRITE')")
     public Customer updateCustomer(@PathVariable Long id, @RequestBody Customer customerData) {
         // 先从数据库获取现有实体
         Customer existingCustomer = customerService.findById(id).orElse(null);
@@ -71,17 +84,20 @@ public class ApiCustomerController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('CUSTOMER_WRITE')")
     public void deleteCustomer(@PathVariable Long id) {
         customerService.deleteById(id);
     }
 
     @GetMapping("/search")
+    @PreAuthorize("hasAuthority('CUSTOMER_READ')")
     public List<Customer> searchCustomers(@RequestParam String keyword) {
         return customerService.search(keyword);
     }
     
     // 统计信息
     @GetMapping("/stats")
+    @PreAuthorize("hasAuthority('CUSTOMER_READ')")
     public ResponseEntity<Map<String, Object>> getCustomerStats() {
         List<Customer> allCustomers = customerService.findAll();
         Map<String, Object> stats = new HashMap<>();

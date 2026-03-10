@@ -9,18 +9,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pet.management.model.Customer;
+import com.pet.management.security.Permission;
 import com.pet.management.service.CustomerService;
 import com.pet.management.service.TransactionService;
 
 @RestController
 @RequestMapping("/api/dashboard")
 public class ApiDashboardController {
+
+    private static final Logger logger = LoggerFactory.getLogger(ApiDashboardController.class);
 
     @Autowired
     private TransactionService transactionService;
@@ -29,7 +37,10 @@ public class ApiDashboardController {
     private CustomerService customerService;
 
     @GetMapping
+    @PreAuthorize("hasAuthority('DASHBOARD_READ')")
     public Map<String, Object> getDashboardData() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        logger.info("Dashboard访问 - 用户: {}, 权限: {}", auth.getName(), auth.getAuthorities());
         Map<String, Object> data = new HashMap<>();
         
         // 今日营收
